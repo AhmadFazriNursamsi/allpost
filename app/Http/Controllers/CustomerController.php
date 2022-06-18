@@ -57,14 +57,13 @@ class CustomerController extends Controller
     {
         // $alamat = Alamat::get();
         $coba = Customer::all();
-
-
-     
+        // $roles = Role::where('active', 1)->where('id_role', '!=', 99)->get();
+     $alamat = Loc_province::where('id', '!=', 0)->get();
    
         // dd($coba);
         return view("customer.index", compact('coba'),array(
             'datas'  => array(
-
+                'alamat' => $alamat
             )
             ));
     }

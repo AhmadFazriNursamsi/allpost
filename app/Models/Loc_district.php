@@ -16,9 +16,9 @@ class Loc_district extends Model
     {
         return $this->belongsTo('App\Models\Alamat','id', 'id');
     }
-    public function district()
+    public function city()
     {
-        return $this->hasMany('App\Models\Loc_district','id', 'id');
+        return $this->hasMany('App\Models\Loc_city','id', 'city_id');
     }
     public function province()
     {

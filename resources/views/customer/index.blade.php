@@ -102,9 +102,12 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                         <input type="text" class="form-control nama" placeholder="Nama" name="name" id="name" aria-describedby="validationServer03Feedback">
                         
                         <label for="provinsi" class="form-label provinsi">Provinsi</label>
-                        <select name="id_Provinsi" class="form-control provinsi" id="provinsi" required onchange="selectProvinsi(this)">
-                            <option value="" selected>-- Select Provinsi --</option>
-
+                        <select name="name_Provinsi" class="form-control provinsi" id="id_Provinsi" required onchange="Prov(this)">
+                        {{-- <select name="name_Provinsi" class="form-control provinsi" id="provinsi" required onchange="ProvChange(this)"> --}}
+                            <option>-- Select Provinsi --</option>
+                        <?php foreach ($datas['alamat'] as $key => $post) :?>
+                            <option id="Prov" value="{{ $post->id }}">{{ $post->name }}</option>
+                            <?php endforeach;?>
                         </select>
                     </div> 
                 </div>
@@ -115,10 +118,8 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                         <input type="text" class="form-control email" placeholder="Email" name="email" id="email" aria-describedby="validationServer03Feedback">
 
                         <label for="kabupaten" class="form-label kabupaten">kabupaten</label>
-                        <select name="id_kabupaten" class="form-control kabupaten" id="kabupaten" readonly onchange="selectCity(this)">
-                            <option value="" selected>-- Select City --</option>
-
-                        </select>
+                            <select name="name_kabupaten" class="form-control kabupaten" id="kabupaten_id" readonly onchange="Kab(this)"></option></select>
+                            
                     </div> 
                 </div>
 
@@ -128,9 +129,8 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                         <input type="text" class="form-control no_tlp" placeholder="No Telepon" name="no_tlp" id="no_tlp" aria-describedby="validationServer03Feedback">
                         
                         <label for="kecamatan" class="form-label kecamatan">Kecamatan</label>
-                        <select name="id_kecamatan" class="form-control kecamatan" id="kecamatan"  readonly onchange="selectDistrict(this)">
-                            <option value="" selected>-- Select City --</option>
-
+                        <select name="id_kecamatan" class="form-control kabupaten" id="id_kecamatan" readonly onchange="Kel(this)"></option></select>
+                        {{-- <select name="id_kecamatan" class="form-control kecamatan" id="kecamatanSelect"> --}}
                         </select>
 
                         </select>
@@ -140,8 +140,8 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                 <div class="mb-3">
                     <div class="col">
                         <label for="kelurahan" class="form-label kelurahan kelurahan" >kelurahan</label>
-                        <select name="id_kelurahan" class="form-control kelurahan" id="kelurahan" readonly onchange="selectVillage(this)">
-                            <option value="" selected>-- Select City --</option>
+                        {{-- <select name="id_kelurahan" class="form-control kelurahan" id="id_kelurahan" readonly onchange="selectVillage(this)"> --}}
+                            <select name="id_kelurahan" class="form-control kabupaten" id="id_kelurahan" readonly></option></select>
 
                         </select>
                     </div>
@@ -348,10 +348,12 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
         $(".kecamatan").hide();
         $(".kelurahan").hide();
         $(".alamat").hide();
+   
         
     }
 
     function alamat(){
+        
         idx = $('#editbtn').attr('data-attid');
 
         $("#addmodall").modal('show');
@@ -371,9 +373,155 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
         $(".kecamatan").show();
         $(".kelurahan").show();
         $(".alamat").show();
-      
+
+    //     var url = "{{ asset('/api/alamatgetByIdIndex') }}";
+    //     var urlkab = "{{ asset('/api/alamatgetByIdKab') }}";
+    //     $(document).ready(function(){
+	// 	var app = {
+	// 		show: function(){
+	// 			$.ajax({
+	// 				url: url,
+	// 				method: "GET",
+	// 				success: function(data){
+	// 					$("#name_Provinsi").html(data)
+	// 				}
+	// 			})
+	// 		},
+	// 		tampil: function(){
+	// 			var kotaId = $(this).val();
+	// 			$.ajax({
+	// 				url: urlkab,
+	// 				method: "POST",
+	// 				data: {kotaId: kotaId},
+	// 				success: function(data){
+	// 					$("#name_kabupaten").html(data)
+	// 				}
+	// 			})
+	// 		}
+	// 	}
+	// 	app.show();
+	// 	$(document).on("change", "#name_Provinsi", app.tampil)
+	// })
     }
 
+//     function ProvChange(a){
+//        idx =$(a).val();
+//        url = "{{ asset('/api/alamatgetByIdProv') }}/" + idx;
+
+//     $.ajax({
+//             url: url,
+//             type: 'GET',
+//             success: function(response){
+//                 console.log(response);
+//                 var len = 0;
+//                 if(response['data'] != null){
+//                 len = response['data'].length;
+//                 }
+
+//                 if(len > 0){
+//                 // Read data and create <option >
+//                 for(var i=0; i<len; i++){
+
+//                     var id = response['data'][i].id;
+//                     // console.log(id);
+//                     var name = response['data'][i].name;
+
+//                     console.log(id, name);
+//                     var option = "<option value='"+id+"'>"+name+"</option>"; 
+
+//                     console.log(option);
+//                     $("#kabupaten_id").append(option); 
+//                 }
+//             }
+
+//         }
+//     });
+// }
+    ////tambahin provinci
+    //    $("#city option").remove();
+    function Prov(a){
+        iddalamat =$(a).val();
+        var url = "{{ asset('/api/alamatgetByIdProvinsi') }}";
+       $.ajax({
+          url : url,
+          data: {
+            "_token": "{{ csrf_token() }}",
+            "id": iddalamat
+            },
+          type: 'post',
+          dataType: 'json',
+          success: function( result )
+          {
+            //   console.log(result);
+              $.each( result.data, function(k, v) {
+                //    console.log(k,v);
+                    $('#kabupaten_id').append($('<option>', {value:k, text:v}));
+               });
+          },
+          error: function()
+         {
+             //handle errors
+             alert('error...');
+         }
+       });
+    }
+
+    function Kab(a){
+        iddalamat =$(a).val();
+        var url = "{{ asset('/api/alamatgetByIdkabupaten') }}";
+       $.ajax({
+          url : url,
+          data: {
+            "_token": "{{ csrf_token() }}",
+            "id": iddalamat
+            },
+          type: 'post',
+          dataType: 'json',
+          success: function( result )
+          {
+            //   console.log(result);
+              $.each( result.data, function(k, v) {
+                //    console.log(k,v);
+                    $('#id_kecamatan').append($('<option>', {value:k, text:v}));
+               });
+          },
+          error: function()
+         {
+             //handle errors
+             alert('error...');
+         }
+       });
+    }
+
+    function Kel(a){
+        iddalamat =$(a).val();
+        var url = "{{ asset('/api/alamatgetByIdkelurahan') }}";
+       $.ajax({
+          url : url,
+          data: {
+            "_token": "{{ csrf_token() }}",
+            "id": iddalamat
+            },
+          type: 'post',
+          dataType: 'json',
+          success: function( result )
+          {
+            //   console.log(result);
+              $.each( result.data, function(k, v) {
+                //    console.log(k,v);
+                    $('#id_kelurahan').append($('<option>', {value:k, text:v}));
+               });
+          },
+          error: function()
+         {
+             //handle errors
+             alert('error...');
+         }
+       });
+    }
+
+
+   
 
     function selectProvinsi(a){
         iddalamat =$(a).val();
@@ -387,7 +535,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
 			// console.log(response.data);
           // var json = JSON.parse(response.data[0].default_access)
           $.each(response.data[0], function(i, item) {
-              console.log(i,item);
+            //   console.log(i,item);
             if(item)
               $("#"+item).attr('selected', true);
             else 
@@ -414,7 +562,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
 			// console.log(response.data);
           // var json = JSON.parse(response.data[0].default_access)
           $.each(response.data[0], function(i, item) {
-              console.log(i,item);
+            //   console.log(i,item);
             if(item)
               $("#"+item).attr('selected', true);
             else 
@@ -438,7 +586,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
 			// console.log(response.data);
           // var json = JSON.parse(response.data[0].default_access)
           $.each(response.data[0], function(i, item) {
-              console.log(i,item);
+            //   console.log(i,item);
             if(item)
               $("#"+item).attr('selected', true);
             else 
@@ -464,7 +612,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
 			// console.log(response.data);
           // var json = JSON.parse(response.data[0].default_access)
           $.each(response.data[0], function(i, item) {
-              console.log(i,item);
+            //   console.log(i,item);
             if(item)
               $("#"+item).attr('selected', true);
             else 
@@ -750,6 +898,9 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
     function reloaddata() {
                 $('#userstable').DataTable().ajax.url(url).load();
             }
+    function HapusData(){
+
+    }
 
     
 </script>

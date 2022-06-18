@@ -37,18 +37,81 @@ class AlamatController extends Controller
     }
 
 
-    public function alamatgetById($id, Request $request){
+    public function alamatgetById($id,$departmentid= 0, Request $request){
+            // Fetch department
+            
+            
+    	// Fetch Employees by Departmentid
+        // $empData['data'] = Loc_district::orderby("name")
+        // 			->select('id','name')
+        // 			->where('Loc_province:',$departmentid)
+        // 			->get();
+  
+        //             return response()->json($empData);
+     
 
-        $datas = Loc_province::where('id', $id)->get();
+            // return "asdsadasd";
+            $datas = Loc_province::where('id', $id)->get();
 
-        return response()->json(['data' => $datas, 'status' => '200'], 200);
+            return response()->json(['data' => $datas, 'status' => '200'], 200);
+
+        //     $empData['data'] = Loc_city::orderby("name","asc")
+        //     ->select('id','name')
+        //     ->where('id',$id)
+        //     ->get();
+
+        //     return response()->json($empData);
+        // }
+
+        // $koneksi = Loc_province::get();
+        // // $query = mysqli_query($koneksi, "SELECT * FROM tbl_jakarta ORDER BY country_id");
+
+        // // $datas = Loc_province::where('id', $id)->get();
+        // $output = '<option value="">--Pilih Provinsi--</option>';
+        //     while($row = mysqli_fetch_array($koneksi)){
+        //         $output .= '<option value="'.$row["id"].'">'.$row["name"].'</option>';
+            }
+        //     return response()->json(['data' => $output, 'status' => '200'], 200);
+            // echo $output;
+
+        // $datas = Loc_province::where('id', $id)->get();
+
+    public function alamatgetByIdCity(Request $request){
+
+        $this->validate( $request, [ 'id' => 'required' ] );
+        $cities = Loc_city::where('province_id', $request->get('id') )->get();
+        $output = [];
+        foreach( $cities as $city )
+        {
+           $output[$city->id] = $city->name;
+        }
+        return response()->json(['data' => $output, 'status' => '200'], 200);
     }
-    public function alamatgetByIdCity($id, Request $request){
 
-        $datas = Loc_city::where('id', $id)->get();
-
-        return response()->json(['data' => $datas, 'status' => '200'], 200);
+    public function alamatgetByIdKab(Request $request){
+        $this->validate( $request, [ 'id' => 'required' ] );
+        $cities = Loc_district::where('city_id', $request->get('id') )->get();
+        $output = [];
+        foreach( $cities as $city )
+        {
+           $output[$city->id] = $city->name;
+        }
+        return response()->json(['data' => $output, 'status' => '200'], 200);
     }
+
+    public function alamatgetByIdKel(Request $request){
+        $this->validate( $request, [ 'id' => 'required' ] );
+        $cities = Loc_village::where('district_id', $request->get('id') )->get();
+        $output = [];
+        foreach( $cities as $city )
+        {
+           $output[$city->id] = $city->name;
+        }
+        return response()->json(['data' => $output, 'status' => '200'], 200);
+    }
+
+
+
 
     public function alamatgetByIdDistrict($id, Request $request){
 

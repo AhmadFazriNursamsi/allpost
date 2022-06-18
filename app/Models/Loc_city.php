@@ -19,11 +19,11 @@ class Loc_city extends Model
     }
     public function district()
     {
-        return $this->hasMany('App\Models\Loc_district','id', 'id');
+        return $this->hasMany('App\Models\Loc_district','id', 'id_city');
     }
     public function province()
     {
-        return $this->hasMany('App\Models\Loc_province','id', 'id');
+        return $this->hasMany('App\Models\Loc_province','id', 'province_id');
     }
     public function village()
     {

@@ -21,7 +21,7 @@ class Loc_province extends Model
     }
     public function city()
     {
-        return $this->belongsTo('App\Models\Loc_city','id', 'id');
+        return $this->belongsTo('App\Models\Loc_city','province_id', 'id');
     }
     public function village()
     {

@@ -70,11 +70,16 @@ Route::post('/customers/update/{id}', [CustomerController::class, 'update']);
 
 
 //alamat CRUD 
-Route::get('/api/alamatgetById/{id}', [AlamatController::class, 'alamatgetById']);
-Route::get('/api/alamatgetByIdCity/{id}', [AlamatController::class, 'alamatgetByIdCity']);
+Route::get('/api/alamatgetByIdProv/{id}', [AlamatController::class, 'alamatgetById']);
 Route::get('/api/alamatVillage/{id}', [AlamatController::class, 'alamatVillage']);
 
 Route::get('/api/selectDistrict/{id}', [AlamatController::class, 'alamatgetByIdDistrict']);
+
+
+///SelectOption
+Route::post('/api/alamatgetByIdProvinsi', [AlamatController::class, 'alamatgetByIdCity']);
+Route::post('/api/alamatgetByIdkabupaten', [AlamatController::class, 'alamatgetByIdKab']);
+Route::post('/api/alamatgetByIdkelurahan', [AlamatController::class, 'alamatgetByIdKel']);
 
 // Route::get('/alamat', [AlamatController::class, 'index']);
 // Route::get('/customers', [CustomerController::class, 'index']);
