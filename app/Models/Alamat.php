@@ -10,9 +10,13 @@ class Alamat extends Model
     use HasFactory;
     protected $table = "alamats";
     protected $primaryKey = "id";
-    protected $fillable = ['province_id', 'city_id', 'id_kecamatan', 'district_id', 'alamat', 'flag_delete', 'flag_active'];
+    protected $fillable = ['province', 'city', 'district', 'village', 'alamat', 'flag_delete', 'flag_active'];
 
     
+    public function customer()
+    {
+        return $this->hasMany('App\Models\Customer','id', 'id_customer');
+    }
     public function province()
     {
         return $this->belongsTo('App\Models\Loc_province','id', 'id');

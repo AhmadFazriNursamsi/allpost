@@ -100,18 +100,40 @@ class CustomerController extends Controller
         return response()->json(['data' => ['fails'], 'status' => '401'], 200);
        }
         
+     $datas = new Customer;
+     $datas->name = $request->name;
+     $datas->email = $request->email;
+     $datas->no_tlp = $request->no_tlp;
+     $datas->active = $request->active;
 
-     $tatas = new Customer;
-     $tatas->name = $request->name;
-     $tatas->email = $request->email;
-     $tatas->no_tlp = $request->no_tlp;
-     $tatas->active = $request->active;
-    //  $tatas->flag_delete = $request->flag_delete;
-     if($tatas->save())
-         return response()->json(['data' => ['success'], 'status' => '200'], 200);
-     else 
-         return response()->json(['data' => ['false'], 'status' => '200'], 200);
+        if($datas->save()){
+          
+            $alamat = new Alamat;
+            $alamat->province = $request->name_Provinsi;
+            $alamat->city = $request->name_kabupaten;
+            $alamat->district = $request->name_kecamatan;
+            $alamat->village = $request->name_kelurahan;
+            $alamat->alamat = $request->name_alamat;
+            $alamat->id_customer=$datas->id;
+
+            $alamat->save();
+                    
+            return response()->json(['data' => ['success'], 'status' => '200'], 200);
+        }
+        else{
+
+        return response()->json(['data' => ['false'], 'status' => '200'], 200);
+        } 
+
+//     //  $datas->flag_delete = $request->flag_delete;
+//      if($scale->saveMany($datas))
+//          return response()->json(['data' => ['success'], 'status' => '200'], 200);
+//      else 
+//          return response()->json(['data' => ['false'], 'status' => '200'], 200);
     }
+
+
+    
 
     /**
      * Display the specified resource.
@@ -134,9 +156,15 @@ class CustomerController extends Controller
      */
     public function edit($id, Customer $customer)
     {
-        $datas  = Customer::where('id', $id)->first();
+        $tatas  = Customer::with('alamats')->where('id', $id)->first();
+
+        // dd($tatas);
+        
+        // $datas  = Alamat::where('id_customer', $id)->first();
       
-        return response()->json(['data' => $datas, 'status' => '200'], 200);
+
+        return response()->json(['data' => $tatas ,'status' => '200'], 200);
+        // return response()->json(['data' => $datas, 'status' => '200'], 200);
     }
 
     /**

@@ -376,9 +376,8 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
         $(".alamat").show();
     }
     
-    function Prov(a = '', byid = 0, selected = '', cheked=''){
+    function Prov(a = '', byid = 0, selected = ''){
         iddalamat =$(a).val();
-        chekedd = $(cheked).prop('selected', true);
         if(byid != 0 )
             iddalamat = byid;
         var url = "{{ asset('/api/alamatgetByIdProvinsi') }}";
@@ -393,7 +392,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
           success: function( result )
           {
             //   console.log(result);
-            // $('#kabupaten_id')
+            $('#kabupaten_id').html("<option value='' required>-- Select Provinsi --</option>");
               $.each( result.data, function(k, v) {
                 //    console.log(k,v);
                     $('#kabupaten_id').append($('<option>', {value:k, text:v}));
@@ -595,9 +594,9 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                                     var cekdata = data.alamats[0];
                                     $("#id_Provinsi option[value='"+data.alamats[0].province+"']").attr("selected","selected");
                                     $.when(Prov('', data.alamats[0].province)).done(function() {
-                                        $('#kabupaten_id').html("<option value='' required>-- Select Provinsi --</option>");
-                                        // $("#kabupaten_id option[value='"+data.alamats[0].city+"']").html("selected","selected");
-                                        // $("#kabupaten_id").html("<option value='+cekdata.city+'</option>").prop("selected","selected"); 
+                                        $("#kabupaten_id option[value='"+cekdata.city+"']").prop("selected",true);
+                                    });  $.when(Prov('', data.alamats[0].city)).done(function() {
+                                        $("#id_kecamatan option[value='"+cekdata.district+"']").prop("selected",true);
                                     });
                                         // $("#kabupaten_id").val(cekdata.city)
                                         console.log(cekdata.city, cekdata.district, cekdata.village);
@@ -608,7 +607,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                                     // Kab('', data.alamats[0].city);
 
                                     // console.log(data.city);
-                                    // $('#id_kecamatan option[value="cekdata.district"]').prop('selected', true);
+                                    $('#id_kecamatan option[value="cekdata.district"]').prop('selected', true);
                                     $("#name").val(data.name);
                                     $("#email").val(data.email);
                                     $("#no_tlp").val(data.no_tlp);
