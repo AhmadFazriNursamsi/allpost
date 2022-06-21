@@ -14,7 +14,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight hetf2"><i class="bi bi-person-plus-fill"></i>
-            {{ __('Customers') }} <button class="btn btn-success btn-sm" id="btn_addcustomer" onclick="addModal(this)"><i class="fa fa-plus"></i> Add Customers</button> 
+            {{ __('Customers') }} <button class="btn btn-success btn-sm" id="btn_addcustomer" onclick="addModal()"><i class="fa fa-plus"></i> Add Customers</button> 
         </h2>
     </x-slot>
 
@@ -85,12 +85,14 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
 
     <div class="modal-body">
       <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active " id="pills-home-tab" onclick="addModal()" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true" >Main Info</button>
+        
+              <li class="nav-item" role="presentation">
+                  <button class="nav-link active headder" id="pills-home-tab" onclick="nama()" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true" >Main Info</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="pills-profile-tab" onclick="alamat()" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Alamat</button>
+                    <button class="nav-link " id="pills-profile-tab" onclick="alamat()" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Alamat</button>
                 </li>
+       
             </ul>
             <div class="modal-body">
                 <div class="mb-3">
@@ -118,7 +120,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                         <input type="text" class="form-control email" placeholder="Email" name="email" id="email" aria-describedby="validationServer03Feedback">
 
                         <label for="kabupaten" class="form-label kabupaten">kabupaten</label>
-                            <select name="name_kabupaten" class="form-control kabupaten" id="kabupaten_id" readonly onchange="Kab(this)"></option></select>
+                            <select name="name_kabupaten" class="form-control kabupaten" id="kabupaten_id" readonly onchange="Kab(this)"><option value="">-- Select Provinsi --</option></option></select>
                             
                     </div> 
                 </div>
@@ -129,7 +131,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                         <input type="text" class="form-control no_tlp" placeholder="No Telepon" name="no_tlp" id="no_tlp" aria-describedby="validationServer03Feedback">
                         
                         <label for="kecamatan" class="form-label kecamatan">Kecamatan</label>
-                        <select name="name_kecamatan" class="form-control kabupaten" id="id_kecamatan" readonly onchange="Kel(this)">    <option value="">-- Select Provinsi --</option></option></select>
+                        <select name="name_kecamatan" class="form-control kabupaten" id="id_kecamatan" readonly onchange="Kel(this)"><option value="">-- Select Provinsi --</option></option></select>
                         {{-- <select name="id_kecamatan" class="form-control kecamatan" id="kecamatanSelect"> --}}
                         </select>
 
@@ -141,7 +143,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                     <div class="col">
                         <label for="kelurahan" class="form-label kelurahan kelurahan" >kelurahan</label>
                         {{-- <select name="id_kelurahan" class="form-control kelurahan" id="id_kelurahan" readonly onchange="selectVillage(this)"> --}}
-                            <select name="name_kelurahan" class="form-control kabupaten" readonly id="id_kelurahan">    <option value="">-- Select Provinsi --</option></option></select>
+                            <select name="name_kelurahan" class="form-control kabupaten" readonly id="id_kelurahan"><option value="">-- Select Provinsi --</option></option></select>
 
                         </select>
                     </div>
@@ -222,7 +224,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
             <div class="modal-footer">
                 <button id="closeModalViewUser" type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
                 @if ($haveaccessadd) 
-                <button class="btn btn-success btn-sm" data-attid="" onclick="editshow()" id="editbtn"><i class="fa fa-edit"></i> Edit Customers</button>
+                <button class="nav-link btn-success btn-sm" data-attid="" onclick="editshow()" id="editbtn"><i class="fa fa-edit"></i> Edit Customers</button>
               @endif
                 @if ($haveaccessdelete)
                     <button onClick="deleteyesshow()" data-attid="" data-deleteval="1" id="deletevbtn" class="btn btn-danger btn-sm"></a>
@@ -326,16 +328,23 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
 
 
     ////////////////////////////// Add Modal
-    function addModal(a){
-        iddalamat =$(a).val("");
-        idx = $('#editbtn').attr('data-attid');
-        $("#name").val();
-        $("#email").val();
-        $("#no_tlp").val();
-        $(".email").show("");
-        $(".no_tlp").show("");
-        $(".active_class").show("");
-        $(".nama").show("");
+    function addModal(){
+      
+        $("#name").val("");
+        $("#email").val("");
+        $("#no_tlp").val("");
+
+
+        $(".provinsi").val("");
+        $(".kabupaten").val("");
+        $(".kecamatan").val("");
+        $(".kelurahan").val("");
+        $(".alamat").val("");
+        
+        $(".email").show();
+        $(".no_tlp").show();
+        $(".active_class").show();
+        $(".nama").show();
         $("#addmodall").modal('show');
         $("#icon").html("<i class='bi bi-person-plus-fill'></i>");
         $("#titleaddmodal").html("Add Modal");
@@ -350,6 +359,36 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
         $(".alamat").hide();
    
         
+    }
+    function nama(){
+        $("#name").val();
+        $("#email").val();
+        $("#no_tlp").val();
+        $(".email").show();
+        $(".no_tlp").show();
+        $(".active_class").show();
+        $(".nama").show();
+        $("#addmodall").modal('show');
+        $("#icon").html("<i class='bi bi-person-plus-fill'></i>");
+        $("#titleaddmodal").html("Add Modal");
+        $("#addvbtn").hide();
+        $("#deletevbtn").hide();
+        $("#undeletevbtn").hide();
+
+        $(".provinsi").hide();
+        $(".kabupaten").hide();
+        $(".kecamatan").hide();
+        $(".kelurahan").hide();
+        $(".alamat").hide();
+
+
+        $(".provinsi").val();
+        $(".kabupaten").val();
+        $(".kecamatan").val();
+        $(".kelurahan").val();
+        $(".alamat").val();
+
+       
     }
 
     function alamat(){
@@ -376,9 +415,8 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
         $(".alamat").show();
     }
     
-    function Prov(a = '', byid = 0, selected = '', cheked=''){
+    function Prov(a = '', byid = 0, id_kab = 0,){
         iddalamat =$(a).val();
-        chekedd = $(cheked).prop('selected', true);
         if(byid != 0 )
             iddalamat = byid;
         var url = "{{ asset('/api/alamatgetByIdProvinsi') }}";
@@ -393,9 +431,17 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
           success: function( result )
           {
             //   console.log(result);
-            // $('#kabupaten_id')
+            $('#kabupaten_id').html("");
               $.each( result.data, function(k, v) {
-                //    console.log(k,v);
+                if(id_kab != 0) {  
+                    // console.log(byid,id_kab, k, v);                  
+                    if(id_kab == k) {
+                        $('#kabupaten_id').append($('<option>', {value:k, text:v}));
+                        $("#kabupaten_id option[value='"+k+"']").attr("selected", "selected");                        
+                    } else 
+                        $('#kabupaten_id').append($('<option>', {value:k, text:v}));
+                } 
+                else 
                     $('#kabupaten_id').append($('<option>', {value:k, text:v}));
                });
           },
@@ -407,7 +453,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
        });
     }
 
-    function Kab(a = '', byid = 0){
+    function Kab(a = '', byid = 0, id_kel = 0){
         iddalamat =$(a).val();
         if(byid != 0 )
             iddalamat = byid;
@@ -423,9 +469,16 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
           success: function( result )
           {
             //   console.log(result);
-            $('#id_kecamatan').html("<option value='' required>-- Select Provinsi --</option>");
-            // $('#id_kecamatan').html("");
+
+            $('#id_kecamatan').html("");
               $.each( result.data, function(k, v) {
+                  if (byid != 0 ){
+                      if(id_kel == k){
+                        $('#id_kecamatan').append($('<option>', {value:k, text:v}));
+                        $("#id_kecamatan option[value='"+k+"']").attr("selected", "selected");       
+                      }else
+                      $('#id_kecamatan').append($('<option>', {value:k, text:v}));
+                  }else
                 //    console.log(k,v);
                     $('#id_kecamatan').append($('<option>', {value:k, text:v}));
                });
@@ -438,8 +491,10 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
        });
     }
 
-    function Kel(a){
+    function Kel(a = '', byid = 0, id_kec = 0){
         iddalamat =$(a).val();
+        if(byid != 0 )
+            iddalamat = byid;
         var url = "{{ asset('/api/alamatgetByIdkelurahan') }}";
        $.ajax({
           url : url,
@@ -452,9 +507,16 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
           success: function( result )
           {
             //   console.log(result);
-            $('#id_kelurahan').html("<option value='' required>-- Select Provinsi --</option>");
-            // $('#id_kelurahan').html("");
+            $('#id_kelurahan').html("");
               $.each( result.data, function(k, v) {
+                  if (byid != 0){
+                      if(id_kec == k){
+                        //   console.log(id_kec);
+                        $('#id_kelurahan').append($('<option>', {value:k, text:v}));
+                        $("#id_kelurahan option[value='"+k+"']").attr("selected", "selected");   
+                      }
+                      
+                  }
                 //    console.log(k,v);
                     $('#id_kelurahan').append($('<option>', {value:k, text:v}));
                });
@@ -493,6 +555,19 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                             $("#name").val();
                             $("#email").val();
                             $("#no_tlp").val();
+
+                            $(".provinsi").val();
+                            $(".kabupaten").val();
+                            $(".kecamatan").val();
+                            $(".kelurahan").val();
+                            $(".alamat").val();
+
+                            $(".provinsi").show("");
+                            $(".kabupaten").show("");
+                            $(".kecamatan").show("");
+                            $(".kelurahan").show("");
+                            $(".alamat").show("");
+
                             $(".email").show("");
                             $(".no_tlp").show("");
                             $(".active_class").show("");
@@ -575,53 +650,71 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
 
 
     function editshow(){
+            $(".nav-link").click(function () {
+                // If the clicked element has the active class, remove the active class from EVERY .nav-link>.state element
+                if ($(this).hasClass("header")) {
+                    // $(".nav-link").removeClass("active");
+                }
+                // Else, the element doesn't have the active class, so we remove it from every element before applying it to the element that was clicked
+                else {
+                    $(".nav-link").removeClass("active");
+                    $(this).addClass("active");
+                }
+            });
         idx = $('#editbtn').attr('data-attid',);
-        $('#addmodall').modal('show');
+       
         $('#viewCustomer').modal('hide');
         $("#icon").html("<i class='bi bi-pencil-square'></i>");
         $("#titleaddmodal").html("Edit Modal");
-        $(".provinsi").hide();
-        $(".kabupaten").hide();
-        $(".kecamatan").hide();
-        $(".kelurahan").hide();
-        $(".alamat").hide();
+     
         var url = "{{ asset('/customers/edit') }}/" + idx;
                 $.ajax({
                     url: url,
                     type: "GET",
                         success: function(response) {
                             data = response.data;
-                                if(data) {
-                                    var cekdata = data.alamats[0];
-                                    $("#id_Provinsi option[value='"+data.alamats[0].province+"']").attr("selected","selected");
-                                    $.when(Prov('', data.alamats[0].province)).done(function() {
-                                        $('#kabupaten_id').html("<option value='' required>-- Select Provinsi --</option>");
-                                        // $("#kabupaten_id option[value='"+data.alamats[0].city+"']").html("selected","selected");
-                                        // $("#kabupaten_id").html("<option value='+cekdata.city+'</option>").prop("selected","selected"); 
-                                    });
-                                        // $("#kabupaten_id").val(cekdata.city)
-                                        console.log(cekdata.city, cekdata.district, cekdata.village);
-                                    
-                                    // $("#kabupaten_id option[value='"+cekdata.city+"']").prop("selected",true);
-                                    
-                                    
-                                    // Kab('', data.alamats[0].city);
+                            if(data) {
+                                var cekdata = data.alamats[0];
+                                $("#id_Provinsi option[value='"+data.alamats[0].province+"']").attr("selected","selected");
+                                Prov('', cekdata.province, cekdata.city);
+                                Kab('', cekdata.city, cekdata.district);
+                                Kel('', cekdata.district, cekdata.village);
+                                
+                                // $.when(Prov('', data.alamats[0].province)).then(function() {
+                                //     $("select option").each(function(){
+                                //         // console.log(cekdata.city);
+                                //         if ($("#kabupaten_id").text() == cekdata.city)
+                                //             $("#kabupaten_id").attr("selected","selected");
+                                //         });
 
-                                    // console.log(data.city);
-                                    // $('#id_kecamatan option[value="cekdata.district"]').prop('selected', true);
-                                    $("#name").val(data.name);
-                                    $("#email").val(data.email);
-                                    $("#no_tlp").val(data.no_tlp);
-                                    if(data.active == 0){
-                                        $("#active2").attr('checked', true);
-                                    }
-                                    else {
-                                        $("#active").attr('checked', true);
-                                            }
+                                //     // $("#kabupaten_id option[value='"+cekdata.city+"']").prop("selected",true);
+                                // }); 
+                                    // $("#kabupaten_id").val(cekdata.city)
+                                    // console.log(cekdata.city, cekdata.district, cekdata.village);
+
+                                    
+                                
+                                // $("#kabupaten_id option[value='"+cekdata.city+"']").prop("selected",true);
+                                // console.log(cekdata);
+                                $("#alamat_kedua").html(cekdata.alamat);
+                                // Kab('', data.alamats[0].city);
+
+                                // console.log(data.city);
+                                $('#id_kecamatan option[value="cekdata.district"]').prop('selected', true);
+                                $("#name").val(data.name);
+                                $("#email").val(data.email);
+                                $("#no_tlp").val(data.no_tlp);
+                                if(data.active == 0){
+                                    $("#active2").attr('checked', true);
                                 }
+                                else {
+                                    $("#active").attr('checked', true);
+                                        }
+                            }
+                           alamat();
                                 $("#closemodaledit").modal('hide');
                                 
-                                $("#editmodal").modal('show');
+                                $('#addmodall').modal('show');
                         }
                         
                 });

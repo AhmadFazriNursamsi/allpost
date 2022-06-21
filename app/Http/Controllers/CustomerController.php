@@ -107,7 +107,6 @@ class CustomerController extends Controller
      $datas->active = $request->active;
 
         if($datas->save()){
-          
             $alamat = new Alamat;
             $alamat->province = $request->name_Provinsi;
             $alamat->city = $request->name_kabupaten;
@@ -185,10 +184,28 @@ class CustomerController extends Controller
         $tatas->no_tlp = $request->no_tlp;
         $tatas->active = $request->active;
 
-        if($tatas->save())
+        // dd($tatas->update());
+
+        if($tatas->update()){
+            $alamat = Alamat::where('id_customer', $id)->first();
+            $alamat->province = $request->name_Provinsi;
+            $alamat->city = $request->name_kabupaten;
+            $alamat->district = $request->name_kecamatan;
+            $alamat->village = $request->name_kelurahan;
+            $alamat->alamat = $request->name_alamat;
+            $alamat->id_customer=$tatas->id;
+
+
+            // dd($alamat->update());
+
+            $alamat->update();
+
+                    
             return response()->json(['data' => ['success'], 'status' => '200'], 200);
-        else 
-            return response()->json(['data' => ['fails'], 'status' => '200'], 200);
+        }else{
+
+            return response()->json(['data' => ['false'], 'status' => '200'], 200);
+            } 
     }
 
     /**
