@@ -93,7 +93,7 @@ class CustomerController extends Controller
         $validator = Validator::make($request->all(), [
            'name' => 'required|unique:customers',
            'email' => 'required|unique:customers',
-           'no_tlp' => 'required|unique:customers',
+           'no_tlp' => 'required|unique:customers|',
        ]);
         
        if ($validator->fails()) {
@@ -140,11 +140,22 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function show($id, Customer $customer)
+    public function show($id, Customer $customer, Request $request)
     {
-        $datas  = Customer::where('id', $id)->first();
+        $tatas  = Customer::with('alamats')->where('id', $id)->get();
+            $tatas  = Customer::with('alamats','province', 'city', 'district', 'village')->where('id', $id)->first();
+     
+
+        // dd($tatas);
+
+        // $cities = Loc_district::where('city_id', $request->get('id') )->get();
+        // $output = [];
+        // foreach( $cities as $city )
+        // {
+        //    $output[$city->id] = $city->name;
+        // }
       
-        return response()->json(['data' => $datas, 'status' => '200'], 200);
+        return response()->json(['data' => $tatas, 'status' => '200'], 200);
     }
 
     /**

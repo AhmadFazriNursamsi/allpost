@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\AlamatController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AlamatController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ApisController;
@@ -11,7 +11,7 @@ use App\Http\Controllers\ListaccessController;
 use App\Http\Controllers\R404Controller;
 use App\Http\Controllers\ConfigController;
 use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\CustomerControllers;
+// use App\Http\Controllers\CustomerControllers;
 use App\Http\Controllers\QrcodeController;
 
 Route::get('/', function () {

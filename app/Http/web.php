@@ -9,6 +9,8 @@ use App\Http\Controllers\servieController;
 use App\Http\Controllers\ListaccessController;
 use App\Http\Controllers\R404Controller;
 use App\Http\Controllers\ConfigController;
+use App\Http\Controllers\ProductsController; // tambahan
+
 use App\Http\Controllers\QrcodeController;
 
 Route::get('/', function () {
@@ -33,6 +35,14 @@ Route::group(['middleware'=>'auth'], function(){
    Route::get('/api/getdivision', [ApisController::class, 'apigetdivisi']);
    Route::get('/api/getrole', [ApisController::class, 'apigetrole']);
    
+   
+   Route::get('/products', [ProductsController::class, 'index'])->name('products');
+   Route::get('/api/products/getdata', [ProductsController::class, 'apiGetData']); // tambahan
+   Route::get('/api/products/getdatabyid/{id}', [ProductsController::class, 'apiGetDataById']);
+   Route::post('api/products/insertdata', [ProductsController::class, 'apiInsertData']);
+   Route::post('api/products/updatedata/{id}', [ProductsController::class, 'apiUpdateDataById']);
+   Route::post('api/products/delete/{id}', [ProductsController::class, 'apiDeleteProductsById']);
+
 
    Route::get('/listaccess', [ListaccessController::class, 'index'])->name('listaccess');
    Route::post('/listaccess/delete/{id}', [ApisController::class, 'apiDeleteListAccessById']);
@@ -50,8 +60,8 @@ Route::group(['middleware'=>'auth'], function(){
    // Route::post('/api/listaccess/updatedata', [ListaccessController::class, 'apiUpdateData']);
 
    Route::post('/api/generate/qrcode', [QrcodeController::class, 'generateqrcode']);
-
-
+    
+    
 ///Division CRUD
 Route::get('/api/divi/getdata', [DivisionControllers::class, 'apigetdatadivi']);
 Route::get('/api/getdivision', [DivisionControllers::class, 'apigetdivisi']);

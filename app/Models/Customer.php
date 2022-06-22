@@ -18,4 +18,21 @@ class Customer extends Model
     {
         return $this->hasMany('App\Models\Alamat','id_customer', 'id');
     }
+    public function province()
+    {
+        return $this->belongsTo('App\Models\Loc_province','id', 'id');
+    }
+    public function city()
+    {
+        return $this->belongsTo('App\Models\Loc_city','id', 'id');
+    }
+    public function district()
+    {
+        return $this->hasMany('App\Models\Loc_district','id', 'id');
+    }
+    public function village()
+    {
+        return $this->hasMany('App\Models\Loc_village','id', 'id');
+    }
+    
 }

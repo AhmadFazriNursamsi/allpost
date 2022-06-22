@@ -5,9 +5,13 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
 
 ?><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
 
+
 <style>
     .alll{
         height: 120px;
+    }
+    .btn-plus-alamat{
+        border-radius: 32em;
     }
 </style>
 
@@ -77,50 +81,56 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
 <div class="modal fade" id="addmodall" tabindex="-1" role="dialog" aria-labelledby="viewUserTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
-    <div class="modal-header">
-        <div class="modal-header d-flex justify-content-start ">
-            <h2 id="icon"></h2><h5 id="titleaddmodal" class="ms-2 modal-title"></h5>
-        </div>
-    </div>
 
-    <div class="modal-body">
-      <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-        
-              <li class="nav-item" role="presentation">
-                  <button class="nav-link active headder" id="pills-home-tab" onclick="nama()" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true" >Main Info</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link " id="pills-profile-tab" onclick="alamat()" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Alamat</button>
-                </li>
-       
-            </ul>
+        <div class="row">
+            <div class="container">
+                <div class="modal-header lg">
+                    <div class="justify-content-lg-start">
+                        <h4><i id="iconn" ></i><i class="icoon ms-2"><span id="icon"></span><span id="titleaddmodal" class="icoon" class="ms-2"></span></i></h4>
+                    </div>
+                    {{-- <h5  class="modal-title"></h5> --}}
+                        <div class="d-flex justify-content-end">
+                            <ul class="nav nav-pills mb-3" id="pills-tab mt-3" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link headder" id="pills-home-tab" onclick="nama()" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true" >Main Info</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link " id="pills-profile-tab" onclick="alamat()" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Alamat</button>
+                                </li>
+                            </ul>
+                        </div>   
+                </div>
+            </div>
+        </div>
             <div class="modal-body">
                 <div class="mb-3">
                     <div class="col">
                         <form id="formm">
                             @csrf
-                            <input type="hidden" name="id" id="id">
-                        <label for="name" class="form-label nama">Nama</label>
-                        <input type="text" class="form-control nama" placeholder="Nama" name="name" id="name" aria-describedby="validationServer03Feedback">
-                        
-                        <label for="provinsi" class="form-label provinsi">Provinsi</label>
-                        <select name="name_Provinsi" class="form-control provinsi" id="id_Provinsi" required onchange="Prov(this)">
-                        {{-- <select name="name_Provinsi" class="form-control provinsi" id="provinsi" required onchange="ProvChange(this)"> --}}
-                            <option value="">-- Select Provinsi --</option>
-                        <?php foreach ($datas['alamat'] as $key => $post) :?>
-                            <option id="Prov" value="{{ $post->id }}">{{ $post->name }}</option>
-                            <?php endforeach;?>
-                        </select>
-                    </div> 
-                </div>
-
+                            <div class="form-group">
+                                <label for="name" class="form-label nama">Nama</label>
+                                
+                                <input type="text" class="form-control nama required" placeholder="Nama" name="name" id="name" aria-describedby="validationServer03Feedback" required>
+                                
+                                <label for="provinsi" class="form-label provinsi">Provinsi</label>
+                                <select name="name_Provinsi" class="form-control provinsi" id="id_Provinsi" onchange="Prov(this)" required>
+                                    {{-- <select required name="name_Provinsi" class="form-control provinsi" id="provinsi" required onchange="ProvChange(this)"> --}}
+                                        <option value="" required>-- Select Provinsi --</option>
+                                        <?php foreach ($datas['alamat'] as $key => $post) :?>
+                                        <option id="Prov" value="{{ $post->id }}">{{ $post->name }}</option>
+                                        <?php endforeach;?>
+                                    </select>
+                                </div> 
+                            </div>
+                            
+                        </div>
                 <div class="mb-3">
                     <div class="col">
                         <label for="email" class="form-label email">Email</label>
-                        <input type="text" class="form-control email" placeholder="Email" name="email" id="email" aria-describedby="validationServer03Feedback">
+                        <input type="email" class="form-control email" placeholder="Email" name="email" id="email" aria-describedby="validationServer03Feedback" required>
 
                         <label for="kabupaten" class="form-label kabupaten">kabupaten</label>
-                            <select name="name_kabupaten" class="form-control kabupaten" id="kabupaten_id" readonly onchange="Kab(this)"><option value="">-- Select Provinsi --</option></option></select>
+                            <select required name="name_kabupaten" class="form-control kabupaten" id="kabupaten_id" readonly onchange="Kab(this)"><option value="">-- Select Provinsi --</option></option></select>
                             
                     </div> 
                 </div>
@@ -128,11 +138,11 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                 <div class="mb-3">
                     <div class="col">
                         <label for="no_tlp" class="form-label no_tlp">No Telepon</label>
-                        <input type="text" class="form-control no_tlp" placeholder="No Telepon" name="no_tlp" id="no_tlp" aria-describedby="validationServer03Feedback">
+                        <input required type="text" class="form-control no_tlp" placeholder="No Telepon" name="no_tlp" id="no_tlp" aria-describedby="validationServer03Feedback">
                         
                         <label for="kecamatan" class="form-label kecamatan">Kecamatan</label>
-                        <select name="name_kecamatan" class="form-control kabupaten" id="id_kecamatan" readonly onchange="Kel(this)"><option value="">-- Select Provinsi --</option></option></select>
-                        {{-- <select name="id_kecamatan" class="form-control kecamatan" id="kecamatanSelect"> --}}
+                        <select required name="name_kecamatan" class="form-control kabupaten" id="id_kecamatan" readonly onchange="Kel(this)"><option value="">-- Select Provinsi --</option></option></select>
+                        {{-- <select required name="id_kecamatan" class="form-control kecamatan" id="kecamatanSelect"> --}}
                         </select>
 
                         </select>
@@ -142,27 +152,27 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                 <div class="mb-3">
                     <div class="col">
                         <label for="kelurahan" class="form-label kelurahan kelurahan" >kelurahan</label>
-                        {{-- <select name="id_kelurahan" class="form-control kelurahan" id="id_kelurahan" readonly onchange="selectVillage(this)"> --}}
-                            <select name="name_kelurahan" class="form-control kabupaten" readonly id="id_kelurahan"><option value="">-- Select Provinsi --</option></option></select>
+                        {{-- <select required name="id_kelurahan" class="form-control kelurahan" id="id_kelurahan" readonly onchange="selectVillage(this)"> --}}
+                            <select required name="name_kelurahan" class="form-control kabupaten" readonly id="id_kelurahan"><option value="">-- Select Provinsi --</option></option></select>
 
                         </select>
                     </div>
                 </div>
 
                 <div class="mb-3">
-                        <label for="alamat_kedua" class="alamat">Alamat</label>
-                        <textarea class="form-control alll alamat" name="name_alamat" placeholder="Alamat" id="alamat_kedua"></textarea>
+                        <label for="id_alamat" class="alamat">Alamat</label>
+                        <textarea class="form-control alll alamat" name="name_alamat" placeholder="Alamat" id="id_alamat"></textarea>
                       </div>
             
                 <div class="mb-3">
                     <div class="col">
                         <label for="active" class="form-label active_class">Status Active</label>
                         <div class="form-check">
-                            <input class="form-check-input active_class" type="radio" value="1" name="active" id="active" checked>
+                            <input required class="form-check-input  active_class" type="radio" value="1" name="active" id="active" checked>
                             <label class="form-check-label active_class" for="active">Active</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input active_class" type="radio" value="0" name="active" id="active2">
+                            <input required class="form-check-input active_class" type="radio" value="0" name="active" id="active2">
                             <label class="form-check-label active_class" for="active2">
                                 Not Active
                             </label>
@@ -170,13 +180,21 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                         
                     </div>
                 </div>
+                <div class="container form-add">
 
-                <div class="tab-content" id="pills-tabContent">
+                </div>
+
+                <div class="tab-content d-flex justify-content-end" id="pills-tabContent">
             <div class="tab-pane fade active show" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                 <dl class="row mb-0" id="datauser-1"></dl>
             </div>
-            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+            <div class="tab-pane fade btn-add-cencel" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
                 <dl class="row mb-0" id="datauser-2"></dl>
+                <button class="justify-content-end btn-danger btn-plus-alamat" ><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                  </svg></button>
+                <button type="button" class="justify-content-end btn-success btn-plus-alamat ms-1" onclick="btnplus()"><i class="fa fa-plus"></i></button>
             </div>
 
         </div>
@@ -184,14 +202,14 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
 
     <div class="modal-footer">
       <button id="closeModalViewUser" type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
-      <button id="save" type="button" class="btn btn-success btn-sm" data-dismiss="modal">Save</button>
-
+      <button id="save" type="submit" class="btn btn-success btn-sm" data-dismiss="modal">Save</button>
     </form>
+    </div>
     </div>
     </div>
   </div>
 </div>
-</div>
+
 
 
 
@@ -199,32 +217,68 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
 <div class="modal fade" id="viewCustomer" tabindex="-1" role="dialog" aria-labelledby="viewUserTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header d-flex justify-content-lg-start">
-                <h4><i class="bi bi-clipboard2-minus"></i></i></h4>
-                <h5 id="titledetailmodal" class="ms-2 modal-title"></h5>
+            <div class="row">
+                <div class="container">
+                    <div class="modal-header lg">
+                        <div class="justify-content-lg-start">
+                            <h4><i class="bi bi-clipboard2-minus"><span id="titledetailmodal"></span></i></h4>
+                        </div>
+                        {{-- <h5  class="modal-title"></h5> --}}
+                            <div class="d-flex justify-content-end">
+                                <ul class="nav nav-pills mb-3" id="pills-tab mt-3" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active headder" id="pills-home-tab" onclick="showdetail()" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true" >Main Info</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link " id="pills-profile-tab" onclick="alamatview()" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Alamat</button>
+                                    </li>
+                                </ul>
+                            </div>   
+                    </div>
+                </div>
             </div>
             <div class="modal-body">
                 <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade active show" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                         <dl class="row mb-0">
-                            <dt class="col-sm-4">Nama </dt>
-                                <dd class="col-sm-8">: <span name="name" id="show_name"></dd>
-                            <dt class="col-sm-4">Email </dt>
-                                <dd class="col-sm-8">: <span name="email" id="show_email"></dd>
-                            <dt class="col-sm-4">Nomor Telepon</dt>
-                                <dd class="col-sm-8">: <span name="no_tlp" id="show_no_tlp"></dd>
-                            <dt class="col-sm-4">Status</dt>
-                                <dd class="col-sm-8">: <span id="activedetail"></span>
-                            <dt class="col-sm-4">Status Delete</dt>
-                                <dd class="col-sm-4">: <span id="flagdelete"></span></dd>
+                            <dt class="col-sm-4 show_name">Nama </dt>
+                                <dd class="col-sm-8 show_name">: <span name="name" id="show_name"></dd>
+
+                                    <dt class="col-sm-4 show_province">Province </dt>
+                                    <dd class="col-sm-8 show_province">: <span name="province" id="input_province"></dd>
+                                        
+                            <dt class="show_email col-sm-4">Email </dt>
+                                <dd class="show_email col-sm-8">: <span name="email" id="show_email"></dd>
+
+                                    <dt class="col-sm-4 show_kabupaten">kabupaten </dt>
+                                    <dd class="col-sm-8 show_kabupaten">: <span name="kabupaten" id="input_kabupaten"></dd>
+
+                            <dt class="show_tlp col-sm-4">Nomor Telepon</dt>
+                                <dd class="show_tlp col-sm-8">: <span name="no_tlp" id="show_no_tlp"></dd>
+
+                                    <dt class="col-sm-4 show_kecamatan">kecamatan </dt>
+                                    <dd class="col-sm-8 show_kecamatan">: <span name="kecamatan" id="input_kecamatan"></dd>
+
+                                    <dt class="col-sm-4 show_kelurahan">kelurahan </dt>
+                                    <dd class="col-sm-8 show_kelurahan">: <span name="kelurahan" id="input_kelurahan"></dd>
+
+                                    <dt class="col-sm-4 show_alamat">alamat </dt>
+                                    <dd class="col-sm-8 show_alamat">: <span name="alamat" id="input_alamat"></dd>
+                                        
+                            <dt class="show_status col-sm-4">Status</dt>
+                                <dd class="show_status col-sm-8">: <span id="activedetail"></span>
+                            <dt class="show_delete col-sm-4">Status Delete</dt>
+                                <dd class="show_delete col-sm-4">: <span id="flagdelete"></span></dd>
                         </dl>
+
+                        
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button id="closeModalViewUser" type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
                 @if ($haveaccessadd) 
-                <button class="nav-link btn-success btn-sm" data-attid="" onclick="editshow()" id="editbtn"><i class="fa fa-edit"></i> Edit Customers</button>
+                <button class="btn-success btn-sm" data-attid="" onclick="editshow()" id="editbtn"><i class="fa fa-edit"></i> Edit Customers</button>
               @endif
                 @if ($haveaccessdelete)
                     <button onClick="deleteyesshow()" data-attid="" data-deleteval="1" id="deletevbtn" class="btn btn-danger btn-sm"></a>
@@ -347,7 +401,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
         $(".nama").show();
         $("#addmodall").modal('show');
         $("#icon").html("<i class='bi bi-person-plus-fill'></i>");
-        $("#titleaddmodal").html("Add Modal");
+        $("#titleaddmodal").html("Add Customer");
         $("#addvbtn").hide();
         $("#deletevbtn").hide();
         $("#undeletevbtn").hide();
@@ -357,6 +411,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
         $(".kecamatan").hide();
         $(".kelurahan").hide();
         $(".alamat").hide();
+        $(".btn-add-cencel").hide();
    
         
     }
@@ -370,7 +425,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
         $(".nama").show();
         $("#addmodall").modal('show');
         $("#icon").html("<i class='bi bi-person-plus-fill'></i>");
-        $("#titleaddmodal").html("Add Modal");
+        $("#titleaddmodal").html("Add Customer");
         $("#addvbtn").hide();
         $("#deletevbtn").hide();
         $("#undeletevbtn").hide();
@@ -397,7 +452,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
 
         $("#addmodall").modal('show');
         $("#icon").html("<i class='bi bi-person-plus-fill'></i>");
-        $("#titleaddmodal").html("Add Modal");
+        $("#titleaddmodal").html("Add Customers");
 
         $("#addvbtn").hide();
         $("#deletevbtn").hide();
@@ -413,7 +468,18 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
         $(".kecamatan").show();
         $(".kelurahan").show();
         $(".alamat").show();
+        $(".btn-add-cencel").show();
     }
+   function btnplus(){
+
+         $(".provinsi").show();
+        $(".kabupaten").show();
+        $(".kecamatan").show();
+        $(".kelurahan").show();
+        $(".alamat").show();
+        $(".btn-add-cencel").show();
+   }
+
     
     function Prov(a = '', byid = 0, id_kab = 0,){
         iddalamat =$(a).val();
@@ -436,6 +502,8 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                 if(id_kab != 0) {  
                     // console.log(byid,id_kab, k, v);                  
                     if(id_kab == k) {
+                        // console.log(v);
+                        // $('#kabupaten_id').html(v);
                         $('#kabupaten_id').append($('<option>', {value:k, text:v}));
                         $("#kabupaten_id option[value='"+k+"']").attr("selected", "selected");                        
                     } else 
@@ -531,12 +599,18 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
 
 
     $(document).ready(function(){
+
+        $( "#formm" ).submit(function(e) {
         
-    $('#save').click(function(e){
+    // $('#save').click(function(e){
         var url= "{{ asset('/customers/store') }}" ;
         idx = $('#editbtn').attr('data-attid');
         if(idx != "")
         var url = "{{ asset('/customers/update') }}/" + idx ;
+        
+//         define(["jquery", "jquery.validate"], function( $ ) {
+// 	$("formm").validate();
+// });
         
         e.preventDefault();
         var form = $('#formm');
@@ -551,6 +625,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                                 title: 'Selamat!',
                                 text: "Data Berhasil Disimpan",
                                 icon: 'success'
+                        
                             });
                             $("#name").val();
                             $("#email").val();
@@ -599,6 +674,22 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
             var addurl = $('#addvbtn').attr('data-attrref')+'/'+id;
             $('#addvbtn').attr('href', addurl);
             $('#saveee').attr('data-attid', id);
+
+            $(".show_name").show();
+            $(".show_email").show();
+            $(".show_tlp").show();
+            $(".show_status").show();
+            $(".show_delete").show();
+
+            $(".show_province").hide();
+            $(".show_kabupaten").hide();
+            $(".show_kecamatan").hide();
+            $(".show_kelurahan").hide();
+            $(".show_alamat").hide();
+            // $(".show_province").hide();
+            // $(".show_province").hide();
+            // $(".show_province").hide();
+
             var addurl = $('#deletevbtn').attr('data-attid', id);
             var url = "{{ asset('/customers/detail') }}/" + id;
             var form = $('#viewCustomer');
@@ -608,10 +699,35 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                     type: "GET",
                     success: function(response) {
                         data = response.data;
+                        // console.log(data);
+                        
+                        
                         if (data) {
+                            var cekdata = data.alamats;
+
+                            // $.each(cekdata[0], function (x,y) { 
+                            //     console.log(x,y);
+                            //  })
+                            console.log(cekdata[0].province);
+
+                            // console.log(cekdata[0].province[0].name);
+    
+                            $("#input_province").html(cekdata[0].province);
+                                // Prov('', cekdata.province, cekdata.city);
+                                $("#input_kabupaten").html(cekdata[0].city);
+                                $("#input_kecamatan").html(cekdata[0].district);
+                                $("#input_kelurahan").html(cekdata[0].village);
+                                $("#input_alamat").html(cekdata[0].alamat);
+                            // console.log(cekdata[0]);
                             $("#show_name").html(data.name);
                             $("#show_email").html(data.email);
                             $("#show_no_tlp").html(data.no_tlp);
+
+                            // $.each(cekdata, function(k, v) {
+                            // console.log(k,v);
+                            // console.log(data);
+                           
+                        // })
                             if (data.active == 0) {
                                 $("#activedetail").html("<span class='btn btn-secondary btn-sm'><b>Not Active</b></span>");
                             } else {
@@ -648,27 +764,46 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                 $("#viewCustomer").modal('hide');
             });
 
+           function alamatview(){
+            $(".show_name").hide();
+            $(".show_email").hide();
+            $(".show_tlp").hide();
+            $(".show_status").hide();
+            $(".show_delete").hide();
+            
+            $(".show_province").show();
+            $(".show_kabupaten").show();
+            $(".show_kecamatan").show();
+            $(".show_kelurahan").show();
+            $(".show_alamat").show();
+            
+                        $(".show_province").val();
+                        $(".show_kabupaten").val();
+                        $(".show_kecamatan").val();
+                        $(".show_kelurahan").val();
+                        $(".show_alamat").val();
+           }
+
 
     function editshow(){
-            $(".nav-link").click(function () {
-                // If the clicked element has the active class, remove the active class from EVERY .nav-link>.state element
-                if ($(this).hasClass("header")) {
-                    // $(".nav-link").removeClass("active");
-                }
-                // Else, the element doesn't have the active class, so we remove it from every element before applying it to the element that was clicked
-                else {
-                    $(".nav-link").removeClass("active");
-                    $(this).addClass("active");
-                }
-            });
+            // $(".nav-link").click(function () {
+            //     // If the clicked element has the active class, remove the active class from EVERY .nav-link>.state element
+            //     if ($(this).hasClass("header")) {
+            //         // $(".nav-link").removeClass("active");
+            //     }
+            //     // Else, the element doesn't have the active class, so we remove it from every element before applying it to the element that was clicked
+            //     else {
+            //         $(".nav-link").removeClass("active");
+            //         $(this).addClass("active");
+            //     }
+            // });
         idx = $('#editbtn').attr('data-attid',);
        
-        $('#viewCustomer').modal('hide');
-        $("#icon").html("<i class='bi bi-pencil-square'></i>");
-        $("#titleaddmodal").html("Edit Modal");
+        $("#iconn").html("<i class='bi bi-pencil-square'></i>");
+        $(".icoon").html("Edit Customers");
      
         var url = "{{ asset('/customers/edit') }}/" + idx;
-                $.ajax({
+        $.ajax({
                     url: url,
                     type: "GET",
                         success: function(response) {
@@ -682,23 +817,23 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                                 
                                 // $.when(Prov('', data.alamats[0].province)).then(function() {
                                 //     $("select option").each(function(){
-                                //         // console.log(cekdata.city);
+                                    //         // console.log(cekdata.city);
                                 //         if ($("#kabupaten_id").text() == cekdata.city)
                                 //             $("#kabupaten_id").attr("selected","selected");
                                 //         });
-
+                                
                                 //     // $("#kabupaten_id option[value='"+cekdata.city+"']").prop("selected",true);
                                 // }); 
                                     // $("#kabupaten_id").val(cekdata.city)
                                     // console.log(cekdata.city, cekdata.district, cekdata.village);
-
+                                    
                                     
                                 
                                 // $("#kabupaten_id option[value='"+cekdata.city+"']").prop("selected",true);
-                                // console.log(cekdata);
-                                $("#alamat_kedua").html(cekdata.alamat);
+                                // console.log(cekdata.alamat);
+                                $("#id_alamat").val(cekdata.alamat);
                                 // Kab('', data.alamats[0].city);
-
+                                
                                 // console.log(data.city);
                                 $('#id_kecamatan option[value="cekdata.district"]').prop('selected', true);
                                 $("#name").val(data.name);
@@ -710,12 +845,14 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                                 else {
                                     $("#active").attr('checked', true);
                                         }
-                            }
+                                    }
                            alamat();
                                 $("#closemodaledit").modal('hide');
                                 
                                 $('#addmodall').modal('show');
-                        }
+                                $('#viewCustomer').modal('hide');
+                                
+                            }
                         
                 });
     }
@@ -856,14 +993,11 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
     function reloaddata() {
                 $('#userstable').DataTable().ajax.url(url).load();
             }
-    function HapusData(){
-
-    }
 
     
 </script>
-
 @endsection    
 </x-app-layout>
+
 
 

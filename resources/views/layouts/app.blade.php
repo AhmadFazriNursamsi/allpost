@@ -79,6 +79,7 @@
         <script src="https://cdn.datatables.net/1.12.0/js/jquery.dataTables.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
   
         <script type="text/javascript" src="{{ asset('js/helpers.js') }}"></script>

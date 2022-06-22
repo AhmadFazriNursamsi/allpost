@@ -2,18 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\Useraccess;
+
 use Auth;
 use QrCode;
 use DNS1D;
 use DNS2D;
 use Validator;
+use Image;
+use ImageResize;
+// use Intervention\Image\Facades\Image;
+
+
 
 class HelpersController extends Controller
 {
     public static function getListMenu(){
-    	$listmenu = '{
+        $listmenu = '{
     "data": [{
         "dropdown":"0",
         "url":"dashboard",
@@ -34,6 +41,13 @@ class HelpersController extends Controller
             "class":"",
             "icon":"clr-blue fa fa-users",
             "list_child":[]
+        }, {
+            "dropdown":"0",
+            "url":"products",
+            "name":"Products",
+            "class":"",
+            "icon":"clr-blue bi bi-person-bounding-box",
+            "list_child":[]
         }, { 
             "dropdown":"0",
             "url":"customers",
@@ -41,14 +55,7 @@ class HelpersController extends Controller
             "class":"",
             "icon":"clr-blue bi bi-person-bounding-box",
             "list_child":[]
-        },{ 
-            "dropdown":"0",
-            "url":"divisions",
-            "name":"Division",
-            "class":"",
-            "icon":"clr-blue bi bi-person-bounding-box",
-            "list_child":[]
-        },{ 
+        }, { 
             "dropdown":"0",
             "url":"listaccess",
             "name":"List Access",
@@ -100,7 +107,7 @@ class HelpersController extends Controller
         }]
     }]
 }';
-    	return json_decode($listmenu);
+        return json_decode($listmenu);
     }
 
     public static function checkaccess($name_access = '', $key_access = ''){
@@ -117,10 +124,18 @@ class HelpersController extends Controller
         return array('view', 'add', 'edit', 'delete', 'import', 'export');
     }
 
-    public function generateqrcode($text = 'Hello', $size = 250){
+    // tambahan
+    public static function satuan()
+    {
+        return array('kg'=>'Kg', 'gr'=>'Gram', 'kwintal'=> 'Kwintal', 'liter'=>'Liter', 'kodi'=>'Kodi', 'lusin'=>'Lusin');
+    }
+
+    // generateqrcode
+    public static function generateqrcode($text = 'Hello', $size = 250)
+    {
         $str = QrCode::size($size)->generate($text);
-        $re = '/<svg(.*)<\/svg>/m';
-        preg_match_all($re, $str, $matches, PREG_SET_ORDER, 0);
+        $files = '/<svg(.*)<\/svg>/m';
+        preg_match_all($files, $str, $matches, PREG_SET_ORDER, 0);
 
         $svg = '';
         if(isset($matches[0][1])){
@@ -128,8 +143,10 @@ class HelpersController extends Controller
         } 
         return json_encode(['data' => [$svg], 'status' => '200'], 200);
     }
+    // generateqrcode
 
-    public function generateBarcode($text = '0000000000', $tinggi = 60, $jarak_spasi = 3){
+
+    public static function generateBarcode($text = '0000000000', $tinggi = 60, $jarak_spasi = 3){
         if(is_numeric($text)) {
             $str = DNS1D::getBarcodeSVG($text, 'UPCE', $jarak_spasi, $tinggi);
             $re = '/<svg(.*)<\/svg>/ms';
@@ -145,29 +162,62 @@ class HelpersController extends Controller
         
     }
 
-    // // ## Copy this to validator
-
-    // $validator = Validator::make($params = $request->all(), [
-    //   'image' => 'mimes:jpeg,png,jpg,gif,svg|max:2048'
-    // ]);
-
-    // if ($validator->fails()) {
-    //   return response()->json(['errors'=>$validator->errors()]);
-    // }
-
-    public function uploadImage($request, $imagename='dft'){
-
+    // upload image
+    public static function uploadImage($request, $imagename='nameprod12222')
+    {
         if($request->file() != null) {
-            if($request->file('image')) {
-                foreach($request->file() as $key => $img){
-                    $extention = $img->getClientOriginalExtension();
-                    $imageName = $imagename.'.'.$extention; // will be save name $imagename.$extention
-                    $img->move(public_path('images/uploads'), $imageName);
-                    $i++;
-                }
-                return true;
+            foreach($request->file() as $key => $img)
+            {
+                $extention = $img->getClientOriginalExtension(); // asli berhasil
+                $imageNameExtension = $imagename.'.'.$extention; // will be save name $imagename.$extention asli
+                $imgmove = $img->move(public_path('images/uploads'), $imageNameExtension); // asli berhasil
+                // dd($img->getRealPath());
+                $Thumbnails = 'Thumbnail-'.$imagename.'.'.$extention;
+                // $thumbnails = Image::make($imgmove->getRealPath())->resize(50,50)->save('public/images/uploads'. $imagename.'-thumbnail.'.$extention); // asli berhasi;
+                // dd($Thumbnails);
+                Image::make($imgmove->getRealPath())->resize(250,250)->save('images/uploads/'.$Thumbnails); // asli berhasi;
             }
+            return $imageNameExtension;
         }
         return false;
     }
+
+    // GENERATE untuk kode products
+    public static function generateKodeProducts($nama = '', $category_id = 0, $brand_id = 0)
+    {
+        // nama_products, total product berdasarkan kategori, brand products
+        if($nama != '' && $category_id != 0 && $brand_id != 0)
+        {
+            $hasil = self::DapetHurufDepan($nama);
+            $total_count = Product::where('category_id', $category_id)->count()+1;
+            $untukstrtotime = strtotime(date('YmdHis'));
+            return $hasil.$total_count.$brand_id.$untukstrtotime;
+        } else {
+            return false;
+        } 
+    }
+
+    public static function DapetHurufDepan($a)
+    {
+        $words = explode(" ", $a);
+        $acronym = "";
+
+        foreach ($words as $w) 
+        {
+            $acronym .= $w[0];
+        }
+
+        return $acronym;
+    }
+    // untuk kode products
+
+        
+    public static function kodeproduk($kode_products = 0) 
+    {
+        // $kode_products = $kode_products;
+        $z = str_replace(str_split('!@#$%^&*()-_=+\|]}[{?"/.:'), "", $kode_products);
+        return $z;
+    } 
+
 }
+

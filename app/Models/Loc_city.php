@@ -29,4 +29,8 @@ class Loc_city extends Model
     {
         return $this->hasMany('App\Models\Loc_village','id', 'id');
     }
+    public function customer()
+    {
+        return $this->hasMany('App\Models\Customer','id', 'id_customer');
+    }
 }
