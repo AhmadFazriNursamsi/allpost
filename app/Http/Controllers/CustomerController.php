@@ -93,15 +93,15 @@ class CustomerController extends Controller
 
 
         $validator = Validator::make($request->all(), [
-           'name' => 'unique:customers|alpha',
+      
            'email' => 'unique:customers|email',
            'no_tlp' => 'unique:customers|numeric',
            'name_Provinsi' => 'required',
            'name_kecamatan'=> 'required',
+           'name_kelurahan'=> 'required',   
            'name_kelurahan'=> 'required',     
        ],[
-        'name.unique' => 'Nama Sudah Terdaftar!',
-        'name.alpha' => 'Nama Harus Berbentuk Alphabed',
+   
         'email.unique' => 'Email Sudah Terdaftar!',
         'no_tlp.unique' => 'Nomor Telepon Sudah Terdaftar!',
         'no_tlp.numeric' => 'Nomor Telepon Harus Berbentuk Angka!',
@@ -140,12 +140,6 @@ class CustomerController extends Controller
 
         return response()->json(['data' => ['false'], 'status' => '200'], 200);
         } 
-
-//     //  $datas->flag_delete = $request->flag_delete;
-//      if($scale->saveMany($datas))
-//          return response()->json(['data' => ['success'], 'status' => '200'], 200);
-//      else 
-//          return response()->json(['data' => ['false'], 'status' => '200'], 200);
     }
 
 
@@ -157,6 +151,12 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
+    public function showw($id){
+        $datas = Customer::where('id', $id)->get();
+
+        return response()->json(['data' => $datas, 'status' => '200'], 200);
+    }
+
     public function show($id, Customer $customer, Request $request)
     {
         // $tatas  = Customer::with('alamats')->where('id', $id)->get();
@@ -169,18 +169,6 @@ class CustomerController extends Controller
                 $tatas->alamats[$key]->district = Calamat::alamatgetByIdKab2($data->district)->original['data'];
                 $tatas->alamats[$key]->village = Calamat::alamatgetByIdKel2($data->village)->original['data'];
             }
-
-            
-     
-
-        // dd($tatas);
-
-        // $cities = Loc_district::where('city_id', $request->get('id') )->get();
-        // $output = [];
-        // foreach( $cities as $city )
-        // {
-        //    $output[$city->id] = $city->name;
-        // }
       
         return response()->json(['data' => $tatas, 'status' => '200'], 200);
     }
@@ -194,14 +182,8 @@ class CustomerController extends Controller
     public function edit($id, Customer $customer)
     {
         $tatas  = Customer::with('alamats')->where('id', $id)->first();
-
-        // dd($tatas);
-        
-        // $datas  = Alamat::where('id_customer', $id)->first();
-      
-
         return response()->json(['data' => $tatas ,'status' => '200'], 200);
-        // return response()->json(['data' => $datas, 'status' => '200'], 200);
+ 
     }
 
     /**
@@ -222,7 +204,6 @@ class CustomerController extends Controller
         $tatas->no_tlp = $request->no_tlp;
         $tatas->active = $request->active;
 
-        // dd($tatas->update());
 
         if($tatas->update()){
             $alamat = Alamat::where('id_customer', $id)->first();
@@ -234,7 +215,7 @@ class CustomerController extends Controller
             $alamat->id_customer=$tatas->id;
 
 
-            // dd($alamat->update());
+ 
 
             $alamat->update();
 

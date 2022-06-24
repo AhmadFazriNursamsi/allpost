@@ -63,6 +63,7 @@ Route::get('/api/customers/getdata', [CustomerController::class, 'apigetdatacust
 Route::get('/customers', [CustomerController::class, 'index']);
 Route::post('/customers/store', [CustomerController::class, 'store']);
 Route::get('/customers/detail/{id}', [CustomerController::class, 'show']);
+Route::get('/customers/detaill/{id}', [CustomerController::class, 'showw']);
 Route::get('/customers/delete/{id}', [CustomerController::class, 'destroy']);
 Route::get('/customers/edit/{id}', [CustomerController::class, 'edit']);
 Route::post('/customers/update/{id}', [CustomerController::class, 'update']);
