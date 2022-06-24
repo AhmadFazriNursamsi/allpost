@@ -64,10 +64,6 @@ class AlamatController extends Controller
         return response()->json(['data' => $output, 'status' => '200'], 200);
     }
 
-
-    
-
-
     public static function alamatgetByIdCity2($id){
 
         $cities = Loc_city::where('id', $id )->get();

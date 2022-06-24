@@ -50,6 +50,13 @@ class HelpersController extends Controller
             "list_child":[]
         },{ 
             "dropdown":"0",
+            "url":"gudang",
+            "name":"Gudang",
+            "class":"",
+            "icon":"clr-blue bi bi-person-bounding-box",
+            "list_child":[]
+        },{ 
+            "dropdown":"0",
             "url":"listaccess",
             "name":"List Access",
             "class":"",

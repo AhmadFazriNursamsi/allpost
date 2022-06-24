@@ -82,7 +82,11 @@ Route::post('/api/alamatgetByIdProvinsi', [AlamatController::class, 'alamatgetBy
 Route::post('/api/alamatgetByIdkabupaten', [AlamatController::class, 'alamatgetByIdKab']);
 Route::post('/api/alamatgetByIdkelurahan', [AlamatController::class, 'alamatgetByIdKel']);
 
-// Route::get('/alamat', [AlamatController::class, 'index']);
+//gudang
+
+Route::get('/gudang', function () {
+    return "gudang";
+});
 // Route::get('/customers', [CustomerController::class, 'index']);
 // Route::post('/customers/store', [CustomerController::class, 'store']);
 // Route::get('/customers/detail/{id}', [CustomerController::class, 'show']);

@@ -95,7 +95,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                     <div class="justify-content-lg-start">
                         <h4><i id="iconn" ></i><i class="icoon ms-2"><span id="icon"></span><span id="titleaddmodal" class="icoon" class="ms-2"></span></i></h4>
                     </div>
-                    {{-- <h5  class="modal-title"></h5> --}}
+            
                         <div class="d-flex justify-content-end">
                             <ul class="nav nav-pills mb-3" id="pills-tab mt-3" role="tablist">
                                 <li class="nav-item" role="presentation">
@@ -105,20 +105,12 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                                     <button class="nav-link " id="pills-profile-tab" onclick="alamat()" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Alamat</button>
                                 </li>
                             </ul>
-                            {{-- <div class="alert alert-danger" style="display:none"></div> --}}
+           
                         </div>   
                 </div>
             </div>
         </div>
             <div class="modal-body">
-           
-                <div class="col-6 lg-6">
-
-                    <div class="invalid-feedback alert-danger ">
-                        <p class="p"></p>
-                    </div>
-                </div>
-      
                 <div class="mb-3">
                     <div class="col">
                         <form id="formm">
@@ -128,10 +120,10 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                                 <label for="name" class="form-label nama">Nama</label>
                                 
                                 <input type="text" class="form-control nama "required placeholder="Nama" name="name" id="name" aria-describedby="validationServer03Feedback">
-                                {{-- <div class="alert is-valid-name alert-danger" role="alert" style="display: none"></div> --}}
+                           
                                 <label for="provinsi" class="form-label provinsi">Provinsi</label>
                                 <select name="name_Provinsi" class="form-control provinsi" id="id_Provinsi" onchange="Prov(this)">
-                                    {{-- <select required name="name_Provinsi" class="form-control provinsi" id="provinsi" required onchange="ProvChange(this)"> --}}
+                                   
                                         <option value="" required>-- Select Provinsi --</option>
                                         <?php foreach ($datas['alamat'] as $key => $post) :?>
                                         <option id="Prov" value="{{ $post->id }}">{{ $post->name }}</option>
@@ -159,7 +151,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                         
                         <label for="kecamatan" class="form-label kecamatan">Kecamatan</label>
                         <select name="name_kecamatan" class="form-control kabupaten" id="id_kecamatan" readonly onchange="Kel(this)"><option value="">-- Select Provinsi --</option></option></select>
-                        {{-- <select required name="id_kecamatan" class="form-control kecamatan" id="kecamatanSelect"> --}}
+                      
                         </select>
 
                         </select>
@@ -169,7 +161,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                 <div class="mb-3">
                     <div class="col">
                         <label for="kelurahan" class="form-label kelurahan kelurahan" >kelurahan</label>
-                        {{-- <select required name="id_kelurahan" class="form-control kelurahan" id="id_kelurahan" readonly onchange="selectVillage(this)"> --}}
+                      
                             <select name="name_kelurahan" class="form-control kabupaten" readonly id="id_kelurahan"><option value="">-- Select Provinsi --</option></option></select>
 
                         </select>
@@ -235,7 +227,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                         <div class="justify-content-lg-start">
                             <h4><i class="bi bi-clipboard2-minus"><span id="titledetailmodal"></span></i></h4>
                         </div>
-                        {{-- <h5  class="modal-title"></h5> --}}
+                 
                             <div class="d-flex justify-content-end">
                                 <ul class="nav nav-pills mb-3" id="pills-tab mt-3" role="tablist">
                                     <li class="nav-item" role="presentation">
@@ -262,19 +254,19 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                             <dt class="show_email col-sm-4">Email </dt>
                                 <dd class="show_email col-sm-8">: <span name="email" id="show_email"></dd>
 
-                                    <dt class="col-sm-4 show_kabupaten">kabupaten </dt>
+                                    <dt class="col-sm-4 show_kabupaten">Kabupaten </dt>
                                     <dd class="col-sm-8 show_kabupaten">: <span name="kabupaten" id="input_kabupaten"></dd>
 
                             <dt class="show_tlp col-sm-4">Nomor Telepon</dt>
                                 <dd class="show_tlp col-sm-8">: <span name="no_tlp" id="show_no_tlp"></dd>
 
-                                    <dt class="col-sm-4 show_kecamatan">kecamatan </dt>
+                                    <dt class="col-sm-4 show_kecamatan">Kecamatan </dt>
                                     <dd class="col-sm-8 show_kecamatan">: <span name="kecamatan" id="input_kecamatan"></dd>
 
-                                    <dt class="col-sm-4 show_kelurahan">kelurahan </dt>
+                                    <dt class="col-sm-4 show_kelurahan">Kelurahan </dt>
                                     <dd class="col-sm-8 show_kelurahan">: <span name="kelurahan" id="input_kelurahan"></dd>
 
-                                    <dt class="col-sm-4 show_alamat">alamat </dt>
+                                    <dt class="col-sm-4 show_alamat">Alamat </dt>
                                     <dd class="col-sm-8 show_alamat">: <span name="alamat" id="input_alamat"></dd>
                                         
                             <dt class="show_status col-sm-4">Status</dt>
@@ -400,7 +392,6 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
         $("#email").val("");
         $("#no_tlp").val("");
 
-
         $(".provinsi").val("");
         $(".kabupaten").val("");
         $(".kecamatan").val("");
@@ -424,9 +415,8 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
         $(".kelurahan").hide();
         $(".alamat").hide();
         $(".btn-add-cencel").hide();
-   
-        
     }
+
     function nama(){
         $("#name").val();
         $("#email").val();
@@ -482,17 +472,85 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
         $(".alamat").show();
         $(".btn-add-cencel").show();
     }
-   function btnplus(){
 
-         $(".provinsi").show();
-        $(".kabupaten").show();
-        $(".kecamatan").show();
-        $(".kelurahan").show();
-        $(".alamat").show();
-        $(".btn-add-cencel").show();
-   }
 
-    
+    ///form submit
+    $(document).ready(function(){
+
+$( "#formm" ).submit(function(e) {
+var url= "{{ asset('/customers/store') }}" ;
+idx = $('#editbtn').attr('data-attid');
+if(idx != "")
+var url = "{{ asset('/customers/update') }}/" + idx ;
+
+
+e.preventDefault();
+var form = $('#formm');
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: form.serialize(),
+            success: function (response) {
+
+                data = response.data;
+
+                if(data == 'success') {
+                    Swal.fire({
+                        title: 'Selamat!',
+                        text: "Data Berhasil Disimpan",
+                        icon: 'success'
+                
+                    });
+                    $("#name").val();
+                    $("#email").val();
+                    $("#no_tlp").val();
+
+                    $(".provinsi").val();
+                    $(".kabupaten").val();
+                    $(".kecamatan").val();
+                    $(".kelurahan").val();
+                    $(".alamat").val();
+                    
+                    $(".provinsi").show("");
+                    $(".kabupaten").show("");
+                    $(".kecamatan").show("");
+                    $(".kelurahan").show("");
+                    $(".alamat").show("");
+
+                    $(".email").show("");
+                    $(".no_tlp").show("");
+                    $(".active_class").show("");
+                    $(".nama").show("");
+                    $("#addmodall").modal('hide');
+                    $("#formm")[0].reset();
+                    reloaddata();
+                    $('.alert-danger').hide();
+                }
+                  
+                
+                else {
+                    $.each(response.errors, function(key, value){
+                    Swal.fire({
+                        title: 'Gagal!',
+                        text: value,
+                        icon: 'error'
+                    });
+                });
+                    
+                }
+
+            
+                
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(textStatus, errorThrown);
+            }
+        });
+    });  
+});
+
+
+    ///select option Alamat
     function Prov(a = '', byid = 0, id_kab = 0,){
         iddalamat =$(a).val();
         if(byid != 0 )
@@ -508,15 +566,13 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
           dataType: 'json',
           success: function( result )
           {
-            //   console.log(result);
-            // $('#kabupaten_id').html("");
+
             $('#kabupaten_id').html('<option value="">-- Select Provinsi --</option>')
               $.each( result.data, function(k, v) {
                 if(id_kab != 0) {  
-                    // console.log(byid,id_kab, k, v);                  
+              
                     if(id_kab == k) {
-                        // console.log(v);
-                        // $('#kabupaten_id').html(v);
+      
                         $('#kabupaten_id').append($('<option>', {value:k, text:v}));
                         $("#kabupaten_id option[value='"+k+"']").attr("selected", "selected");                        
                     } else 
@@ -528,7 +584,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
           },
           error: function()
          {
-             //handle errors
+
              alert('error...');
          }
        });
@@ -549,8 +605,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
           dataType: 'json',
           success: function( result )
           {
-            //   console.log(result);
-
+ 
             $('#id_kecamatan').html("");
             $('#id_kecamatan').html('<option value="">-- Select Provinsi --</option>')
               $.each( result.data, function(k, v) {
@@ -561,13 +616,13 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                       }else
                       $('#id_kecamatan').append($('<option>', {value:k, text:v}));
                   }else
-                //    console.log(k,v);
+
                     $('#id_kecamatan').append($('<option>', {value:k, text:v}));
                });
           },
           error: function()
          {
-             //handle errors
+  
              alert('error...');
          }
        });
@@ -588,109 +643,31 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
           dataType: 'json',
           success: function( result )
           {
-            //   console.log(result);
+
             $('#id_kelurahan').html('<option value="">-- Select Provinsi --</option>')
-            // $('#id_kelurahan').html("");
+
               $.each( result.data, function(k, v) {
                   if (byid != 0){
                       if(id_kec == k){
-                        //   console.log(id_kec);
+ 
                         $('#id_kelurahan').append($('<option>', {value:k, text:v}));
                         $("#id_kelurahan option[value='"+k+"']").attr("selected", "selected");   
                       }
                       
                   }
-                //    console.log(k,v);
+
                     $('#id_kelurahan').append($('<option>', {value:k, text:v}));
                });
           },
           error: function()
          {
-             //handle errors
+           
              alert('error...');
          }
        });
     }
 
-
-    $(document).ready(function(){
-
-        $( "#formm" ).submit(function(e) {
-        
-    // $('#save').click(function(e){
-        var url= "{{ asset('/customers/store') }}" ;
-        idx = $('#editbtn').attr('data-attid');
-        if(idx != "")
-        var url = "{{ asset('/customers/update') }}/" + idx ;
-
-        
-        e.preventDefault();
-        var form = $('#formm');
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: form.serialize(),
-                    success: function (response) {
-                        
-                        // console.log(data);
-                    
-                        data = response.data;
-                        // console.log(data);
-                        if(data == 'success') {
-                            Swal.fire({
-                                title: 'Selamat!',
-                                text: "Data Berhasil Disimpan",
-                                icon: 'success'
-                        
-                            });
-                            $("#name").val();
-                            $("#email").val();
-                            $("#no_tlp").val();
-
-                            $(".provinsi").val();
-                            $(".kabupaten").val();
-                            $(".kecamatan").val();
-                            $(".kelurahan").val();
-                            $(".alamat").val();
-                            
-                            $(".provinsi").show("");
-                            $(".kabupaten").show("");
-                            $(".kecamatan").show("");
-                            $(".kelurahan").show("");
-                            $(".alamat").show("");
-
-                            $(".email").show("");
-                            $(".no_tlp").show("");
-                            $(".active_class").show("");
-                            $(".nama").show("");
-                            $("#addmodall").modal('hide');
-                            $("#formm")[0].reset();
-                            reloaddata();
-                            $('.alert-danger').hide();
-                        }
-                          
-                        
-                        else {
-                            $.each(response.errors, function(key, value){
-                            Swal.fire({
-                                title: 'Gagal!',
-                                text: value,
-                                icon: 'error'
-                            });
-                        });
-                            
-                        }
-
-                    
-                        
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        console.log(textStatus, errorThrown);
-                    }
-                });
-            });  
-    });
-
+////// Show alamat
     function mainshowalamata(id){
         var addurl = $('#addvbtn').attr('data-attrref')+'/'+id;
             $('#addvbtn').attr('href', addurl);
@@ -708,105 +685,21 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
             $(".show_kelurahan").hide();
             $(".show_alamat").hide();
 
-
-            var addurl = $('#deletevbtn').attr('data-attid', id);
-
-var url = "{{ asset('/customers/detaill') }}/" + id;
-var form = $('#viewCustomer');
-$('#undeletevbtn').html("Undelete");
-    $.ajax({
-        url: url,
-        type: "GET",
-        success: function(response) {
-            data = response.data;
-
-            if (data) {
-                $("#show_name").html(data.name);
-                $("#show_email").html(data.email);
-                $("#show_no_tlp").html(data.no_tlp);
-
-                if (data.active == 0) {
-                    $("#activedetail").html("<span class='btn btn-secondary btn-sm'><b>Not Active</b></span>");
-                } else {
-                    $("#activedetail").html("<span class='btn btn-success btn-sm'><b>Active</b></span>");
-                }
-                if (data.flag_delete == 0) {
-                    $("#flagdelete").html("<span class='btn btn-primary btn-sm'><b>ON</b></span>");
-                } else {
-                    $("#flagdelete").html("<span class='btn btn-danger btn-sm'><b>Delete</b></span>");
-                }
-
-                if (data.flag_delete == 0){
-                    $('#deletevbtn').show();
-                    $('#undeletevbtn').hide();
-                }
-                if (data.flag_delete == 1){
-                    $('#deletevbtn').hide();
-                    $('#undeletevbtn').show();
-                }
-                
-            }
-            reloaddata();
-            $('#viewCustomer').modal('show');
-    
-        }
-    }); 
-$('#deletevbtn').attr('data-attid', id);
-$('#editbtn').attr('data-attid', id);
-$('#undeletevbtn').attr('data-attid', id);
-$('#deletevbtn').html('<i class="fa fa-trash"></i> Delete Divisi');
-$("#titledetailmodal").html("Detail Customer")
-}
-$("#closeModalViewUser").click(function() {
-    
-    $("#viewCustomer").modal('hide');
-    $("#addmodall").modal('hide');})
-
-
-
-    function showdetail(id) {
-            var addurl = $('#addvbtn').attr('data-attrref')+'/'+id;
-            $('#addvbtn').attr('href', addurl);
-            $('#saveee').attr('data-attid', id);
-
-            $(".show_name").show();
-            $(".show_email").show();
-            $(".show_tlp").show();
-            $(".show_status").show();
-            $(".show_delete").show();
-
-            $(".show_province").hide();
-            $(".show_kabupaten").hide();
-            $(".show_kecamatan").hide();
-            $(".show_kelurahan").hide();
-            $(".show_alamat").hide();
-   
-
-            var addurl = $('#deletevbtn').attr('data-attid', id);
-
-            var url = "{{ asset('/customers/detail') }}/" + id;
-            var form = $('#viewCustomer');
+        var addurl = $('#deletevbtn').attr('data-attid', id);
+        var url = "{{ asset('/customers/detaill') }}/" + id;
+        var form = $('#viewCustomer');
             $('#undeletevbtn').html("Undelete");
                 $.ajax({
                     url: url,
                     type: "GET",
                     success: function(response) {
                         data = response.data;
-  
+
                         if (data) {
                             $("#show_name").html(data.name);
                             $("#show_email").html(data.email);
                             $("#show_no_tlp").html(data.no_tlp);
 
-                            var cekdata = data.alamats;
-
-                            $("#input_province").html(cekdata[0].province);
-                                // Prov('', cekdata.province, cekdata.city);
-                                $("#input_kabupaten").html(cekdata[0].city);
-                                $("#input_kecamatan").html(cekdata[0].district);
-                                $("#input_kelurahan").html(cekdata[0].village);
-                                $("#input_alamat").html(cekdata[0].alamat);
- 
                             if (data.active == 0) {
                                 $("#activedetail").html("<span class='btn btn-secondary btn-sm'><b>Not Active</b></span>");
                             } else {
@@ -838,43 +731,115 @@ $("#closeModalViewUser").click(function() {
             $('#undeletevbtn').attr('data-attid', id);
             $('#deletevbtn').html('<i class="fa fa-trash"></i> Delete Divisi');
             $("#titledetailmodal").html("Detail Customer")
-        }
+    }
             $("#closeModalViewUser").click(function() {
-                
+            $("#viewCustomer").modal('hide');
+            $("#addmodall").modal('hide');})
+
+
+
+    function showdetail(id) {
+        var addurl = $('#addvbtn').attr('data-attrref')+'/'+id;
+            $('#addvbtn').attr('href', addurl);
+            $('#saveee').attr('data-attid', id);
+
+            $(".show_name").show();
+            $(".show_email").show();
+            $(".show_tlp").show();
+            $(".show_status").show();
+            $(".show_delete").show();
+
+            $(".show_province").hide();
+            $(".show_kabupaten").hide();
+            $(".show_kecamatan").hide();
+            $(".show_kelurahan").hide();
+            $(".show_alamat").hide();
+   
+        var addurl = $('#deletevbtn').attr('data-attid', id);
+        var url = "{{ asset('/customers/detail') }}/" + id;
+        var form = $('#viewCustomer');
+            $('#undeletevbtn').html("Undelete");
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    success: function(response) {
+                        data = response.data;
+  
+                        if (data) {
+                            $("#show_name").html(data.name);
+                            $("#show_email").html(data.email);
+                            $("#show_no_tlp").html(data.no_tlp);
+
+                            var cekdata = data.alamats;
+                                $("#input_province").html(cekdata[0].province);
+                                $("#input_kabupaten").html(cekdata[0].city);
+                                $("#input_kecamatan").html(cekdata[0].district);
+                                $("#input_kelurahan").html(cekdata[0].village);
+                                $("#input_alamat").html(cekdata[0].alamat);
+ 
+                            if (data.active == 0) {
+                                $("#activedetail").html("<span class='btn btn-secondary btn-sm'><b>Not Active</b></span>");
+                            } else {
+                                $("#activedetail").html("<span class='btn btn-success btn-sm'><b>Active</b></span>");
+                            }
+                            if (data.flag_delete == 0) {
+                                $("#flagdelete").html("<span class='btn btn-primary btn-sm'><b>ON</b></span>");
+                            } else {
+                                $("#flagdelete").html("<span class='btn btn-danger btn-sm'><b>Delete</b></span>");
+                            }
+                            if (data.flag_delete == 0){
+                                $('#deletevbtn').show();
+                                $('#undeletevbtn').hide();
+                            }
+                            if (data.flag_delete == 1){
+                                $('#deletevbtn').hide();
+                                $('#undeletevbtn').show();
+                            }
+                            
+                        }
+                                reloaddata();
+                                $('#viewCustomer').modal('show'); 
+                    }
+                }); 
+            $('#deletevbtn').attr('data-attid', id);
+            $('#editbtn').attr('data-attid', id);
+            $('#undeletevbtn').attr('data-attid', id);
+            $('#deletevbtn').html('<i class="fa fa-trash"></i> Delete Divisi');
+            $("#titledetailmodal").html("Detail Customer")
+    }
+            $("#closeModalViewUser").click(function() {
                 $("#viewCustomer").modal('hide');
                 $("#addmodall").modal('hide');
             });
 
-           function alamatview(){
-            $(".show_name").hide();
-            $(".show_email").hide();
-            $(".show_tlp").hide();
-            $(".show_status").hide();
-            $(".show_delete").hide();
-            
-            $(".show_province").show();
-            $(".show_kabupaten").show();
-            $(".show_kecamatan").show();
-            $(".show_kelurahan").show();
-            $(".show_alamat").show();
-            
-                        $(".show_province").val();
-                        $(".show_kabupaten").val();
-                        $(".show_kecamatan").val();
-                        $(".show_kelurahan").val();
-                        $(".show_alamat").val();
-           }
+    function alamatview(){
+        $(".show_name").hide();
+        $(".show_email").hide();
+        $(".show_tlp").hide();
+        $(".show_status").hide();
+        $(".show_delete").hide();
+        
+        $(".show_province").show();
+        $(".show_kabupaten").show();
+        $(".show_kecamatan").show();
+        $(".show_kelurahan").show();
+        $(".show_alamat").show();
+        
+        $(".show_province").val();
+        $(".show_kabupaten").val();
+        $(".show_kecamatan").val();
+        $(".show_kelurahan").val();
+        $(".show_alamat").val();
+    }
 
 
     function editshow(){
-
         idx = $('#editbtn').attr('data-attid',);
-       
         $("#iconn").html("<i class='bi bi-pencil-square'></i>");
         $(".icoon").html("Edit Customers");
      
         var url = "{{ asset('/customers/edit') }}/" + idx;
-        $.ajax({
+                $.ajax({
                     url: url,
                     type: "GET",
                         success: function(response) {
@@ -885,10 +850,7 @@ $("#closeModalViewUser").click(function() {
                                 Prov('', cekdata.province, cekdata.city);
                                 Kab('', cekdata.city, cekdata.district);
                                 Kel('', cekdata.district, cekdata.village);
-                                
                                 $("#id_alamat").val(cekdata.alamat);
-
-                                $('#id_kecamatan option[value="cekdata.district"]').prop('selected', true);
                                 $("#name").val(data.name);
                                 $("#email").val(data.email);
                                 $("#no_tlp").val(data.no_tlp);
@@ -898,10 +860,9 @@ $("#closeModalViewUser").click(function() {
                                 else {
                                     $("#active").attr('checked', true);
                                         }
-                                    }
-                           alamat();
+                            }
+                                alamat();
                                 $("#closemodaledit").modal('hide');
-                                
                                 $('#addmodall').modal('show');
                                 $('#viewCustomer').modal('hide');
                                 
@@ -912,59 +873,57 @@ $("#closeModalViewUser").click(function() {
     
 
     function appendDivisionOption(){
-        // add division
         var url = "{{ asset('/api/getdivision') }}";
-        $.ajax({
-            url: url,
-            type: "get",
-            success: function (response) {
-              $.each(response.data, function (i, item) {
-                  $('#division').append($('<option>', { 
-                      value: item.id_division,
-                      text : item.division_name 
-                  }));
-              });
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-               console.log(textStatus, errorThrown);
-            }
-        });
+            $.ajax({
+                url: url,
+                type: "get",
+                success: function (response) {
+                    $.each(response.data, function (i, item) {
+                        $('#division').append($('<option>', { 
+                            value: item.id_division,
+                            text : item.division_name 
+                        }));
+                    });
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus, errorThrown);
+                }
+            });
     }
 
     function appendRoleOption(){
-        // add division
         var url = "{{ asset('/api/getrole') }}";
-        $.ajax({
-            url: url,
-            type: "get",
-            success: function (response) {
-              $.each(response.data, function (i, item) {
-                  $('#role').append($('<option>', { 
-                      value: item.id_role,
-                      text : item.role_name 
-                  }));
-              });
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-               console.log(textStatus, errorThrown);
-            }
-        });
+            $.ajax({
+                url: url,
+                type: "get",
+                success: function (response) {
+                    $.each(response.data, function (i, item) {
+                        $('#role').append($('<option>', { 
+                            value: item.id_role,
+                            text : item.role_name 
+                        }));
+                    });
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus, errorThrown);
+                }
+            });
     }
 
     function deleteyesshow(){
-      $('#deletevbtn').hide();
-      idx = $('#deletevbtn').attr('data-attid');
-      test = '@csrf';
-      token = $(test).val();
-      Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Yes, delete it!'
-      }).then((result) => {
+        $('#deletevbtn').hide();
+        idx = $('#deletevbtn').attr('data-attid');
+        test = '@csrf';
+        token = $(test).val();
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
             if (result.isConfirmed) {
                 var url = "{{ asset('/customers/delete') }}/" + idx;
                 $.ajax({
@@ -976,9 +935,9 @@ $("#closeModalViewUser").click(function() {
                     },
                     success: function (response) {
                         Swal.fire({
-                          icon: 'success',
-                          title: 'Deleted',
-                          html:'Your file has been <b>Deleted</b>'
+                            icon: 'success',
+                            title: 'Deleted',
+                            html:'Your file has been <b>Deleted</b>'
                         });
                         reloaddata();
                         $("#viewCustomer").modal("hide");
@@ -992,55 +951,55 @@ $("#closeModalViewUser").click(function() {
                 });
 
             } else {
-              $('#deletevbtn').show();
+                $('#deletevbtn').show();
             }
-      })
+        })
     }
 
     function undeleteyesshow(){
-      $('#undeletevbtn').hide();
-      idx = $('#undeletevbtn').attr('data-attid');
-      test = '@csrf';
-      token = $(test).val();
-      Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Yes, undelete it!'
-      }).then((result) => {
-            if (result.isConfirmed) {
-                var url = "{{ asset('/customers/delete') }}/" + idx;
-                $.ajax({
-                    url: url,
-                    type: "get",
-                    data: {
-                        id : idx,
-                        _token: token,
-                        undeleted : 1
-                    },
-                    success: function (response) {
-                        Swal.fire({
-                          icon: 'success',
-                          title: 'Undeleted',
-                          html:'Your file has been <b>Undeleted</b>'
-                        });
-                        reloaddata();
-                        $("#viewCustomer").modal("hide");
-                        $("#activspan").html('-');
-                        $("#activspan").css('color', '#198754');
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        console.log(textStatus, errorThrown);
-                    }
-                });
+        $('#undeletevbtn').hide();
+        idx = $('#undeletevbtn').attr('data-attid');
+        test = '@csrf';
+        token = $(test).val();
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, undelete it!'
+        }).then((result) => {
+                if (result.isConfirmed) {
+                    var url = "{{ asset('/customers/delete') }}/" + idx;
+                    $.ajax({
+                        url: url,
+                        type: "get",
+                        data: {
+                            id : idx,
+                            _token: token,
+                            undeleted : 1
+                        },
+                        success: function (response) {
+                            Swal.fire({
+                            icon: 'success',
+                            title: 'Undeleted',
+                            html:'Your file has been <b>Undeleted</b>'
+                            });
+                            reloaddata();
+                            $("#viewCustomer").modal("hide");
+                            $("#activspan").html('-');
+                            $("#activspan").css('color', '#198754');
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            console.log(textStatus, errorThrown);
+                        }
+                    });
 
-            } else {
-              $('#undeletevbtn').show();
-            }
-      })
+                } else {
+                $('#undeletevbtn').show();
+                }
+        })
     }
 
     function reloaddata() {

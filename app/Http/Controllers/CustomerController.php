@@ -56,9 +56,9 @@ class CustomerController extends Controller
 
     public function index()
     {
-        // $alamat = Alamat::get();
+
         $coba = Customer::all();
-        // $roles = Role::where('active', 1)->where('id_role', '!=', 99)->get();
+
      $alamat = Loc_province::where('id', '!=', 0)->get();
    
         // dd($coba);
@@ -99,7 +99,8 @@ class CustomerController extends Controller
            'name_Provinsi' => 'required',
            'name_kecamatan'=> 'required',
            'name_kelurahan'=> 'required',   
-           'name_kelurahan'=> 'required',     
+           'name_kelurahan'=> 'required',
+           'name_alamat'=> 'required',     
        ],[
    
         'email.unique' => 'Email Sudah Terdaftar!',
@@ -109,6 +110,7 @@ class CustomerController extends Controller
         'name_kabupaten.required' => 'Alamat Kabupaten Tidak Boleh Kosong',
         'name_kecamatan.required' => 'Alamat Kecamatan Tidak Boleh Kosong',
         'name_kelurahan.required' => 'Alamat Kelurahan Tidak Boleh Kosong',
+        'name_alamat.required' => 'Alamat Detail     Tidak Boleh Kosong',
         
        ]);
         
@@ -159,9 +161,6 @@ class CustomerController extends Controller
 
     public function show($id, Customer $customer, Request $request)
     {
-        // $tatas  = Customer::with('alamats')->where('id', $id)->get();
-
-        
             $tatas  = Customer::with('alamats')->where('id', $id)->first();
             foreach($tatas->alamats as $key => $data){
                 $tatas->alamats[$key]->province = Calamat::alamatgetById($data->province, $request)->original['data'][0]->name;
@@ -197,6 +196,31 @@ class CustomerController extends Controller
     {
         $this->access = Helpers::checkaccess('users', 'delete');
         if(!$this->access) return response()->json(['data' => ['false'], 'status' => '401'], 200);
+
+
+        $validator = Validator::make($request->all(), [
+      
+            'email' => 'email',
+            'no_tlp' => 'numeric',
+            'name_Provinsi' => 'required',
+            'name_kecamatan'=> 'required',
+            'name_kelurahan'=> 'required',   
+            'name_kelurahan'=> 'required',
+            'name_alamat'=> 'required',     
+        ],[
+    
+         'no_tlp.numeric' => 'Nomor Telepon Harus Berbentuk Angka!',
+         'name_Provinsi.required' => 'Alamat Provinsi Tidak Boleh Kosong',
+         'name_kabupaten.required' => 'Alamat Kabupaten Tidak Boleh Kosong',
+         'name_kecamatan.required' => 'Alamat Kecamatan Tidak Boleh Kosong',
+         'name_kelurahan.required' => 'Alamat Kelurahan Tidak Boleh Kosong',
+         'name_alamat.required' => 'Alamat Detail     Tidak Boleh Kosong',
+         
+        ]);
+         
+        if ($validator->fails()) {
+         return response()->json(['errors'=>$validator->errors()->all()]);
+     }
 
         $tatas = Customer::where('id', $id)->first();
         $tatas->name = $request->name;
