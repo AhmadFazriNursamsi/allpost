@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Session;
 use App\Models\Useraccess;
 use App\Models\Listaccess;
 use App\Http\Controllers\HelpersController as Helpers;
+use App\Http\Controllers\AlamatController as Calamat;
 use App\Models\Alamat;
 use App\Models\Loc_city;
 use App\Models\Loc_district;
@@ -90,15 +91,31 @@ class CustomerController extends Controller
         $this->access = Helpers::checkaccess('customers', 'create');
         if(!$this->access) return response()->json(['data' => [], 'status' => '401'], 200);
 
+
         $validator = Validator::make($request->all(), [
-           'name' => 'required|unique:customers',
-           'email' => 'required|unique:customers',
-           'no_tlp' => 'required|unique:customers|',
+           'name' => 'unique:customers|alpha',
+           'email' => 'unique:customers|email',
+           'no_tlp' => 'unique:customers|numeric',
+           'name_Provinsi' => 'required',
+           'name_kecamatan'=> 'required',
+           'name_kelurahan'=> 'required',     
+       ],[
+        'name.unique' => 'Nama Sudah Terdaftar!',
+        'name.alpha' => 'Nama Harus Berbentuk Alphabed',
+        'email.unique' => 'Email Sudah Terdaftar!',
+        'no_tlp.unique' => 'Nomor Telepon Sudah Terdaftar!',
+        'no_tlp.numeric' => 'Nomor Telepon Harus Berbentuk Angka!',
+        'name_Provinsi.required' => 'Alamat Provinsi Tidak Boleh Kosong',
+        'name_kabupaten.required' => 'Alamat Kabupaten Tidak Boleh Kosong',
+        'name_kecamatan.required' => 'Alamat Kecamatan Tidak Boleh Kosong',
+        'name_kelurahan.required' => 'Alamat Kelurahan Tidak Boleh Kosong',
+        
        ]);
         
        if ($validator->fails()) {
-        return response()->json(['data' => ['fails'], 'status' => '401'], 200);
-       }
+        return response()->json(['errors'=>$validator->errors()->all()]);
+    }
+    // return response()->json(['data' => ['fails'], 'status' => '401'], 200);
         
      $datas = new Customer;
      $datas->name = $request->name;
@@ -142,8 +159,18 @@ class CustomerController extends Controller
      */
     public function show($id, Customer $customer, Request $request)
     {
-        $tatas  = Customer::with('alamats')->where('id', $id)->get();
-            $tatas  = Customer::with('alamats','province', 'city', 'district', 'village')->where('id', $id)->first();
+        // $tatas  = Customer::with('alamats')->where('id', $id)->get();
+
+        
+            $tatas  = Customer::with('alamats')->where('id', $id)->first();
+            foreach($tatas->alamats as $key => $data){
+                $tatas->alamats[$key]->province = Calamat::alamatgetById($data->province, $request)->original['data'][0]->name;
+                $tatas->alamats[$key]->city = Calamat::alamatgetByIdCity2($data->city)->original['data'];
+                $tatas->alamats[$key]->district = Calamat::alamatgetByIdKab2($data->district)->original['data'];
+                $tatas->alamats[$key]->village = Calamat::alamatgetByIdKel2($data->village)->original['data'];
+            }
+
+            
      
 
         // dd($tatas);

@@ -37,7 +37,7 @@ class AlamatController extends Controller
     }
 
 
-    public function alamatgetById($id,$departmentid= 0, Request $request){
+    public function alamatgetById($id, Request $request){
             // Fetch department
             
             
@@ -109,6 +109,47 @@ class AlamatController extends Controller
         }
         return response()->json(['data' => $output, 'status' => '200'], 200);
     }
+
+
+    
+
+
+    public static function alamatgetByIdCity2($id){
+
+        $cities = Loc_city::where('id', $id )->get();
+        
+        $output = [];
+        foreach( $cities as $city )
+        {
+           $output = $city->name;
+        }
+        return response()->json(['data' => $output, 'status' => '200'], 200);
+    }
+
+    public static function alamatgetByIdKab2($id){
+        $cities = Loc_district::where('id', $id )->get();
+        $output = [];
+        foreach( $cities as $city )
+        {
+           $output = $city->name;
+        }
+        return response()->json(['data' => $output, 'status' => '200'], 200);
+    }
+
+    public static function alamatgetByIdKel2($id){
+        $cities = Loc_village::where('id', $id )->get();
+        $output = [];
+        foreach( $cities as $city )
+        {
+           $output = $city->name;
+        }
+        return response()->json(['data' => $output, 'status' => '200'], 200);
+    }
+
+
+
+
+
 
 
 

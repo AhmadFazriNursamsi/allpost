@@ -20,7 +20,7 @@ class Customer extends Model
     }
     public function province()
     {
-        return $this->belongsTo('App\Models\Loc_province','id', 'id');
+        return $this->hasMany('App\Models\Loc_province','id', 'province');
     }
     public function city()
     {

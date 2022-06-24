@@ -11,10 +11,7 @@ class Loc_province extends Model
     protected $table = "loc_province";
     public $timestamps = false;
 
-    public function alamat()
-    {
-        return $this->belongsTo('App\Models\Alamat','id', 'id');
-    }
+
     public function district()
     {
         return $this->hasMany('App\Models\Loc_district','id', 'id');
