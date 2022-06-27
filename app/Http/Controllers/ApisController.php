@@ -64,6 +64,13 @@ class ApisController extends AController
     	$datas = Division::get();
     	return response()->json(['data' => $datas, 'status' => '200'], 200);
     }
+    public function apigetUser(Request $request){
+    	$this->access = Helpers::checkaccess('divisi', 'view');
+        if(!$this->access) return response()->json(['data' => [], 'status' => '401'], 200);
+
+    	$datas = User::get();
+    	return response()->json(['data' => $datas, 'status' => '200'], 200);
+    }
 
     public function apigetrole(Request $request){
     	$this->access = Helpers::checkaccess('role', 'view');

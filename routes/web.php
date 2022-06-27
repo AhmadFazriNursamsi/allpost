@@ -11,8 +11,10 @@ use App\Http\Controllers\ListaccessController;
 use App\Http\Controllers\R404Controller;
 use App\Http\Controllers\ConfigController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\GudangController;
 // use App\Http\Controllers\CustomerControllers;
 use App\Http\Controllers\QrcodeController;
+use App\Models\Gudang;
 
 Route::get('/', function () {
     return view('welcome');
@@ -33,6 +35,9 @@ Route::get('/api/usersaccess2/{id}', [ApisController::class, 'apiGetDataUserAcce
 Route::get('/api/users/getdata', [ApisController::class, 'apigetdatauser']);
 Route::get('/api/users/getdatabyid/{id}', [ApisController::class, 'apigetdatauserbyid']);
 Route::get('/api/getdivision', [ApisController::class, 'apigetdivisi']);
+
+Route::get('/api/getUser', [ApisController::class, 'apigetUser']);
+
 Route::get('/api/getrole', [ApisController::class, 'apigetrole']);
 Route::get('/listaccess', [ListaccessController::class, 'index'])->name('listaccess');
 Route::post('/listaccess/delete/{id}', [ApisController::class, 'apiDeleteListAccessById']);
@@ -84,9 +89,19 @@ Route::post('/api/alamatgetByIdkelurahan', [AlamatController::class, 'alamatgetB
 
 //gudang
 
-Route::get('/gudang', function () {
-    return "gudang";
-});
+Route::get('/gudang', [GudangController::class, 'index']);
+Route::get('/api/gudang/getdata', [GudangController::class, 'gudanggetdata']);
+Route::post('/gudang/store', [GudangController::class, 'store']);
+Route::get('/gudang/detail/{id}', [GudangController::class, 'edit']);
+Route::get('/gudang/delete/{id}', [GudangController::class, 'destroy']);
+Route::get('/gudang/edit/{id}', [GudangController::class, 'edit']);
+
+Route::get('/api/changeuser/{id}', [GudangController::class, 'getchangeuser']);
+
+
+// Route::get('/gudang', function () {
+//     return "gudang";
+// });
 // Route::get('/customers', [CustomerController::class, 'index']);
 // Route::post('/customers/store', [CustomerController::class, 'store']);
 // Route::get('/customers/detail/{id}', [CustomerController::class, 'show']);
