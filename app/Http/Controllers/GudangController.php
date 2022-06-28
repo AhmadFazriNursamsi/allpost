@@ -14,12 +14,9 @@ use App\Models\Useraccess;
 use App\Models\Listaccess;
 use App\Http\Controllers\HelpersController as Helpers;
 use App\Http\Controllers\AlamatController as Calamat;
-use App\Models\Alamat;
+use App\Models\list_product;
 use App\Models\List_user_gudang;
-use App\Models\Loc_city;
-use App\Models\Loc_district;
-use App\Models\Loc_province;
-use App\Models\Loc_village;
+use App\Models\Product;
 use Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -33,27 +30,15 @@ class GudangController extends Controller
     public function index()
     
     {
-        // $coba = Gudang::all();
-        // dd($coba);
-        $user = User::where('id', '!=', 0)->get();
-        // dd($user);
 
-     $alamat = Loc_province::where('id', '!=', 0)->get();
-   
-        // dd($coba);
-    //     return view("gudang.index",['title'=> "Gudang"], compact('user'),array(
-    //         'datas'  => array(
-    //             'alamat' => $alamat
-    //             // 'user' => $user
-    //         )
+        $user = User::where('id_role', '!=', 99)->get();
+        $product = Product::where('id', '!=', 0)->get();
+        // dd($product);
 
-
-    //  $alamat = Loc_province::where('id', '!=', 0)->get();
-   
-     // dd($coba);
      return view("gudang.index", compact('user'),array(
          'datas'  => array(
-             'user' => $user
+             'user' => $user,
+             'product' => $product
          )
          ));
             // ));
@@ -130,21 +115,48 @@ class GudangController extends Controller
      $datas->alamat = $request->alamat;
      $datas->active = $request->active;
 
-    if($datas->save());{
-        $gudang = new List_user_gudang;
-        $gudang->id_gudang = $datas->id;
-        
-    }
+
+     if($datas->save()){
+        // Save id user di list user gudang
+        if($request->user_group != ''){
+            $explode = explode(', ', $request->user_group);
+            foreach($explode as $explode_id){
+                if($explode_id == '') continue;
+
+                $cariuser = List_user_gudang::where('id_user', $explode_id)->where('id_gudang', $datas->id)->first(); // cek apakah pernah di input
+                if(isset($cariuser->id)) continue;
+
+                $user = new List_user_gudang;
+                $user->id_user = $explode_id;
+                $user->id_gudang = $datas->id;
+                $user->created_at = date('Y-m-d H:i:s');
+                $user->save(); // tambah kan user baru berdasarkan id gudang
+            }
+        }
+        $products = Product::get();
+        foreach($products as $product){
+            $listProduct = list_product::where('id_gudang', $datas->id)->where('id_product', $product->id)->first();
+            if(isset($listProduct->id)) continue;
+            else{
+                $listProduct = new list_product;
+                $listProduct->id_gudang =$datas->id;
+                $listProduct->id_product =$product->id;
+                $listProduct->created_at = date('Y-m-d H:i:s');
+                $listProduct->save();
+            }
+        }
+        // Tambahin List Product Gudang Baru
+        // 1. ambil semua list product gudang ...
+        // 2. looping list product gudang
+        // 3. cek apakah sudah terimput
+        // 4. tambahkan kalau belum ada
+     }
+     
                     
      return response()->json(['data' => ['success'], 'status' => '200'], 200);
 
     }
-    public function getchangeuser(Request $request, $id){
-
-        $users = User::where('id', $id)->get();
-        // dd($users);
-        return response()->json(['data' => $users, 'status' => '200'], 200);
-    }
+  
 
     /**
      * Display the specified resource.
@@ -152,9 +164,39 @@ class GudangController extends Controller
      * @param  \App\Models\Gudang  $gudang
      * @return \Illuminate\Http\Response
      */
-    public function show(Gudang $gudang)
+    public function show($id, Request $request)
     {
-        //
+        // $datas = Gudang::where('id', $id)->get();
+        // $tatas  = Gudang::with('list_user_gudang')->where('id', $id)->first();
+
+
+        $tatas  = Gudang::with('list_user_gudang')->where('id', $id)->first();
+        // dd($tatas);
+        foreach($tatas->list_user_gudang as $key => $data){
+            // dd($key);
+            $tatas->list_user_gudang[$key]->id_user = Calamat::coba($data->id_user, $request)->original['data'][$key]->users[0]->name;
+            
+            // dd($cobb);
+            // $ll = $tatas->list_user_gudang[$key]->id_user = Calamat::coba2($data->id_user, $request)->original['data'];
+            // dd($ll);
+            // $tatas->alamats[$key]->city = Calamat::alamatgetByIdCity2($data->city)->original['data'];
+            // $tatas->alamats[$key]->district = Calamat::alamatgetByIdKab2($data->district)->original['data'];
+            // $tatas->alamats[$key]->village = Calamat::alamatgetByIdKel2($data->village)->original['data'];
+        }
+        // dd($tatas);
+
+
+        // $cities = Gudang::with('list_user_gudang')->get();
+        // dd($cities);
+        // $output = [];
+        // foreach( $cities as $city )
+        // {
+        //   $output[$city->id] = $city->id_user;
+        // //   dd($cob);
+        // }
+        // dd($output);
+
+        return response()->json(['data' => $tatas, 'status' => '200'], 200);
     }
 
     /**
@@ -163,13 +205,24 @@ class GudangController extends Controller
      * @param  \App\Models\Gudang  $gudang
      * @return \Illuminate\Http\Response
      */
-    public function edit($id, Gudang $gudang)
+    public function edit($id, Request $request)
     {
-        $datas = Gudang::where('id', $id)->get();
 
-        return response()->json(['data' => $datas, 'status' => '200'], 200);
         
+        // $datas = Gudang::where('id', $id)->get();
+        $tatas  = Gudang::with('list_user_gudang')->where('id', $id)->first();
+        // dd($tatas); 
+      
+        foreach($tatas->list_user_gudang as $key => $data){
+
+      $tatas->list_user_gudang[$key]->id_user = Calamat::coba($data->id_user, $request)->original['data'][$key]->users[0]->name;
+    // dd($coba);    
     }
+      return response()->json(['data' => $tatas, 'status' => '200'], 200);
+        // dd($coba);
+    }
+
+    
 
     /**
      * Update the specified resource in storage.
@@ -178,9 +231,72 @@ class GudangController extends Controller
      * @param  \App\Models\Gudang  $gudang
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Gudang $gudang)
+    public function update(Request $request, Gudang $gudang, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+      
+            'nama' => 'required',
+            'alias_gudang' => 'required',
+            'alamat' => 'required',
+          
+        ],[
+         'nama.required' => 'Nama Gudang Tidak Boleh Kosong',
+         'alias_gudang.required' => 'Alias Gudang  Tidak Boleh Kosong',
+         'alamat.required' => 'Alamat Tidak Boleh Kosong',
+         
+        ]);
+         
+        if ($validator->fails()) {
+         return response()->json(['errors'=>$validator->errors()->all()]);
+     }
+
+     $tatas = Customer::where('id', $id)->first();
+
+     $datas = Gudang::where('id', $id)->first();
+     $datas->nama = $request->nama;
+     $datas->alias_gudang = $request->alias_gudang;
+     $datas->alamat = $request->alamat;
+     $datas->active = $request->active;
+
+
+     if($datas->update()){
+        // Save id user di list user gudang
+        if($request->user_group != ''){
+            $explode = explode(', ', $request->user_group);
+            foreach($explode as $explode_id){
+                if($explode_id == '') continue;
+                $cariuser = List_user_gudang::where('id_user', $explode_id)->where('id_gudang', $datas->id)->first(); // cek apakah pernah di input
+                if(isset($cariuser->id)) continue;
+
+                $user = List_user_gudang::where('id', $id)->first();
+                $user->id_user = $explode_id;
+                $user->id_user = $explode_id;
+                $user->id_gudang = $datas->id;
+                $user->created_at = date('Y-m-d H:i:s');
+                $user->update(); // tambah kan user baru berdasarkan id gudang
+            }
+        }
+        $products = Product::get();
+        foreach($products as $product){
+            $listProduct = list_product::where('id_gudang', $datas->id)->where('id_product', $product->id)->first();
+            if(isset($listProduct->id)) continue;
+            else{
+                $listProduct = list_product::where('id', $id);
+                $listProduct->id_gudang =$datas->id;
+                $listProduct->id_product =$product->id;
+                $listProduct->created_at = date('Y-m-d H:i:s');
+                $listProduct->update();
+            }
+        }
+        // Tambahin List Product Gudang Baru
+        // 1. ambil semua list product gudang ...
+        // 2. looping list product gudang
+        // 3. cek apakah sudah terimput
+        // 4. tambahkan kalau belum ada
+     }
+     
+                    
+     return response()->json(['data' => ['success'], 'status' => '200'], 200);
     }
 
     /**

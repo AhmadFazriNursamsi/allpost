@@ -133,36 +133,29 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                         <textarea class="form-control alll alamat" name="alamat" placeholder="Alamat" id="alamat"></textarea>
                       </div>
 
-                      <div class="col-3">
-                        <select name="user" class="form-control user" id="id_user" onchange="Userchange(this)">
+                      <div class="mt-3 col-3">
+                        <select name="user" required class="form-control user" id="id_user" onchange="Userchange(this)">
                             {{-- {{ dd($datas) }} --}}
-                            <option value="" required>-- Select Provinsi --</option>
+                            <option selected disabled hidden>-- Select Users --</option>
                             <?php foreach ($datas['user'] as $key => $post) :?>
                             <option id="userid" value="{{ $post->id }}">{{ $post->name }}</option>
                             <?php endforeach;?>
                         </select>
                     </div>
-                    
-                    
+                    <input type="hidden" name="user_group" id="user_group">
                     <div class="d-flex justify-content-end">
                         <div class="control-group after-add-more">
-                            {{-- <button type="button" class="remove btn-danger">hapus</button> --}}
                         
                             <div class="copy control-group"><span id="changeuserselect" class="ms-2"></span></div>
                         </div>
-                        
-                        {{-- <div class="copy hide control-group"><span id="changeuserselect" class="ms-2"></span></div> --}}
                     </div>
-                    {{-- <div class="control-group">
-
-                        <button type="button" class="btn-danger remove">hapus</button>
-                    </div> --}}
+             
                     
                 <div class="mb-3">
                     <div class="col">
                         <label for="active" class="form-label active_class">Status Active</label>
                         <div class="form-check">
-                            <input required class="form-check-input  active_class" type="radio" value="1" name="active" id="active">
+                            <input required class="form-check-input  active_class" type="radio" value="1" name="active" id="active" checked>
                             <label class="form-check-label active_class" for="active">Active</label>
                         </div>
                         <div class="form-check">
@@ -211,14 +204,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                         </div>
                  
                             <div class="d-flex justify-content-end">
-                                <ul class="nav nav-pills mb-3" id="pills-tab mt-3" role="tablist">
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link headder" id="pills-home-tab" onclick="mainshowalamata()" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true" >Main Info</button>
-                                    </li>
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link " id="pills-profile-tab" onclick="alamatview()" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Alamat</button>
-                                    </li>
-                                </ul>
+                       
                             </div>   
                     </div>
                 </div>
@@ -227,22 +213,28 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                 <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade active show" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                         <dl class="row mb-0">
-                            <dt class="col-sm-4 show_name">Nama </dt>
+                  
+
+                                <dt class="col-sm-4 show_name">Nama </dt>
                                 <dd class="col-sm-8 show_name">: <span name="name" id="show_name"></dd>
+                                    
+                                    <dt class="alias_gudang col-sm-4">Alias Gudang </dt>
+                                    <dd class="alias_gudang col-sm-8">: <span name="email" id="alias_gudang_view"></dd>
                                         
-                            <dt class="alias_gudang col-sm-4">Alias Gudang </dt>
-                                <dd class="alias_gudang col-sm-8">: <span name="email" id="alias_gudang_view"></dd>
-
-
-
-                            <dt class="show_tlp col-sm-4">Alamat</dt>
-                                <dd class="show_tlp col-sm-8">: <span name="no_tlp" id="show_alamat"></dd>
-
-                                        
-                            <dt class="show_status col-sm-4">Status</dt>
-                                <dd class="show_status col-sm-8">: <span id="activedetail"></span>
-                            <dt class="show_delete col-sm-4">Status Delete</dt>
-                                <dd class="show_delete col-sm-4">: <span id="flagdelete"></span></dd>
+                                        <dt class="show_tlp col-sm-4">Alamat</dt>
+                                        <dd class="show_tlp col-sm-8">: <span name="no_tlp" id="show_alamat"></dd>
+                                            
+                                            <dt class="show_status col-sm-4">User</dt>
+                                            <dd class="show_status col-sm-8">: <span id="userdetail"></span>
+                                                
+                    
+                                            
+                          
+                                                <dt class="show_status col-sm-4">Status</dt>
+                                            <dd class="show_status col-sm-8">: <span id="activedetail"></span>
+                                                <dt class="show_delete col-sm-4">Status Delete</dt>
+                                                <dd class="show_delete col-sm-4">: <span id="flagdelete"></span></dd>
+                             
                         </dl>
 
                         
@@ -366,6 +358,8 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
         $("#titleaddmodal").html("Add Gudang");
         $("#addvbtn").hide();
         $("#deletevbtn").hide();
+        $(".copy").hide();
+        $(".copy2").hide();
         $("#undeletevbtn").hide();
     }   
 
@@ -377,7 +371,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
         var url= "{{ asset('/gudang/store') }}" ;
         idx = $('#editbtn').attr('data-attid');
         if(idx != "")
-        var url = "{{ asset('/customers/update') }}/" + idx ;
+        var url = "{{ asset('/gudang/update') }}/" + idx ;
 
 
         e.preventDefault();
@@ -435,7 +429,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                             
                         }
 
-                    
+                 
                         
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
@@ -446,50 +440,24 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
         });
 
 function Userchange(a){
-        iddalamat = $(a).val();
-        var url = "{{ asset('/api/changeuser') }}/" + iddalamat;
-        var html = $(".copy").html();
-       $.ajax({
-          url : url,
-          type: 'get',
-          success: function (response) {
-              console.log(response.data[0].name);
-            //   $("#changeuserselect").show()\
-            // $.each( response.data[0], function(k, v) {
-                // console.log(k.name);
-                $(".after-add-more").after(html);
-              
-                            //     <strong>Holy guacamole!</strong> You should check in on some of those fields below.
-                             
-                            //   </div>
-                                $('.copy').after(" <div class='alert alert-success alert-dismissible fade show' role='alert'><b><strong>"+response.data[0].name+"</strong></b>   <button type='button' class='btn-close col-1 lg' data-bs-dismiss='alert' aria-label='Close'></button>");
-
-                // $('.copy').after("<span class='btn btn-success btn-sm'><b>"+response.data[0].name+"</b></span>");
-              
-                    // })
-            //   $.each( result.data, function(k, v) {
-                //     if(id_kab != 0) {  
-              
-            //         if(id_kab == k) {
-      
-            //             $('#kabupaten_id').append($('<option>', {value:k, text:v}));
-            //             $("#kabupaten_id option[value='"+k+"']").attr("selected", "selected");                        
-            //         } else 
-            //             $('#kabupaten_id').append($('<option>', {value:k, text:v}));
-            //     } 
-            //     else 
-            //         $('#kabupaten_id').append($('<option>', {value:k, text:v}));
-            //    });
-          },
-          
-          error: function(jqXHR, textStatus, errorThrown) {
-            alert('something wrong');
-            console.log(textStatus, errorThrown);
+        id = $(a).val();
+        var hidden = $("#user_group").val();
+        var tampung = hidden + ', ' + id;
+        nama = $( "#id_user option:selected" ).text();
+        const pattern = new RegExp('(' + id + ')', 'gm');
+        let m;
+        if(m = pattern.exec(hidden) == null) {
+            var html = $(".copy").html();
+            $("#user_group").val(tampung);
+            $('.copy').after(" <div class='alert alert-success alert-dismissible fade show' role='alert'><b><strong>"+nama+"</strong></b><button type='button' class='btn-close col-1 lg' id='close-"+id+"' data-bs-dismiss='alert' aria-label='Close' onClick=\"kurangininput("+id+")\"></button>");
         }
-        
+}
 
-       });
 
+function kurangininput(a) { 
+    var tampung = $("#user_group").val();
+    tampung = tampung.replace(", "+a, "");
+    $("#user_group").val(tampung);
 }
 // $(document).ready(function() {
 //       $(".add-more").click(function(){ 
@@ -515,13 +483,25 @@ function Userchange(a){
                     type: "GET",
                     success: function(response) {
                         data = response.data;
+                        // console.log(data.users.name);
   
                         if (data) {
-                            // console.log(data[0].nama);
-                            data = data[0]
+                            // data = data[0]
+                            // console.log(data.list_user_gudang.id_user);
                             $("#show_name").html(data.nama);
                             $("#alias_gudang_view").html(data.alias_gudang);
                             $("#show_alamat").html(data.alamat);
+
+                            var tampungUser = "";
+
+                            $.each(data.list_user_gudang, function(k, item){
+                                console.log(k,item);
+
+                                tampungUser = tampungUser + item.id_user + ", ";
+                               
+                            })
+                            $("#userdetail").html(tampungUser);
+                            
  
                             if (data.active == 0) {
                                 $("#activedetail").html("<span class='btn btn-secondary btn-sm'><b>Not Active</b></span>");
@@ -551,32 +531,12 @@ function Userchange(a){
             $('#editbtn').attr('data-attid', id);
             $('#undeletevbtn').attr('data-attid', id);
             $('#deletevbtn').html('<i class="fa fa-trash"></i> Delete Divisi');
-            $("#titledetailmodal").html("Detail Customer")
+            $("#titledetailmodal").html("Detail Gudang")
     }
             $("#closeModalViewUser").click(function() {
                 $("#viewCustomer").modal('hide');
                 $("#addmodall").modal('hide');
             });
-
-    function alamatview(){
-        $(".show_name").hide();
-        $(".alias_gudang_view").hide();
-        $(".show_tlp").hide();
-        $(".show_status").hide();
-        $(".show_delete").hide();
-        
-        $(".show_province").show();
-        $(".show_kabupaten").show();
-        $(".show_kecamatan").show();
-        $(".show_kelurahan").show();
-        $(".show_alamat").show();
-        
-        $(".show_province").val();
-        $(".show_kabupaten").val();
-        $(".show_kecamatan").val();
-        $(".show_kelurahan").val();
-        $(".show_alamat").val();
-    }
 
    
 
@@ -584,7 +544,7 @@ function Userchange(a){
         idx = $('#editbtn').attr('data-attid',);
         // <i class="bi bi-person-workspace"> </i>
         $("#iconn").html("<i class='bi bi-person-workspace'> </i>");
-        $(".icoon").html("Edit Customers");
+        $(".icoon").html("Edit Gudang");
      
         var url = "{{ asset('/gudang/edit') }}/" + idx;
                 $.ajax({
@@ -593,18 +553,31 @@ function Userchange(a){
                         success: function(response) {
                             data = response.data;
                             if(data) {
+                                // console.log(data);
+                                var tampungUser = "";
+
+                            $.each(data.list_user_gudang, function(k, item){
+                                // console.log(k,item.id_user);
+
+                                tampungUser = tampungUser + item.id_user + ", ";
+
+                                $('.copy').html(" <div class='alert alert-success alert-dismissible fade show' role='alert'><b><strong>"+item.id_user+"</strong></b><button type='button' class='btn-close col-1 lg' id='close-"+k+"' data-bs-dismiss='alert' aria-label='Close' onClick=\"kurangininput("+k+")\"></button>");
+                               
+                            });
                           
-                                $("#nama").val(data[0].nama);
-                                $("#alias_gudang").val(data[0].alias_gudang);
-                                $(".alamat").val(data[0].alamat);
-                                // $("#no_tlp").val(data.no_tlp);
-                                if(data[0].active != 0){
+                                $("#nama").val(data.nama);
+                                $("#alias_gudang").val(data.alias_gudang);
+                                $(".alamat").val(data.alamat);
+                                // $("#no_tlp").val(data_tlp);
+                                if(data.active != 0){
                                     $("#active").attr('checked', 'checked');
                                 }
                                 else {
                                     $("#active2").attr('checked', 'checked');
                                         }
                             }
+
+
                   
                                 $("#closemodaledit").modal('hide');
                                 $('#addmodall').modal('show');

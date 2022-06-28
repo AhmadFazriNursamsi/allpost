@@ -22,6 +22,20 @@ class Gudang extends Model
     {
         return $this->hasMany('App\Models\Division','id_division', 'id_division');
     }
+
+    public function list_user_gudang()
+    {
+        return $this->hasMany('App\Models\List_user_gudang','id_gudang', 'id');
+    }
+    public function list_product()
+    {
+        return $this->hasMany('App\Models\List_user_gudang','id', 'id');
+    }
+    public function product()
+    {
+        return $this->hasMany('App\Models\Product','id', 'id');
+    }
+
     public function users()
     {
         return $this->belongsTo('App\Models\User','id', 'id');

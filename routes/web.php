@@ -92,9 +92,10 @@ Route::post('/api/alamatgetByIdkelurahan', [AlamatController::class, 'alamatgetB
 Route::get('/gudang', [GudangController::class, 'index']);
 Route::get('/api/gudang/getdata', [GudangController::class, 'gudanggetdata']);
 Route::post('/gudang/store', [GudangController::class, 'store']);
-Route::get('/gudang/detail/{id}', [GudangController::class, 'edit']);
+Route::get('/gudang/detail/{id}', [GudangController::class, 'show']);
 Route::get('/gudang/delete/{id}', [GudangController::class, 'destroy']);
 Route::get('/gudang/edit/{id}', [GudangController::class, 'edit']);
+Route::post('/gudang/update/{id}', [GudangController::class, 'update']);
 
 Route::get('/api/changeuser/{id}', [GudangController::class, 'getchangeuser']);
 

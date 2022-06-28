@@ -16,6 +16,10 @@ class List_user_gudang extends Model
 
     public function gudang()
     {
-        return $this->hasMany('App\Models\Gudang','id', 'id_gudang');
+        return $this->hasMany('App\Models\Gudang','id', 'id');
+    }
+    public function users()
+    {
+        return $this->hasMany('App\Models\User','id', 'id_user');
     }
 }

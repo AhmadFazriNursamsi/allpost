@@ -163,7 +163,7 @@ class CustomerController extends Controller
     {
             $tatas  = Customer::with('alamats')->where('id', $id)->first();
             foreach($tatas->alamats as $key => $data){
-                $tatas->alamats[$key]->province = Calamat::alamatgetById($data->province, $request)->original['data'][0]->name;
+                $tatas->alamats[$key]->province = Calamat::alamatgetById($data->province, $request)->original['data']->name;
                 $tatas->alamats[$key]->city = Calamat::alamatgetByIdCity2($data->city)->original['data'];
                 $tatas->alamats[$key]->district = Calamat::alamatgetByIdKab2($data->district)->original['data'];
                 $tatas->alamats[$key]->village = Calamat::alamatgetByIdKel2($data->village)->original['data'];

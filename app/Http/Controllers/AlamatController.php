@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Alamat;
+use App\Models\List_user_gudang;
 use App\Models\Loc_city;
 use App\Models\Loc_district;
 use App\Models\Loc_province;
@@ -29,6 +30,26 @@ class AlamatController extends Controller
 
     
             }
+            public function coba($id, Request $request){
+
+                $datas = List_user_gudang::with('users')->get();
+    
+                return response()->json(['data' => $datas, 'status' => '200'], 200);
+
+                }
+
+                public static function coba2($id){
+
+                    $cities  = List_user_gudang::with('users')->first();
+                    dd($cities);
+                    
+                    $output = [];
+                    foreach( $cities as $city )
+                    {
+                       $output = $city->name;
+                    }
+                    return response()->json(['data' => $output, 'status' => '200'], 200);
+                }
 
     public function alamatgetByIdCity(Request $request){
 
