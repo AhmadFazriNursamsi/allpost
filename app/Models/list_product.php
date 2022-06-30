@@ -12,4 +12,9 @@ class list_product extends Model
     protected $primaryKey = "id";
     protected $guarded = ['id'];
     public $timestamps = false;
+
+    public function productss()
+    {
+        return $this->hasMany('App\Models\Product','id', 'id_product');
+    }
 }

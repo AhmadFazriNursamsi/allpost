@@ -1,26 +1,22 @@
 <?php
-
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AlamatController;
 use App\Http\Controllers\DashboardController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ApisController;
-use App\Http\Controllers\DivisionControllers;
-use App\Http\Controllers\servieController;
-use App\Http\Controllers\ListaccessController;
-use App\Http\Controllers\R404Controller;
 use App\Http\Controllers\ConfigController;
+use App\Http\Controllers\DivisionControllers;
+use App\Http\Controllers\AlamatController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\GudangController;
-// use App\Http\Controllers\CustomerControllers;
+use App\Http\Controllers\ListaccessController;
+use App\Http\Controllers\PagesQrController;
+use App\Http\Controllers\R404Controller;
 use App\Http\Controllers\QrcodeController;
-use App\Models\Gudang;
 
 Route::get('/', function () {
     return view('welcome');
 });
-
-
 
 Route::group(['middleware'=>'auth'], function(){
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -35,10 +31,10 @@ Route::get('/api/usersaccess2/{id}', [ApisController::class, 'apiGetDataUserAcce
 Route::get('/api/users/getdata', [ApisController::class, 'apigetdatauser']);
 Route::get('/api/users/getdatabyid/{id}', [ApisController::class, 'apigetdatauserbyid']);
 Route::get('/api/getdivision', [ApisController::class, 'apigetdivisi']);
-
-Route::get('/api/getUser', [ApisController::class, 'apigetUser']);
-
 Route::get('/api/getrole', [ApisController::class, 'apigetrole']);
+Route::post('/users/delete/{id}', [ApisController::class, 'apideleteuserbyid']);
+
+
 Route::get('/listaccess', [ListaccessController::class, 'index'])->name('listaccess');
 Route::post('/listaccess/delete/{id}', [ApisController::class, 'apiDeleteListAccessById']);
 Route::get('/api/listaccess/getdata', [ApisController::class, 'apiGetDataListAccess']);
@@ -96,6 +92,9 @@ Route::get('/gudang/detail/{id}', [GudangController::class, 'show']);
 Route::get('/gudang/delete/{id}', [GudangController::class, 'destroy']);
 Route::get('/gudang/edit/{id}', [GudangController::class, 'edit']);
 Route::post('/gudang/update/{id}', [GudangController::class, 'update']);
+
+Route::get('/api/listProduct/getdata/{id}', [GudangController::class, 'listgudanggetdata']);
+
 
 Route::get('/api/changeuser/{id}', [GudangController::class, 'getchangeuser']);
 

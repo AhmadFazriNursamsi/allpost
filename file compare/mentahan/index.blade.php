@@ -13,15 +13,6 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
     .btn-plus-alamat{
         border-radius: 32em;
     }
-    .is-invalid {
-    display: block;
-}   
-.alert-danger{
-    line-height:0;
-}
-.modal-footer{
-    justify-content: flex-start;
-}
 </style>
 
 
@@ -36,12 +27,13 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
+
                    <div class="table-responsive">
                         <table id="gudangtable" class="table text-start table-striped align-middle table-bordered table-hover mb-0">
                             <thead>
                                 <tr>
                                     <td></td>
-                                    {{-- // nama  test  divisi aliasgudang product user active active    --}}
+                              
                                     <td><input type="text" class="form-control input-sm src_class_user" autocomplete="off" onkeyup="searcAjax(this)" placeholder="nama" name="nama"></td>
                                     <td><input type="text" class="form-control input-sm src_class_user" autocomplete="off" onkeyup="searcAjax(this)" placeholder="alamat" name="alamat"></td>
                                     <td><input type="text" class="form-control input-sm src_class_user" autocomplete="off" onkeyup="searcAjax(this)" placeholder="Alias Gudang" name="alias_gudang"></td>
@@ -139,7 +131,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
 
                       <div class="mt-3 col-3">
                         <select name="user" required class="form-control user" id="id_user" onchange="Userchange(this)">
-                            {{-- {{ dd($datas) }} --}}
+                        
                             <option selected disabled hidden>-- Select Users --</option>
                             <?php foreach ($datas['user'] as $key => $post) :?>
                             <option id="userid" value="{{ $post->id }}">{{ $post->name }}</option>
@@ -217,35 +209,23 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                 <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade active show" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                         <dl class="row mb-0">
-                  
-
                                 <dt class="col-sm-4 show_name">Nama </dt>
                                 <dd class="col-sm-8 show_name">: <span name="name" id="show_name"></dd>
-                                    
-                                    <dt class="alias_gudang col-sm-4">Alias Gudang </dt>
-                                    <dd class="alias_gudang col-sm-8">: <span name="email" id="alias_gudang_view"></dd>
-                                        
-                                        <dt class="show_tlp col-sm-4">Alamat</dt>
-                                        <dd class="show_tlp col-sm-8">: <span name="no_tlp" id="show_alamat"></dd>
-                                            
-                                            <dt class="show_status col-sm-4">User</dt>
-                                            <dd class="show_status col-sm-8">: <span id="userdetail"></span>
-                                                
-                    
-                                            
-                          
-                                                <dt class="show_status col-sm-4">Status</dt>
-                                            <dd class="show_status col-sm-8">: <span id="activedetail"></span>
-                                                <dt class="show_delete col-sm-4">Status Delete</dt>
-                                                <dd class="show_delete col-sm-4">: <span id="flagdelete"></span></dd>
+                                <dt class="alias_gudang col-sm-4">Alias Gudang </dt>
+                                <dd class="alias_gudang col-sm-8">: <span name="email" id="alias_gudang_view"></dd>
+                                <dt class="show_tlp col-sm-4">Alamat</dt>
+                                <dd class="show_tlp col-sm-8">: <span name="no_tlp" id="show_alamat"></dd>                 
+                                <dt class="show_status col-sm-4">User</dt>
+                                <dd class="show_status col-sm-8">: <span id="userdetail"></span>
+                                <dt class="show_status col-sm-4">Status</dt>
+                                <dd class="show_status col-sm-8">: <span id="activedetail"></span>
+                                <dt class="show_delete col-sm-4">Status Delete</dt>
+                                <dd class="show_delete col-sm-4">: <span id="flagdelete"></span></dd>
                         </dl>                        
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-     
-                    <button id="btnlistProduct" type="button" data-attid="" class="btn btn-primary btn-sm btn-block ml-1 justify-content-start" onclick="listShow()" data-dismiss="modal">LIST PRODUCT</button>
-             
                 <button id="closeModalViewmodal" type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
                 @if ($haveaccessadd) 
                 <button class="btn-success btn-sm" data-attid="" onclick="editshow()" id="editbtn"><i class="fa fa-edit"></i> Edit Gudang</button>
@@ -254,64 +234,6 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                     <button onClick="deleteyesshow()" data-attid="" data-deleteval="1" id="deletevbtn" class="btn btn-danger btn-sm"></a>
                         <button onClick="undeleteyesshow()" data-attid="" data-deleteval="0" id="undeletevbtn" class="btn btn-warning btn-sm"></button>
                 @endif
-            </div>
-        </div>
-    </div>
-</div>
-
-
-{{-- List Modal --}}
-<div class="modal fade" id="ListModal" tabindex="-1" role="dialog" aria-labelledby="viewUserTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content">
-            <div class="row">
-                <div class="container">
-                    <div class="modal-header lg">
-                        <div class="justify-content-lg-start">
-                            <h4><i class="bi bi-list-ul"></i><span id="titlelistmodal"></span></i></h4>
-                        </div>
-                 
-                   
-                    </div>
-                </div>
-            </div>
-            <div class="modal-body">
-              <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-                   <div class="table-responsive">
-                        <table id="listgudangtable" class="table text-start table-striped align-middle table-bordered table-hover mb-0">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th class="align-center">Product</th>
-                                    <th class="align-center">Stock</th>
-                                
-                                    
-                                </tr>
-                                
-                            </thead>
-                            <tfoot>
-                                <tr>
-                                    <th>No</th>
-                                    <th class="align-center">Product</th>
-                                    <th class="align-center">Stock</th>
-                                
-                                    
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-            </div>
-            <div class="modal-footer">
-             
-                <button id="closeModalViewmodal" type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
-
             </div>
         </div>
     </div>
@@ -359,7 +281,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                    'orderable':false,
                    'className': 'dt-body-center',
                    'render': function (data, type, full, meta){
-                    //    console.log(full[6]);
+            
                        return '<span class="btn btn-info btn-sm" onclick="showdetail('+full[6]+')">details</span>';
                    }
                 }, {
@@ -375,7 +297,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                    'className': 'dt-body-center',
                    'render': function (data, type, full, meta){
                        
-                    //    console.log(full[4]);
+      
                         if(full[4] != 0)
                         return '<span class="btn btn-success btn-sm">Active</span>';
                         else 
@@ -405,11 +327,10 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
     });
 
 
-
     ////////////////////////////// Add Modal
    $('#btn_addcustomer').on('click', function () {
        $("#iconn").html("<i class='bi bi-person-workspace'>  </i>");
-    //    $("#titleaddmodal").html("Add Gudang");
+
         $("#addvbtn").hide();
         $("#deletevbtn").hide();
         $(".copy").hide();
@@ -428,7 +349,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
     $(document).ready(function(){
         
         $( "#formm" ).submit(function(e) {
-            // idx = $('#btn_addcustomer').attr('data-attid');
+
             idx = $('#editbtn').attr('data-attid');
             var url = "{{ asset('/gudang/update') }}/" + idx ;
             if(idx == "")
@@ -489,8 +410,6 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                         });
                             
                         }
-
-                 
                         
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
@@ -585,7 +504,6 @@ function kurangininput(a) {
                 }); 
                 
             $('#deletevbtn').attr('data-attid', id);
-            $('#btnlistProduct').attr('data-attid', id);
             $('#editbtn').attr('data-attid', id);
             $('#undeletevbtn').attr('data-attid', id);
             $('#deletevbtn').html('<i class="fa fa-trash"></i> Delete Divisi');
@@ -605,7 +523,7 @@ function kurangininput(a) {
 
     function editshow(){
         idx = $('#editbtn').attr('data-attid',);
-        // <i class="bi bi-person-workspace"> </i>
+
         $("#iconn").html("<i class='bi bi-person-workspace'> </i>");
         $(".icoon").html("Edit Gudang");
         
@@ -743,23 +661,10 @@ function kurangininput(a) {
                 }
         })
     }
-    function listShow() { 
-        id = $('#btnlistProduct').attr('data-attid');
-    
-        $("#viewCustomer").modal("hide");
-        $("#titlelistmodal").html(" List Product");
-        
-        $("#ListModal").modal("show");
-        
-        var url = "{{ asset('/api/listProduct/getdata') }}/" + id;
-        // $('#gudangtable').DataTable();
-        $('#listgudangtable').DataTable().ajax.url(url).load();
 
-
-}
     function reloaddata() {
-        $('#gudangtable').DataTable().ajax.url(url).load();
-    }
+                $('#gudangtable').DataTable().ajax.url(url).load();
+            }
 
     
 </script>

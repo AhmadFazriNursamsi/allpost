@@ -71,20 +71,6 @@ class GudangController extends Controller
 
         return response()->json(['data' => $datas, 'status' => '200'], 200);
     }
-    public function listgudanggetdata($id){ 
-        $listProduct  = list_product::with('productss')->where('id_gudang', $id)->get();
-        $datas = [];
-        $i = 1;
-        foreach($listProduct as $key => $product){
-            $datas[$key] = [
-                $i++,$product->productss[0]->nama,$product->stock
-            ];
-        }
-
-        return response()->json(['data' => $datas, 'status' => '200'], 200);
-
-}
-   
 
     // nama divisi alias_gudang id_product user active active   
   

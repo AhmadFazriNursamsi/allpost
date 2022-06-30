@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Alamat;
 use App\Models\List_user_gudang;
 use App\Models\Loc_city;
+use App\Models\User;
 use App\Models\Loc_district;
 use App\Models\Loc_province;
 use App\Models\Loc_village;
@@ -30,13 +31,17 @@ class AlamatController extends Controller
 
     
             }
-            public function coba($id, Request $request){
-
-                $datas = List_user_gudang::with('users')->get();
-    
-                return response()->json(['data' => $datas, 'status' => '200'], 200);
-
+            public function coba($id_user = 0){
+                $datas = '';
+                if($id_user != 0) {
+                   $datas = User::select('name')->where('id', $id_user)->first(); 
+                   $vp = json_decode($datas);
+                   return $vp->name;
                 }
+        
+                return $datas;
+        
+            }
 
                 public static function coba2($id){
 

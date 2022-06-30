@@ -107,7 +107,7 @@ class ApisController extends AController
 
         // dd($id);
         $this->access = Helpers::checkaccess('users_access', 'view');
-        if(!$this->access) return response()->json(['data' => $datas, 'status' => '401'], 200);
+        if(!$this->access) return response()->json(['data' => ['success'], 'status' => '401'], 200);
 
         $datas = Division::select("default_access")->where('id_division', $id)->first();
         // dd($datas);

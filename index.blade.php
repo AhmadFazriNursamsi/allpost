@@ -19,16 +19,12 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
 .alert-danger{
     line-height:0;
 }
-.modal-footer{
-    justify-content: flex-start;
-}
 </style>
-
 
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight hetf2"><i class="bi bi-person-workspace"> </i>
-            {{ __('Gudang') }} <button class="btn btn-success btn-sm" id="btn_addcustomer"><i class="fa fa-plus"></i>Add Gudang</button> 
+            {{ __('Gudang') }} <button class="btn btn-success btn-sm" id="btn_addcustomer" onclick="addModal()"><i class="fa fa-plus"></i>Add Gudang</button> 
         </h2>
     </x-slot>
 
@@ -36,12 +32,13 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
+
                    <div class="table-responsive">
                         <table id="gudangtable" class="table text-start table-striped align-middle table-bordered table-hover mb-0">
                             <thead>
                                 <tr>
                                     <td></td>
-                                    {{-- // nama  test  divisi aliasgudang product user active active    --}}
+                                    {{-- // nama    divisi aliasgudang product user active active    --}}
                                     <td><input type="text" class="form-control input-sm src_class_user" autocomplete="off" onkeyup="searcAjax(this)" placeholder="nama" name="nama"></td>
                                     <td><input type="text" class="form-control input-sm src_class_user" autocomplete="off" onkeyup="searcAjax(this)" placeholder="alamat" name="alamat"></td>
                                     <td><input type="text" class="form-control input-sm src_class_user" autocomplete="off" onkeyup="searcAjax(this)" placeholder="Alias Gudang" name="alias_gudang"></td>
@@ -102,8 +99,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
             <div class="container">
                 <div class="modal-header lg">
                     <div class="justify-content-lg-start">
-                        <h4><i id="iconn" ></i><i class="icoon ms-2"><span id="icon"></span><span id="titleaddmodal" class="icoon titleaddmodal" class="ms-2"></span></i></h4>
-         
+                        <h4><i id="iconn" ></i><i class="icoon ms-2"><span id="icon"></span><span id="titleaddmodal" class="icoon" class="ms-2"></span></i></h4>
                     </div>
                 </div>
             </div>
@@ -184,7 +180,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
     </div>
 
     <div class="modal-footer">
-      <button id="closeModalViewUser" type="button" class="btn closeModalViewUser btn-secondary btn-sm" data-dismiss="modal">Close</button>
+      <button id="closeModalViewUser" type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
       <button id="save" type="submit" class="btn btn-success btn-sm" data-dismiss="modal">Save</button>
     </form>
     </div>
@@ -238,80 +234,22 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                                             <dd class="show_status col-sm-8">: <span id="activedetail"></span>
                                                 <dt class="show_delete col-sm-4">Status Delete</dt>
                                                 <dd class="show_delete col-sm-4">: <span id="flagdelete"></span></dd>
-                        </dl>                        
+                             
+                        </dl>
+
+                        
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-     
-                    <button id="btnlistProduct" type="button" data-attid="" class="btn btn-primary btn-sm btn-block ml-1 justify-content-start" onclick="listShow()" data-dismiss="modal">LIST PRODUCT</button>
-             
-                <button id="closeModalViewmodal" type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                <button id="closeModalViewUser" type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
                 @if ($haveaccessadd) 
-                <button class="btn-success btn-sm" data-attid="" onclick="editshow()" id="editbtn"><i class="fa fa-edit"></i> Edit Gudang</button>
+                <button class="btn-success btn-sm" data-attid="" onclick="editshow()" id="editbtn"><i class="fa fa-edit"></i> Edit Customers</button>
               @endif
                 @if ($haveaccessdelete)
                     <button onClick="deleteyesshow()" data-attid="" data-deleteval="1" id="deletevbtn" class="btn btn-danger btn-sm"></a>
                         <button onClick="undeleteyesshow()" data-attid="" data-deleteval="0" id="undeletevbtn" class="btn btn-warning btn-sm"></button>
                 @endif
-            </div>
-        </div>
-    </div>
-</div>
-
-
-{{-- List Modal --}}
-<div class="modal fade" id="ListModal" tabindex="-1" role="dialog" aria-labelledby="viewUserTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content">
-            <div class="row">
-                <div class="container">
-                    <div class="modal-header lg">
-                        <div class="justify-content-lg-start">
-                            <h4><i class="bi bi-list-ul"></i><span id="titlelistmodal"></span></i></h4>
-                        </div>
-                 
-                   
-                    </div>
-                </div>
-            </div>
-            <div class="modal-body">
-              <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-                   <div class="table-responsive">
-                        <table id="listgudangtable" class="table text-start table-striped align-middle table-bordered table-hover mb-0">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th class="align-center">Product</th>
-                                    <th class="align-center">Stock</th>
-                                
-                                    
-                                </tr>
-                                
-                            </thead>
-                            <tfoot>
-                                <tr>
-                                    <th>No</th>
-                                    <th class="align-center">Product</th>
-                                    <th class="align-center">Stock</th>
-                                
-                                    
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-            </div>
-            <div class="modal-footer">
-             
-                <button id="closeModalViewmodal" type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
-
             </div>
         </div>
     </div>
@@ -407,21 +345,18 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
 
 
     ////////////////////////////// Add Modal
-   $('#btn_addcustomer').on('click', function () {
-       $("#iconn").html("<i class='bi bi-person-workspace'>  </i>");
-    //    $("#titleaddmodal").html("Add Gudang");
+    function addModal(){
+        
+        $("#addmodall").modal('show');
+        $("#icon").html("<i class='bi bi-person-workspace'>  </i>");
+        $("#titleaddmodal").html("Add Gudang");
         $("#addvbtn").hide();
         $("#deletevbtn").hide();
         $(".copy").hide();
         $(".copy2").hide();
         $("#undeletevbtn").hide();
-        $(".nama").val("");
-        $(".alias_gudang").val("");
-        $(".alamat").val("");
-        $(".icoon").html("Add Gudang");
-        $("#addmodall").modal('show');
         
-     })
+    }   
 
 
     ///form submit
@@ -520,7 +455,13 @@ function kurangininput(a) {
     tampung = tampung.replace(", "+a, "");
     $("#user_group").val(tampung);
 }
-
+// $(document).ready(function() {
+//       $(".add-more").click(function(){ 
+//           var html = $(".copy").html();
+//           $(".after-add-more").after(html);
+          
+//       });
+//     })
 
 
 
@@ -538,20 +479,23 @@ function kurangininput(a) {
                     type: "GET",
                     success: function(response) {
                         data = response.data;
+                        // console.log(data.users.name);
   
                         if (data) {
+                            // data = data[0]
+                            // console.log(data.list_user_gudang.id_user);
                             $("#show_name").html(data.nama);
                             $("#alias_gudang_view").html(data.alias_gudang);
                             $("#show_alamat").html(data.alamat);
-                            
+
                             var tampungUser = "";
-                         
+                            console.log(data.list_user_gudang);
                             $.each(data.list_user_gudang, function(k, item){
+                                console.log(k,item);
 
-                                tampungUser = tampungUser + item.nama + ", ";
-
-                            });
-                            
+                                tampungUser = tampungUser + item.id_user + ", ";
+                               
+                            })
                             $("#userdetail").html(tampungUser);
                             
  
@@ -575,29 +519,18 @@ function kurangininput(a) {
                             }
                             
                         }
-                        	
-                        $('#viewCustomer').modal('show');
-
-                        $("#closemodaledit").modal('hide');
+                                reloaddata();
+                                $('#viewCustomer').modal('show'); 
                     }
-                    
-                    
                 }); 
-                
             $('#deletevbtn').attr('data-attid', id);
-            $('#btnlistProduct').attr('data-attid', id);
             $('#editbtn').attr('data-attid', id);
             $('#undeletevbtn').attr('data-attid', id);
             $('#deletevbtn').html('<i class="fa fa-trash"></i> Delete Divisi');
             $("#titledetailmodal").html("Detail Gudang")
     }
-            $("#closeModalViewmodal").click(function() {
+            $("#closeModalViewUser").click(function() {
                 $("#viewCustomer").modal('hide');
-                // $("#addmodall").modal('hide');
-            });
-
-            $(".closeModalViewUser").click(function() {
-                // $("#viewCustomer").modal('hide');
                 $("#addmodall").modal('hide');
             });
 
@@ -608,9 +541,7 @@ function kurangininput(a) {
         // <i class="bi bi-person-workspace"> </i>
         $("#iconn").html("<i class='bi bi-person-workspace'> </i>");
         $(".icoon").html("Edit Gudang");
-        
-        $('.after-add-more').html("");
-        $('.after-add-more').html('<div class="copy control-group"></div>');
+     
         var url = "{{ asset('/gudang/edit') }}/" + idx;
                 $.ajax({
                     url: url,
@@ -618,35 +549,37 @@ function kurangininput(a) {
                         success: function(response) {
                             data = response.data;
                             if(data) {
-                                var tampungUser = inHtml= "";
+                                // console.log(data);
+                                var tampungUser = "";
 
-                                $.each(data.list_user_gudang, function(k, item){
+                            $.each(data.list_user_gudang, function(k, item){
+                                // console.log(k,item.id_user);
 
-                                    tampungUser = tampungUser + ", " + item.id_user;
-                                    $("#user_group").val(tampungUser);
-                                    inHtml += "<div class='alert alert-success alert-dismissible fade show' role='alert'><b><strong>"+item.nama+"</strong></b><button type='button' class='btn-close col-1 lg' id='close-"+k+"' data-bs-dismiss='alert' aria-label='Close' onClick=\"kurangininput("+item.id_user+")\"></button></div>";
+                                tampungUser = tampungUser + item.id_user + ", ";
 
-                                }); // end looping
-
-                                $('.copy').html(inHtml);
+                                $('.copy').html(" <div class='alert alert-success alert-dismissible fade show' role='alert'><b><strong>"+item.id_user+"</strong></b><button type='button' class='btn-close col-1 lg' id='close-"+k+"' data-bs-dismiss='alert' aria-label='Close' onClick=\"kurangininput("+k+")\"></button>");
+                               
+                            });
                           
                                 $("#nama").val(data.nama);
                                 $("#alias_gudang").val(data.alias_gudang);
                                 $(".alamat").val(data.alamat);
-
+                                // $("#no_tlp").val(data_tlp);
                                 if(data.active != 0){
                                     $("#active").attr('checked', 'checked');
                                 }
                                 else {
                                     $("#active2").attr('checked', 'checked');
-                                }
+                                        }
+                            }
 
-                            } // endif
 
-                            $('#addmodall').modal('show');
-                            $('#viewCustomer').modal('hide');
-                                    
-                    } // end response
+                  
+                                $("#closemodaledit").modal('hide');
+                                $('#addmodall').modal('show');
+                                $('#viewCustomer').modal('hide');
+                                
+                            }
                         
                 });
     }
@@ -743,23 +676,10 @@ function kurangininput(a) {
                 }
         })
     }
-    function listShow() { 
-        id = $('#btnlistProduct').attr('data-attid');
-    
-        $("#viewCustomer").modal("hide");
-        $("#titlelistmodal").html(" List Product");
-        
-        $("#ListModal").modal("show");
-        
-        var url = "{{ asset('/api/listProduct/getdata') }}/" + id;
-        // $('#gudangtable').DataTable();
-        $('#listgudangtable').DataTable().ajax.url(url).load();
 
-
-}
     function reloaddata() {
-        $('#gudangtable').DataTable().ajax.url(url).load();
-    }
+                $('#gudangtable').DataTable().ajax.url(url).load();
+            }
 
     
 </script>
