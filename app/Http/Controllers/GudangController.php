@@ -4,20 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Gudang;
 use Illuminate\Http\Request;
-use App\Models\Customer;
-// use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Division;
-use App\Models\Role;
-use Illuminate\Support\Facades\Session;
-use App\Models\Useraccess;
-use App\Models\Listaccess;
 use App\Http\Controllers\HelpersController as Helpers;
 use App\Http\Controllers\AlamatController as Calamat;
 use App\Models\list_product;
 use App\Models\List_user_gudang;
 use App\Models\Product;
-use Auth;
 use Illuminate\Support\Facades\Validator;
 
 class GudangController extends Controller
@@ -38,6 +30,7 @@ class GudangController extends Controller
      return view("gudang.index", compact('user'),array(
          'datas'  => array(
              'user' => $user,
+             'title' => 'Gudang',
              'product' => $product
          )
          ));

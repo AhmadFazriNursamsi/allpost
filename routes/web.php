@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ApisController;
+use App\Http\Controllers\PaketProductController;
 use App\Http\Controllers\ConfigController;
 use App\Http\Controllers\DivisionControllers;
 use App\Http\Controllers\AlamatController;
@@ -94,6 +95,14 @@ Route::get('/gudang/edit/{id}', [GudangController::class, 'edit']);
 Route::post('/gudang/update/{id}', [GudangController::class, 'update']);
 
 Route::get('/api/listProduct/getdata/{id}', [GudangController::class, 'listgudanggetdata']);
+
+/// Paket
+Route::get('/paketproduct', [PaketProductController::class, 'index']);
+Route::get('/api/paket/getdata', [PaketProductController::class, 'getdata']);
+Route::post('/paket/store', [PaketProductController::class, 'store']);
+// Route::post('/autocomplete/countries', [PaketProductController::class, 'auto']);
+Route::get('search', [PaketProductController::class, 'index'])->name('search');
+Route::get('autocomplete', [PaketProductController::class, 'autocomplete'])->name('autocomplete');
 
 
 Route::get('/api/changeuser/{id}', [GudangController::class, 'getchangeuser']);

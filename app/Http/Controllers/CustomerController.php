@@ -4,20 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use Illuminate\Http\Request;
-use App\Models\User;
-use App\Models\Division;
-use App\Models\Role;
-use Illuminate\Support\Facades\Session;
-use App\Models\Useraccess;
-use App\Models\Listaccess;
 use App\Http\Controllers\HelpersController as Helpers;
 use App\Http\Controllers\AlamatController as Calamat;
 use App\Models\Alamat;
-use App\Models\Loc_city;
-use App\Models\Loc_district;
 use App\Models\Loc_province;
-use App\Models\Loc_village;
-use Auth;
 use Illuminate\Support\Facades\Validator;
 
 class CustomerController extends Controller
@@ -64,7 +54,8 @@ class CustomerController extends Controller
         // dd($coba);
         return view("customer.index", compact('coba'),array(
             'datas'  => array(
-                'alamat' => $alamat
+                'alamat' => $alamat,
+                'title' => 'Customers'
             )
             ));
     }

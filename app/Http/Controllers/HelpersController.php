@@ -76,6 +76,13 @@ class HelpersController extends Controller
             "class":"",
             "icon":"clr-blue fa fa-tasks",
             "list_child":[]
+        }, {
+            "dropdown":"0",
+            "url":"paketproduct",
+            "name":"Paket Product",
+            "class":"",
+            "icon":"clr-blue fa fa-tasks",
+            "list_child":[]
         }, { 
             "dropdown":"0",
             "url":"invoice",
@@ -150,6 +157,10 @@ class HelpersController extends Controller
             return json_encode(['data' => ['false : is not numeric'], 'status' => '200'], 200);
         }
         
+    }
+    public static function satuan()
+    {
+        return array('kg'=>'Kg', 'gr'=>'Gram', 'kwintal'=> 'Kwintal', 'liter'=>'Liter', 'kodi'=>'Kodi', 'lusin'=>'Lusin');
     }
 
     // // ## Copy this to validator

@@ -38,7 +38,7 @@ class DivisionControllers extends Controller
                 'title' => 'Division',
                 'divisions' => $divisions,
                 'division_access' => $division_access,
-            ),
+            )
         ));
     
     }
