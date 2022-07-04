@@ -553,7 +553,7 @@ function kurangininput(a) {
                                 tampungUser = tampungUser + item.nama + ", ";
 
                             });
-                            
+                            // console.log(tampungUser);
                             $("#userdetail").html(tampungUser);
                             
  

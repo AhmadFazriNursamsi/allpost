@@ -59,22 +59,21 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                             <form id="paketform">
                                 @csrf
                                 <dl class="row mb-0">
-                                    <dt class="col-sm-4">Paket</dt>
-                                    <dd class="col-sm-8">: <input type="text" name="nama" id="paketid" class="form-group paketid">
-                                        {{-- <input type="text" name="paket" id="paketid" name="nama" class="form-control form-group" placeholder="Tulis Nama Provinsi Indonesia" />   --}}
-                                                <div id="provinsiList"></div>
-                                            </div>
-                                        
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button id="closeModalmodaladd" type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
-                                        <button type="submit" id="save" class="btn btn-success btn-sm">Save</button>
-                                    </div>
-                                </form>
-                            </div>
+                                <dt class="col-sm-4">Paket</dt>
+                                <dd class="col-sm-8">: <input type="text" name="nama" id="paketid" class="form-group paketid">
+                                <div id="paket_lisy"></div>
+                                <div class="modal-footer">
+                                    <button id="closeModalmodaladd" type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                                    <button type="submit" id="save" class="btn btn-success btn-sm">Save</button>
+                                </div>
+                            </form>
+                        </div>               
+                    </div>
+                </div>
             </div>
         </div>
+    </div>
+          
     {{-- </div> --}}
 
    
@@ -117,7 +116,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                 $("#titledetailmodal").html('Add Modal')
                 $('.icoon').html('<i class="bi bi-plus-circle-fill"></i>');
                 $("#paketid").val("");
-                $('#provinsiList').html("");
+                $('#paket_lisy').html("");
 
              })
 
@@ -144,17 +143,17 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                         });
 
                         htmls1 += '</select>  ';
-                        $('#provinsiList').html(htmls1);  
-                        // $('#provinsiList').html('<option value="">-- Select Provinsi --</option>')  
+                        $('#paket_lisy').html(htmls1);  
+                        // $('#paket_lisy').html('<option value="">-- Select Provinsi --</option>')  
                                
                     }  
                 });  
         }  
         if (query == '') {
-            $('#provinsiList').html('<select class="list-unstyled form-control"><option value="">-- Select option --</option></select>')  
+            $('#paket_lisy').html('<select class="list-unstyled form-control"><option value="">-- Select option --</option></select>')  
         }
         else{
-            $('#provinsiList').html('<select class="list-unstyled form-control"><option value="">-- Select option --</option></select>')     
+            $('#paket_lisy').html('<select class="list-unstyled form-control"><option value="">-- Select option --</option></select>')     
         }
     });  
 

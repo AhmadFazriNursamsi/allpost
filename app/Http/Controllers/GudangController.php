@@ -7,8 +7,10 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Controllers\HelpersController as Helpers;
 use App\Http\Controllers\AlamatController as Calamat;
+use App\Models\Karantina;
 use App\Models\list_product;
 use App\Models\List_user_gudang;
+use App\Models\ListProductKarantina;
 use App\Models\Product;
 use Illuminate\Support\Facades\Validator;
 
@@ -25,7 +27,8 @@ class GudangController extends Controller
 
         $user = User::where('id_role', '!=', 99)->get();
         $product = Product::where('id', '!=', 0)->get();
-        // dd($product);
+        // $ss = Kar::all();
+        // dd($ss);
 
      return view("gudang.index", compact('user'),array(
          'datas'  => array(
@@ -126,7 +129,7 @@ class GudangController extends Controller
      if($datas->save()){
         // Save id user di list user gudang
         if($request->user_group != ''){
-            $explode = explode(', ', $request-> );
+            $explode = explode(', ', $request->user_group);
             foreach($explode as $explode_id){
                 if($explode_id == '') continue;
 
@@ -143,6 +146,7 @@ class GudangController extends Controller
             
         }
         $products = Product::get();
+  
         foreach($products as $product){
             $listProduct = list_product::where('id_gudang', $datas->id)->where('id_product', $product->id)->first();
             if(isset($listProduct->id)) continue;
@@ -153,15 +157,25 @@ class GudangController extends Controller
                 $listProduct->id_product =$product->id;
                 $listProduct->created_at = date('Y-m-d H:i:s');
                 $listProduct->save();
+              
             }
+            $listProduct_karantina = ListProductKarantina::where('id_gudang', $datas->id)->where('id_product', $product->id)->first();
+            if(isset($listProduct_karantina->id)) continue;
+            else{
+                $listProduct_karantina = new ListProductKarantina;
+                
+                $listProduct_karantina->id_gudang =$datas->id;
+                $listProduct_karantina->id_product =$product->id;
+                $listProduct_karantina->created_at = date('Y-m-d H:i:s');
+                $listProduct_karantina->save();
+              
+            }
+            
+
+        
         }
-        // Tambahin List Product Gudang Baru
-        // 1. ambil semua list product gudang ...
-        // 2. looping list product gudang
-        // 3. cek apakah sudah terimput
-        // 4. tambahkan kalau belum ada
-     }
-     
+                
+            }
                     
      return response()->json(['data' => ['success'], 'status' => '200'], 200);
 
