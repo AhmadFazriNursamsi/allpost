@@ -94,18 +94,21 @@ class PaketProductController extends Controller
 
         if($datas->save()){
         $products = Product::get();
+        // dd($products);
         foreach($products as $product){
             $listProduct = DetailPaket::where('id_list_paket', $datas->id)->where('id_product', $product->id)->first();
             // dd($listProduct);
             if(isset($listProduct->id)) continue;
             else{
                 $listProduct = new DetailPaket;
+
+                // dd($listProduct);
                 
                 $listProduct->id_list_paket =$datas->id;
                 $listProduct->id_product =$product->id;
-                $listProduct->satuan = $request->satuan;
+                $listProduct->satuan = $product->satuan;
                 $listProduct->created_at = date('Y-m-d H:i:s');
-            //    dd($listProduct->save());
+               $listProduct->save();
             }
         }
     }

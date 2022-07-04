@@ -6,8 +6,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
 
 ?>
 @section('css')
-
-@endsection
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">@endsection
 {{-- <title>{{ $datas['title'] }}</title> --}}
 {{-- {{ dd($datas) }} --}}
 
@@ -28,14 +27,14 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                             <thead>
                          
                                   <th>No</th>
-                                    <th class="align-center">Jabatan</th>
+                                    <th class="align-center">Paket</th>
                                     <th class="align-center">Action</th>
                                 </tr>
                             </thead>
                                 <tfoot>
                                     <tr>
                                         <th>No</th>
-                                        <th class="align-center">Jabatan</th>
+                                        <th class="align-center">Paket</th>
 
                                         <th class="align-center">Action</th>
                                     </tr>
@@ -60,31 +59,26 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                             <form id="paketform">
                                 @csrf
                                 <dl class="row mb-0">
-                                    <dt class="col-sm-4">nama</dt>
-                                    <dd class="col-sm-8">: <input type="text" name="nama" class="form-group">
-                                        <dt class="col-sm-4">Berat</dt>
-                                        <dd class="col-sm-8">: 
-                                            <div class="container">
-                                                {{-- <h1>Laravel 8 Autocomplete Search using Bootstrap Typeahead JS - ItSolutionStuff.com</h1>    --}}
-                                                <input class="typeahead form-control input" type="text" data-provide="typeahead">
-                                                <br>
-                                                <input type="text" name="provinsi" id="provinsi" class="form-control" placeholder="Tulis Nama Provinsi Indonesia" />  
+                                    <dt class="col-sm-4">Paket</dt>
+                                    <dd class="col-sm-8">: <input type="text" name="nama" id="paketid" class="form-group paketid">
+                                        {{-- <input type="text" name="paket" id="paketid" name="nama" class="form-control form-group" placeholder="Tulis Nama Provinsi Indonesia" />   --}}
                                                 <div id="provinsiList"></div>
-                                            </div>
                                             </div>
                                         
                                         </div>
                                     </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button id="closeModalmodaladd" type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
-                                    <button type="submit" id="save" class="btn btn-success btn-sm">Save</button>
-                                </div>
-                            </form>
+                                    <div class="modal-footer">
+                                        <button id="closeModalmodaladd" type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                                        <button type="submit" id="save" class="btn btn-success btn-sm">Save</button>
+                                    </div>
+                                </form>
+                            </div>
             </div>
         </div>
-    </div>
-                                                                 
+    {{-- </div> --}}
+
+   
+    {{-- <div class="modal-dialog modal-lg modal_view">...</div>                                                     --}}
     @section('script')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
         <script type="text/javascript">
@@ -124,21 +118,10 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                 $('.icoon').html('<i class="bi bi-plus-circle-fill"></i>');
 
              })
-             var path = "{{ route('autocomplete') }}";
-    // $('input.typeahead').typeahead({
-    //     source:  function (query, process) {
-    //     return $.get(path, { query: query }, function (data) {
-    //         return process(data);
-    //         console.log(data);
-    //         $.each(data, function (k, i) { 
-    //             console.log(k,i.nama);
-    //             return process(i.nama);
-    //         })
-    //         });
-    //     }
-    // });
-    $('#provinsi').keyup(function(){  
+             $('#paketid').keyup(function(){  
+        var path = "{{ route('autocomplete') }}";
         var query = $(this).val();  
+        //  $('.paketid').val();  
         if(query != '')  
         {  
                 $.ajax({  
@@ -148,20 +131,26 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                     success:function(data)  
                     {  
                         htmls1 = '<select class="list-unstyled form-control">';
+                            // val = $('.paketid').val();  
                         $.each(data, function (k, i) { 
-                            console.log(k, i);
+                            console.log(k);
                             htmls1 += "<option value=\""+k+"\">"+i.nama+"</option>";
+
+                            // $('.paketid').val(i.nama);  
+                           
                         });
+
                         htmls1 += '</select>  ';
-                        $('#provinsiList').size = data.length;
+
                         $('#provinsiList').html(htmls1);  
+                               
                     }  
                 });  
         }  
     });  
 
 
-              ///form submit
+              ///form submit pak heri nyerahhh 
     $(document).ready(function(){
         
         
@@ -214,55 +203,56 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
             
                     /////////////////////////////////      Modal SHOW DETAIL       //////////////////////////////////////
             function showdetail(id) {
-                var addurl = $('#addvbtn').attr('data-attrref')+'/'+id;
-              $('#addvbtn').attr('href', addurl);
-                $('#saveee').attr('data-attid', id);
-                var addurl = $('#deletevbtn').attr('data-attid', id);
-                var url = "{{ asset('/division/detail') }}/" + id;
-                var form = $('#modaladd');
-                $('#undeletevbtn').html("Undelete");
-                    $.ajax({
-                        url: url,
-                        type: "GET",
-                        success: function(response) {
-                            data = response.data;
-                            if (data) {
-                                $("#division_name").html(data.division_name);
-                                if (data.active == 0) {
-                                    $("#activedetail").html("<span class='btn btn-secondary btn-sm'><b>Not Active</b></span>");
-                                } else {
-                                    $("#activedetail").html("<span class='btn btn-success btn-sm'><b>Active</b></span>");
-                                }
-                                if (data.flag_delete == 0) {
-                                    $("#flagdelete").html("<span class='btn btn-primary btn-sm'><b>ON</b></span>");
-                                } else {
-                                    $("#flagdelete").html("<span class='btn btn-danger btn-sm'><b>Delete</b></span>");
-                                }
+                $(".modal_view").modal('show');
+            //     var addurl = $('#addvbtn').attr('data-attrref')+'/'+id;
+            //   $('#addvbtn').attr('href', addurl);
+            //     $('#saveee').attr('data-attid', id);
+            //     var addurl = $('#deletevbtn').attr('data-attid', id);
+            //     var url = "{{ asset('/division/detail') }}/" + id;
+            //     var form = $('#modaladd');
+            //     $('#undeletevbtn').html("Undelete");
+            //         $.ajax({
+            //             url: url,
+            //             type: "GET",
+            //             success: function(response) {
+            //                 data = response.data;
+            //                 if (data) {
+            //                     $("#division_name").html(data.division_name);
+            //                     if (data.active == 0) {
+            //                         $("#activedetail").html("<span class='btn btn-secondary btn-sm'><b>Not Active</b></span>");
+            //                     } else {
+            //                         $("#activedetail").html("<span class='btn btn-success btn-sm'><b>Active</b></span>");
+            //                     }
+            //                     if (data.flag_delete == 0) {
+            //                         $("#flagdelete").html("<span class='btn btn-primary btn-sm'><b>ON</b></span>");
+            //                     } else {
+            //                         $("#flagdelete").html("<span class='btn btn-danger btn-sm'><b>Delete</b></span>");
+            //                     }
 
-                                if (data.flag_delete == 0){
-                                    $('#deletevbtn').show();
-                                    $('#undeletevbtn').hide();
-                                }
-                                if (data.flag_delete == 1){
-                                    $('#deletevbtn').hide();
-                                    $('#undeletevbtn').show();
-                                }
+            //                     if (data.flag_delete == 0){
+            //                         $('#deletevbtn').show();
+            //                         $('#undeletevbtn').hide();
+            //                     }
+            //                     if (data.flag_delete == 1){
+            //                         $('#deletevbtn').hide();
+            //                         $('#undeletevbtn').show();
+            //                     }
                                
-                            }
-                            reloaddata();
-                            $('#viewUser').modal('show');
+            //                 }
+            //                 reloaddata();
+            //                 $('#viewUser').modal('show');
                   
-                        }
-                    }); 
-                $('#deletevbtn').attr('data-attid', id);
-                $('#editbtn').attr('data-attid', id);
-                $('#editshow').attr('data-attid', id);
-                $('#undeletevbtn').attr('data-attid', id);
-                $('#deletevbtn').html('<i class="fa fa-trash"></i> Delete Divisi');
-                $("#titledetailmodal").html("Detail Division")
+            //             }
+            //         }); 
+            //     $('#deletevbtn').attr('data-attid', id);
+            //     $('#editbtn').attr('data-attid', id);
+            //     $('#editshow').attr('data-attid', id);
+            //     $('#undeletevbtn').attr('data-attid', id);
+            //     $('#deletevbtn').html('<i class="fa fa-trash"></i> Delete Divisi');
+            //     $("#titledetailmodal").html("Detail Division")
             }
-                $("#closeModalViewUser").click(function() {
-                    $("#viewUser").modal('hide');
+                $("#closeModalmodaladd").click(function() {
+                    $("#modaladd").modal('hide');
                 });
                 
 
