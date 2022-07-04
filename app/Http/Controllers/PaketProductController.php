@@ -25,11 +25,13 @@ class PaketProductController extends Controller
     public function index()
     {
         $satuan = Helpers::satuan();
+        $product = Product::where('id', '!=', 0)->get();
       
         return view('paket.index',array(
             'datas'  => array(
                 'satuan' => $satuan,
                 'title' => 'Gudang',
+                'product' => $product
               
             )
             ));
@@ -54,7 +56,7 @@ class PaketProductController extends Controller
 
         
         $p = $request->get('query');
-        $data = Product::select("nama")
+        $data = Product::select("nama", 'id')
                 ->where('nama','LIKE',"%{$p}%")
                 ->get();
    
@@ -71,13 +73,6 @@ class PaketProductController extends Controller
         //
     }
 
-    public function auto($id)
-    {
-        $datas = Product::where('id', $id)->get();
-
-
-        return response()->json(['data' => $datas, 'status' => '200'], 200);
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -96,19 +91,19 @@ class PaketProductController extends Controller
         $products = Product::get();
         // dd($products);
         foreach($products as $product){
-            $listProduct = DetailPaket::where('id_list_paket', $datas->id)->where('id_product', $product->id)->first();
+            $listProduct = DetailPaket::where('id_list_paket', $datas->id)->where('id_product', $request->selectproduct)->first();
             // dd($listProduct);
             if(isset($listProduct->id)) continue;
             else{
                 $listProduct = new DetailPaket;
 
-                // dd($listProduct);
+                // dd($listProduct->id_product =$request->selectproduct);
                 
                 $listProduct->id_list_paket =$datas->id;
-                $listProduct->id_product =$product->id;
+                $listProduct->id_product =$request->selectproduct;
                 $listProduct->satuan = $product->satuan;
                 $listProduct->created_at = date('Y-m-d H:i:s');
-               $listProduct->save();
+                $listProduct->save();
             }
         }
     }

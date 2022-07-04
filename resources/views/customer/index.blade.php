@@ -123,7 +123,6 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                            
                                 <label for="provinsi" class="form-label provinsi">Provinsi</label>
                                 <select name="name_Provinsi" class="form-control provinsi" id="id_Provinsi" onchange="Prov(this)">
-                                   
                                         <option value="" required>-- Select Provinsi --</option>
                                         <?php foreach ($datas['alamat'] as $key => $post) :?>
                                         <option id="Prov" value="{{ $post->id }}">{{ $post->name }}</option>

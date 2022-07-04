@@ -126,7 +126,7 @@ class GudangController extends Controller
      if($datas->save()){
         // Save id user di list user gudang
         if($request->user_group != ''){
-            $explode = explode(', ', $request->user_group);
+            $explode = explode(', ', $request-> );
             foreach($explode as $explode_id){
                 if($explode_id == '') continue;
 

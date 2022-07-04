@@ -116,8 +116,11 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                 $('#modaladd').modal('show');
                 $("#titledetailmodal").html('Add Modal')
                 $('.icoon').html('<i class="bi bi-plus-circle-fill"></i>');
+                $("#paketid").val("");
+                $('#provinsiList').html("");
 
              })
+
              $('#paketid').keyup(function(){  
         var path = "{{ route('autocomplete') }}";
         var query = $(this).val();  
@@ -130,23 +133,29 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                     data:{query:query},  
                     success:function(data)  
                     {  
-                        htmls1 = '<select class="list-unstyled form-control">';
+                        htmls1 = '<select class="list-unstyled form-control" name="selectproduct">';
                             // val = $('.paketid').val();  
-                        $.each(data, function (k, i) { 
-                            console.log(k);
-                            htmls1 += "<option value=\""+k+"\">"+i.nama+"</option>";
+                        $.each(data, function (k, i, j) { 
+                            console.log(k,i.id);
+                            htmls1 += "<option value=\""+i.id+"\">"+i.nama+"</option>";
 
                             // $('.paketid').val(i.nama);  
                            
                         });
 
                         htmls1 += '</select>  ';
-
                         $('#provinsiList').html(htmls1);  
+                        // $('#provinsiList').html('<option value="">-- Select Provinsi --</option>')  
                                
                     }  
                 });  
         }  
+        if (query == '') {
+            $('#provinsiList').html('<select class="list-unstyled form-control"><option value="">-- Select option --</option></select>')  
+        }
+        else{
+            $('#provinsiList').html('<select class="list-unstyled form-control"><option value="">-- Select option --</option></select>')     
+        }
     });  
 
 
@@ -174,7 +183,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                                 icon: 'success'
                         
                             });
-                            $('#paketform').hide();
+                            $('#modaladd').modal('hide');
                             reloaddata();
                         }
                         
@@ -356,7 +365,8 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
     }
 
     function reloaddata() {
-        $('#paketform').DataTable().ajax.url(url).load();
+        var url = "{{ asset('/api/paket/getdata') }}";
+        $('#PaketTable').DataTable().ajax.url(url).load();
     }
         </script>
     @endsection

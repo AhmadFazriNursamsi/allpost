@@ -103,7 +103,7 @@ Route::post('/paket/store', [PaketProductController::class, 'store']);
 // Route::post('/autocomplete/countries', [PaketProductController::class, 'auto']);
 Route::get('search', [PaketProductController::class, 'index'])->name('search');
 Route::get('autocomplete', [PaketProductController::class, 'autocomplete'])->name('autocomplete');
-Route::get('/cari', 'PaketProductController@loadData');
+
 
 
 Route::get('/api/changeuser/{id}', [GudangController::class, 'getchangeuser']);
