@@ -43,13 +43,27 @@ class PaketProductController extends Controller
             $i = 1;
             foreach($paket as $key => $pakets){
                 $datas[$key] = [
-                   $i++, $pakets->nama, $pakets->id
+                   $i++, $pakets->nama_paket,$pakets->nama, $pakets->id
                 ];
             }
     
             return response()->json(['data' => $datas, 'status' => '200'], 200);
     
+    ////gambar nama satuan kodeproduct 
+    }
+
+    public function getdataproduct($id){
+        $paket = Product::where('id', $id)->get();
+        // dd($paket);
+            $datas = [];
+            $i = 1;
+            foreach($paket as $key => $product){
+                $datas[$key] = [
+                   $i++, $product->nama,$product->satuan,$product->kode_products,''
+                ];
+            }
     
+            return response()->json(['data' => $datas, 'status' => '200'], 200);
     }
     public function autocomplete(Request $request)
     {
@@ -84,6 +98,7 @@ class PaketProductController extends Controller
     {
         // dd($request);
         $datas = new ListPaket();
+        $datas->nama_paket = $request->nama_paket;
         $datas->nama = $request->nama;
         $datas->created_at = date('Y-m-d H:i:s');
 
@@ -91,20 +106,37 @@ class PaketProductController extends Controller
         $products = Product::get();
         // dd($products);
         foreach($products as $product){
-            $listProduct = DetailPaket::where('id_list_paket', $datas->id)->where('id_product', $request->selectproduct)->first();
-            // dd($listProduct);
-            if(isset($listProduct->id)) continue;
-            else{
-                $listProduct = new DetailPaket;
+            if($request->user_group != ''){
+                $explode = explode(', ', $request->user_group);
+                foreach($explode as $explode_id){
+                    if($explode_id == '') continue;
+    
+                    $caripaket = DetailPaket::where('id_list_paket', $datas->id)->where('id_product', $explode_id)->first(); // cek apakah pernah di input
+                    if(isset($caripaket->id)) continue;
+    
+                    $listProduct = new DetailPaket;
+                    $listProduct->id_list_paket =$datas->id;
+                    $listProduct->id_product =$explode_id;
+                    $listProduct->jumlah =$request->jumlah;
+                    $listProduct->satuan = $product->satuan;
+                    $listProduct->created_at = date('Y-m-d H:i:s');
+                    $listProduct->save();// tambah kan user baru berdasarkan id gudang
+                }
+    
+                
+            }
+            // $listProduct = DetailPaket::where('id_list_paket', $datas->id)->where('id_product', $product->id)->first();
+            // // dd($listProduct);
+            // if(isset($listProduct->id)) continue;
+            // else{
+                
+
+                
 
                 // dd($listProduct->id_product =$request->selectproduct);
                 
-                $listProduct->id_list_paket =$datas->id;
-                $listProduct->id_product =$request->selectproduct;
-                $listProduct->satuan = $product->satuan;
-                $listProduct->created_at = date('Y-m-d H:i:s');
-                $listProduct->save();
-            }
+                // $listProduct->id_product =$request->user_group;
+        //     }
         }
     }
         return response()->json(['data' => ['success'], 'status' => '200'], 200);

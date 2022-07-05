@@ -95,18 +95,18 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                     <div class="justify-content-lg-start">
                         <h4><i id="iconn" ></i><i class="icoon ms-2"><span id="icon"></span><span id="titleaddmodal" class="icoon" class="ms-2"></span></i></h4>
                     </div>
-            
-                        <div class="d-flex justify-content-end">
-                            <ul class="nav nav-pills mb-3" id="pills-tab mt-3" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link headder" id="pills-home-tab" onclick="nama()" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true" >Main Info</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link " id="pills-profile-tab" onclick="alamat()" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Alamat</button>
-                                </li>
-                            </ul>
-           
-                        </div>   
+                    
+                    <div class="d-flex justify-content-end">
+                        <ul class="nav nav-pills mb-3" id="pills-tab mt-3" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link headder" id="pills-home-tab" onclick="nama()" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true" >Main Info</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link " id="pills-profile-tab" onclick="alamat()" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Alamat</button>
+                            </li>
+                        </ul>
+       
+                    </div>   
                 </div>
             </div>
         </div>
@@ -230,7 +230,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                             <div class="d-flex justify-content-end">
                                 <ul class="nav nav-pills mb-3" id="pills-tab mt-3" role="tablist">
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link headder" id="pills-home-tab" onclick="mainshowalamata()" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true" >Main Info</button>
+                                        <button class="nav-link headder" id="pills-home-tab" onclick="mainshowalamata(this)" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true" >Main Info</button>
                                     </li>
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link " id="pills-profile-tab" onclick="alamatview()" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Alamat</button>
@@ -668,7 +668,7 @@ var form = $('#formm');
 
 ////// Show alamat
     function mainshowalamata(id){
-        var addurl = $('#addvbtn').attr('data-attrref')+'/'+id;
+        // var addurl = $('#addvbtn').attr('data-attrref')+'/'+id;
             $('#addvbtn').attr('href', addurl);
             $('#saveee').attr('data-attid', id);
 

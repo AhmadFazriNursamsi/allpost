@@ -99,6 +99,7 @@ Route::get('/api/listProduct/getdata/{id}', [GudangController::class, 'listgudan
 /// Paket
 Route::get('/paketproduct', [PaketProductController::class, 'index']);
 Route::get('/api/paket/getdata', [PaketProductController::class, 'getdata']);
+Route::get('/api/tableproduct/getdata/{id}', [PaketProductController::class, 'getdataproduct']);
 Route::post('/paket/store', [PaketProductController::class, 'store']);
 // Route::post('/autocomplete/countries', [PaketProductController::class, 'auto']);
 Route::get('search', [PaketProductController::class, 'index'])->name('search');
