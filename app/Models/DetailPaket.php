@@ -13,5 +13,13 @@ class DetailPaket extends Model
     protected $guarded = ['id'];
     public $timestamps = false;
 
+    public function products()
+    {
+        return $this->hasMany('App\Models\Product','id', 'id_product');
+    }
+    public function list_paket()
+    {
+        return $this->hasMany('App\Models\ListPaket','id', 'id');
+    }
 
 }

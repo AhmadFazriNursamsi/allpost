@@ -101,24 +101,16 @@ Route::get('/paketproduct', [PaketProductController::class, 'index']);
 Route::get('/api/paket/getdata', [PaketProductController::class, 'getdata']);
 Route::get('/api/tableproduct/getdata/{id}', [PaketProductController::class, 'getdataproduct']);
 Route::post('/paket/store', [PaketProductController::class, 'store']);
-// Route::post('/autocomplete/countries', [PaketProductController::class, 'auto']);
-Route::get('search', [PaketProductController::class, 'index'])->name('search');
+Route::get('/paket/detail/{id}', [PaketProductController::class, 'show']);
+Route::get('/paket/edit/{id}', [PaketProductController::class, 'edit']);
+// Route::get('/paket/delete/{id}', [PaketProductController::class, 'destroy']);
+// Route::get('search', [PaketProductController::class, 'index'])->name('search');
 Route::get('autocomplete', [PaketProductController::class, 'autocomplete'])->name('autocomplete');
 
 
 
 Route::get('/api/changeuser/{id}', [GudangController::class, 'getchangeuser']);
 
-
-// Route::get('/gudang', function () {
-//     return "gudang";
-// });
-// Route::get('/customers', [CustomerController::class, 'index']);
-// Route::post('/customers/store', [CustomerController::class, 'store']);
-// Route::get('/customers/detail/{id}', [CustomerController::class, 'show']);
-// Route::get('/customers/delete/{id}', [CustomerController::class, 'destroy']);
-// Route::get('/customers/edit/{id}', [CustomerController::class, 'edit']);
-// Route::post('/customers/update/{id}', [CustomerController::class, 'update']);
 
    
 });

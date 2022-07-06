@@ -261,7 +261,7 @@ class GudangController extends Controller
         if($request->user_group != ''){
             $explode = explode(', ', $request->user_group);
             // delete list gudang
-            $delete_list = List_user_gudang::where('id_gudang', $id)->delete(); // cek 
+            List_user_gudang::where('id_gudang', $id)->delete(); // cek 
 
             foreach($explode as $explode_id){
 

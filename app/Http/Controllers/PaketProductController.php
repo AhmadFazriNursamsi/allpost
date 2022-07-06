@@ -43,8 +43,9 @@ class PaketProductController extends Controller
             $i = 1;
             foreach($paket as $key => $pakets){
                 $datas[$key] = [
-                   $i++, $pakets->nama_paket,$pakets->nama, $pakets->id
+                   $i++, $pakets->nama_paket, $pakets->id
                 ];
+                // $datas[$key]++;
             }
     
             return response()->json(['data' => $datas, 'status' => '200'], 200);
@@ -53,13 +54,15 @@ class PaketProductController extends Controller
     }
 
     public function getdataproduct($id){
+
+       
         $paket = Product::where('id', $id)->get();
         // dd($paket);
             $datas = [];
             $i = 1;
             foreach($paket as $key => $product){
                 $datas[$key] = [
-                   $i++, $product->nama,$product->satuan,$product->kode_products,''
+                   $i++, $product->nama,$product->satuan,$product->kode_products,'',$product->id
                 ];
             }
     
@@ -95,11 +98,26 @@ class PaketProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        // dd($request);
+    { $validator = Validator::make($request->all(), [
+      
+        'jumlah' => 'required',
+        'search' => 'required',
+        'nama_paket' => 'required',
+      
+    ],[
+     'nama_paket.required' => 'Nama Paket Tidak Boleh Kosong',
+     'search.required' => 'Pilih Paket Terlebih Dahulu',
+     'jumlah.required' => 'Jumlah Paket Tidak Boleh Kosong',
+     
+    ]);
+     
+    if ($validator->fails()) {
+     return response()->json(['errors'=>$validator->errors()->all()]);
+ }
+
         $datas = new ListPaket();
         $datas->nama_paket = $request->nama_paket;
-        $datas->nama = $request->nama;
+        // $datas->nama = $request->search;
         $datas->created_at = date('Y-m-d H:i:s');
 
         if($datas->save()){
@@ -125,18 +143,6 @@ class PaketProductController extends Controller
     
                 
             }
-            // $listProduct = DetailPaket::where('id_list_paket', $datas->id)->where('id_product', $product->id)->first();
-            // // dd($listProduct);
-            // if(isset($listProduct->id)) continue;
-            // else{
-                
-
-                
-
-                // dd($listProduct->id_product =$request->selectproduct);
-                
-                // $listProduct->id_product =$request->user_group;
-        //     }
         }
     }
         return response()->json(['data' => ['success'], 'status' => '200'], 200);
@@ -148,9 +154,13 @@ class PaketProductController extends Controller
      * @param  \App\Models\ListPaket  $listPaket
      * @return \Illuminate\Http\Response
      */
-    public function show(ListPaket $listPaket)
+    public function show($id, ListPaket $listPaket)
     {
-        //
+        // dd($id);
+       $datas =  DetailPaket::with('products', 'list_paket')->where('id', $id)->first();
+        // dd($datas);
+
+        return response()->json(['data' => $datas, 'status' => '200'], 200);
     }
 
     /**
@@ -159,9 +169,12 @@ class PaketProductController extends Controller
      * @param  \App\Models\ListPaket  $listPaket
      * @return \Illuminate\Http\Response
      */
-    public function edit(ListPaket $listPaket)
+    public function edit($id, ListPaket $listPaket)
     {
-        //
+        $datas =  DetailPaket::with('products', 'list_paket')->where('id', $id)->first();
+        // dd($datas);
+
+        return response()->json(['data' => $datas, 'status' => '200'], 200);
     }
 
     /**
@@ -182,8 +195,8 @@ class PaketProductController extends Controller
      * @param  \App\Models\ListPaket  $listPaket
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ListPaket $listPaket)
+    public function destroy($id, ListPaket $listPaket)
     {
-        //
+        dd($id);
     }
 }
