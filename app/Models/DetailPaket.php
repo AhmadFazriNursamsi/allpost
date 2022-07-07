@@ -19,7 +19,7 @@ class DetailPaket extends Model
     }
     public function list_paket()
     {
-        return $this->hasMany('App\Models\ListPaket','id', 'id');
+        return $this->hasMany('App\Models\ListPaket','id', 'id_list_paket');
     }
 
 }

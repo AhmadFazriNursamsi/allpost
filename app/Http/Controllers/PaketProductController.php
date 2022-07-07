@@ -157,7 +157,7 @@ class PaketProductController extends Controller
     public function show($id, ListPaket $listPaket)
     {
         // dd($id);
-       $datas =  DetailPaket::with('products', 'list_paket')->where('id', $id)->first();
+       $datas =  DetailPaket::with('products', 'list_paket')->where('id', $id)->get();
         // dd($datas);
 
         return response()->json(['data' => $datas, 'status' => '200'], 200);
@@ -175,6 +175,19 @@ class PaketProductController extends Controller
         // dd($datas);
 
         return response()->json(['data' => $datas, 'status' => '200'], 200);
+    }
+    public function dd($id){
+        $paket =  DetailPaket::with('products')->where('id', $id)->get();
+        // dd($paket[0]->products[0]->nama);
+            $datas = [];
+            $i = 1;
+            foreach($paket as $key => $product){
+                $datas[$key] = [
+                $i++, $paket[0]->products[0]->nama ,$paket[0]->products[0]->satuan,$paket[0]->products[0]->kode_products,$product->jumlah,$paket[0]->products[0]->id 
+                ];
+            }
+    
+            return response()->json(['data' => $datas, 'status' => '200'], 200);
     }
 
     /**

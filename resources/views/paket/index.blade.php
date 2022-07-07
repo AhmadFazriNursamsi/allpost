@@ -110,12 +110,14 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                                 </dl>
                             
 
-                                  <table id="listgudangtable" class="table text-start table-striped align-middle table-bordered table-hover mb-0">
-                                      <thead>
+                                <div class="option-table">
+
+                                    <table id="listgudangtable" class="table text-start table-striped align-middle table-bordered table-hover mb-0">
+                                        <thead>
                                           <tr>
                                               <th>No</th>
                                               {{-- <th class="align-center">Gambar</th> --}}
-                                            <th class="align-center">Nama Product</th>
+                                              <th class="align-center">Nama Product</th>
                                             <th class="align-center">Satuan</th>
                                             <th class="align-center">Alias</th>
                                             <th class="align-center">Jumlah</th>
@@ -132,12 +134,13 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                                               <th class="align-center">Alias</th>
                                               <th class="align-center">Jumlah</th>
                                             <th>Delete</th>
-                                        
+                                            
                                             
                                         </tr>
                                     </tfoot>
                                 </table>
-                       
+                            </div>
+                                
                                 
                                 <div class="modal-footer">
                                     <button id="closeModalmodaladd" type="button" class="btn btn-secondary closeModalmodaladd btn-sm" data-dismiss="modal">Close</button>
@@ -224,12 +227,14 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
 
             $("#buttonaddPaket").on('click', function () { 
                 $('#modaladd').modal('show');
-                $(".titlemodal").html(' Add Modal')
+                $(".titlemodal").html(' Add Paket')
                 $('.icoon').html('<i class="bi bi-plus-circle-fill"></i>');
                 $("#paketid").val("");
                 $('.paket_lisy').html("");
                 $('#user_group').hide();
                 $('.copy').html("");
+                $(".odd").html("");
+           
                 $(".control-group after-add-more").html("");
 
              })
@@ -308,9 +313,11 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                         $('#user_group').hide();
                         $('.copy').html("");
                         $(".after-add-more").html("");
+                        $(".option-table").val(""   );
                  
                         
                     },
+
                     error: function(jqXHR, textStatus, errorThrown) {
                         console.log(textStatus, errorThrown);
                     }
@@ -331,7 +338,8 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                     url: url,
                     type: "get",
                     success: function(response) {
-                        data = response.data;
+                        data = response.data[0];
+                        // console.log(data);
                         $("#paket_id").html(data.list_paket[0].nama_paket);
                         $("#product_id").html(data.products[0].nama);
                         $("#satuan_id").html(data.satuan);
@@ -372,6 +380,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                 var getndate = getNowdate(); // helpers
                 var table = $('#listgudangtable').DataTable({
 
+                    // ajax:url,
                     columnDefs: [
                         {
                             'targets': 4,
@@ -419,11 +428,13 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
             
     }
     function editshow(id) {
+        id = $(id).val();
         idx = $('#editt').attr('data-id');
+
         $('#modaladd').modal('show');
         $("#modal_view").modal('hide');
         $(".tutuptable").hide();
-        $(".titlemodal").html(' Edit Modal')
+        $(".titlemodal").html(' Edit Paket')
         $('.icoon').html('<i class="bi bi-pencil-square"></i>');
         $("#paketid").val("");
         $('.paket_lisy').html("");
@@ -438,10 +449,19 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                     type: "GET",
                         success: function(response) {
                             data = response.data
-                            console.log();
+                            var coba =  $("#jumlah").val(data.jumlah);
+                            console.log(coba);
+                            console.log(data.jumlah);
 
-                            $("#nama_paket").val(data.list_paket[0].nama_paket)
+                            $("#nama_paket").val(data.list_paket[0].nama_paket);
+                            $("#jumlah").val(data.jumlah);
+                            $('#user_group').val(data.products[0].id);
+                            // $('#id_user option[value="'+data.products[0].id+'"]').prop('selected', true);
+                            // $(".odd").val("fa");
                         }});
+
+                        var urltable = "{{ asset('/api/tableproduct/edit') }}/" + idx;
+                        $('#listgudangtable').DataTable().ajax.url(urltable).load();
 
 
     }
