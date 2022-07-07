@@ -171,8 +171,8 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                                 
                             <dt class="alias_gudang col-sm-4">Produk </dt>
                             <dd class="alias_gudang col-sm-8">: <span id="product_id"></span></dd>          
-                            <dt class="show_status col-sm-4">Satuan</dt>
-                            <dd class="show_status col-sm-8">: <span id="satuan_id"></span>
+                            {{-- <dt class="show_status col-sm-4">Satuan</dt>
+                            <dd class="show_status col-sm-8">: <span id="satuan_id"></span> --}}
                             <dt class="show_status col-sm-4">Jumlah</dt>
                             <dd class="show_status col-sm-8">: <span id="jumlah_id"></span>
                         </dl>   
@@ -277,8 +277,12 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
         
         
         $( "#paketform" ).submit(function(e) {
+            // var id = ("#id_name").val();
+           var id = $('#editt').attr('data-id');
 
             var url= "{{ asset('/paket/store') }}" ;
+            if(id != '')
+            var url= "{{ asset('/paket/update') }}/" + id ;
 
 
         e.preventDefault();
@@ -313,7 +317,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                         $('#user_group').hide();
                         $('.copy').html("");
                         $(".after-add-more").html("");
-                        $(".option-table").val(""   );
+                        $(".option-table").val("");
                  
                         
                     },
@@ -342,7 +346,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                         // console.log(data);
                         $("#paket_id").html(data.list_paket[0].nama_paket);
                         $("#product_id").html(data.products[0].nama);
-                        $("#satuan_id").html(data.satuan);
+                        // $("#satuan_id").html(data.satuan);
                         $("#jumlah_id").html(data.jumlah);
                         $('#modal_view').modal('hide');
                     }
@@ -454,7 +458,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                             console.log(data.jumlah);
 
                             $("#nama_paket").val(data.list_paket[0].nama_paket);
-                            $("#jumlah").val(data.jumlah);
+                            // $("#jumlah").val(data.jumlah);
                             $('#user_group').val(data.products[0].id);
                             // $('#id_user option[value="'+data.products[0].id+'"]').prop('selected', true);
                             // $(".odd").val("fa");
