@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Loc_district;
 use App\Models\Loc_province;
 use App\Models\Loc_village;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class AlamatController extends Controller
@@ -37,6 +38,18 @@ class AlamatController extends Controller
                    $datas = User::select('name')->where('id', $id_user)->first(); 
                    $vp = json_decode($datas);
                    return $vp->name;
+                }
+        
+                return $datas;
+        
+            }
+
+            public function detail_paket_id($id_user = 0){
+                $datas = '';
+                if($id_user != 0) {
+                   $datas = Product::select('nama')->where('id', $id_user)->first(); 
+                   $vp = json_decode($datas);
+                   return $vp->nama;
                 }
         
                 return $datas;

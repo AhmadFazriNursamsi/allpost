@@ -56,6 +56,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <div class="table-responsive">
+                        <button type="button" class="btn btn-danger del">Hapus</button>
                         <table id="PaketTable"
                             class="table text-start table-striped align-middle table-bordered table-hover mb-0">
                             <thead>
@@ -318,6 +319,8 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                 $('#user_group').hide();
                 $('.copy').html("");
                 $(".odd").html("");
+               $("#nama_paket").val("");
+               $(".option-table").hide("");
            
                 $(".control-group after-add-more").html("");
 
@@ -342,17 +345,12 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                             htmls1 += "<option value=\""+i.id+"\">"+i.nama+"</option>";  
                             // console.log(k,i);
                         });
-                    htmls1 += '<option value="1 `" selected>-- Select option --</option></select>';
+                    htmls1 += '<option value="" selected>-- Select option --</option></select>';
+                    htmls1 += '</select>'
                     $('.paket_lisy').html(htmls1);  
                 }  
             });  
-            }  
-            if (query == '') {
-                $('.paket_lisy').html('<select class="list-unstyled form-control"><option value="">-- Select option --</option></select>')  
             }
-            else(
-                $('.paket_lisy').html('<select class="list-unstyled form-control"><option value="">-- Select option --</option></select>')  
-            )
             
     }
     );  
@@ -369,19 +367,41 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                     url: url,
                     type: "get",
                     success: function(response) {
-                        data = response.data[0];
-                        // console.log(data);
+                        var tampung= "";
+                        var tampung2= "";
+                        data = response.data;
+                        $.each(data.detail_paket, function (i, k) { 
+                            tampung = tampung + k.nama + ", ";
+                            
+                            // console.log(k.nama);
+                            $("#product_id").html(tampung);
+                         })
+                        // console.log(data.detail_paket);
+                        $.each(data.detail_paket, function (i, v) { 
+                            // console.log(i,v.jumlah);
+                            tampung2 = tampung2 + v.jumlah + ", ";
+                            $("#jumlah_id").html(tampung2);
+                         })
                         
-                        $("#paket_id").html(data.list_paket[0].nama_paket);
-                        $("#product_id").html(data.products[0].nama);
-                        // $("#satuan_id").html(data.satuan);
-                        $.each(JSON.parse(data.jumlah), function (k, i) { 
-                            console.log(i);
-                            $.each(i, function(l,m){
-                                // console.log(l,m);
-                                $("#jumlah_id").html(m);
-                            })
-                        })
+                        $("#paket_id").html(data.nama_paket);
+                        // $.each(data, function (i,v) { 
+                        //     console.log(i,v);
+                        //     tampung = tampung + k.nama + ", ";
+                        //  })
+                        // console.log(data.products);
+                        // // $("#satuan_id").html(data.satuan);
+                        // var tampungUser = "";
+
+
+                        
+                        // $.each(JSON.parse(data.jumlah), function (k, i) { 
+                        //     console.log(i);
+                        //     $.each(i, function(l,m){
+                        //         tampungUser = tampungUser + m + ", ";
+                        //         console.log(l,m);
+                        //       
+                        //     })
+                        // })
                         $('#modal_view').modal('hide');
                     }
                 }); 
@@ -390,15 +410,16 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
               
                 
             }
-                $(".closeModalmodaladd").click(function() {
-                    $("#modaladd").modal('hide');
-                });
+                // $(".closeModalmodaladd").click(function() {
+                //     $("#modaladd").modal('hide');
+                // });
                 $(".closeModalmodaladd").click(function() {
                     $("#modal_view").modal('hide');
                 });
 
     function table(a) { 
         id = $(a).val();
+        $(".option-table").show();
         var hidden = $("#user_group").val();
         var tampung = hidden + ', ' + id;
         nama = $( "#id_user option:selected" ).text();
@@ -427,9 +448,9 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                     <td class="  dt-body-center"><span class="btn btn-danger deletee btn-sm" onclick="kurangininput('+response.data[0][5]+')"><i class="bi bi-trash-fill"></i></span></td>\
                      </tr>';
                     var table3 = document.querySelector("#listgudangtable tbody");
-                    if(table3.innerHTML == '<tr class="odd"></tr>') {
-                        table3.innerHTML = '';
-                    }
+                    // if(table3.innerHTML == '<tr class="odd"></tr>') {
+                    //     table3.innerHTML = '';
+                    // }
                     const regex = new RegExp('(row-' + id + ')', 'gm');
                     let m;
                     
@@ -453,20 +474,63 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
         var tampung = $("#user_group").val();
         tampung = tampung.replace(", "+a, "");
         $("#user_group").val(tampung);
+        var rowid = '#row-'+a;
         var table = $('#listgudangtable').DataTable();
-        $('#listgudangtable tbody').on( 'click', '.deletee', function () {
+        // console.log(a);
+        // $('.deletee').on( 'click', 'tbody tr', function () {
+        //     table.row( a ).remove();
+        // } );\ 
+       $('#listgudangtable tbody').on( 'click', 'tr', function () {
             table
-                .row( $(this).parents('tr') )
+                .row('#'+a+'')
                 .remove()
-                .draw();
+                .draw(false);
         } );
-            Swal.fire({
+
+        Swal.fire({
                 icon: 'success',
                 title: 'Berhasil',
                 html:'Data Berhasil <b>Dihapus</b>'
             });
+}
+    $(document).ready(function () {
+        var ttt = $('#PaketTable').DataTable();
+    
+        $('#PaketTable tbody').on('click', 'tr', function () {
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+            } else {
+                ttt.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+            }
+        });
+    
+        $('.del').click(function () {
+            ttt.row('.selected').remove().draw(false);
+        });
+    });
+
+
+    // $('#listgudangtable tbody').on('click', 'tr', function () {
+    //     if ($(this).hasClass('selected')) {
+    //         $(this).removeClass('selected');
+    //     } else {
+    //         table.$('tr.selected').removeClass('selected');
+    //         $(this).addClass('selected');
+    //     }
+    // });
+ 
+    // $('.deletee').click(function () {
+    //     table.row('.selected').remove().draw(false);
+    //     Swal.fire({
+    //             icon: 'success',
+    //             title: 'Berhasil',
+    //             html:'Data Berhasil <b>Dihapus</b>'
+    //         });
             
-    }
+    // });
+     
+      
     function editshow(id) {
         id = $(id).val();
         idx = $('#editt').attr('data-id');
@@ -493,7 +557,7 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                                 var tampungUser = inHtml= "";
 
                                 $.each(data.products, function(k, item){
-                                    console.log(k,item.id);
+                                    // console.log(k,item.id);
 
                                     tampungUser = tampungUser + ", " + item.id;
                                     $("#user_group").val(tampungUser)
@@ -503,8 +567,9 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
 
 
                             var coba =  $("#jumlah").val(data.jumlah);
-                            console.log(coba);
-                            console.log(data.jumlah);
+                            // $('.jumlah').val('Jane');
+                            // console.log(coba);
+                            // console.log(data.jumlah);
 
                             $("#nama_paket").val(data.list_paket[0].nama_paket);
                             // $("#jumlah").val(data.jumlah);

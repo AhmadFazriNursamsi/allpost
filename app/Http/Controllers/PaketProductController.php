@@ -98,7 +98,7 @@ class PaketProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request){
-        // dd($request);
+      
          $validator = Validator::make($request->all(), [
       
         'jumlah' => 'required',
@@ -133,11 +133,11 @@ class PaketProductController extends Controller
                     // dd($product->id);
                     if(isset($caripaket->id)) continue;
                     
-                    $json = json_encode($request->jumlah);
+                 
                     $listProduct = new DetailPaket;
                     $listProduct->id_list_paket =$datas->id;
                     $listProduct->id_product =$explode_id;
-                    $listProduct->jumlah =$json;
+                    $listProduct->jumlah =$request->jumlah["'id'"][$explode_id];
                     $listProduct->satuan = $product->satuan;
                     $listProduct->created_at = date('Y-m-d H:i:s');
                     $listProduct->save();// tambah kan user baru berdasarkan id gudang
@@ -158,14 +158,23 @@ class PaketProductController extends Controller
      * @param  \App\Models\ListPaket  $listPaket
      * @return \Illuminate\Http\Response
      */
-    public function show($id, ListPaket $listPaket)
+    public function show($id)
     {
         // dd($id);
-       $datas =  DetailPaket::with('products', 'list_paket')->where('id', $id)->get();
-       
-        // dd($datas);
+    //    $datas =  DetailPaket::with('products', 'list_paket')->where('id', $id)->first();
 
-        return response()->json(['data' => $datas, 'status' => '200'], 200);
+       $tatas  = ListPaket::with('detailPaket')->where('id', $id)->first();
+       
+       foreach($tatas->detailPaket as $key  => $data){
+        //    dd($data);
+         $tatas->detailPaket[$key]->nama = Calamat::detail_paket_id($data->id_product);
+        //  dd($dd);
+
+       }
+       
+        // dd($tatas);
+
+        return response()->json(['data' => $tatas, 'status' => '200'], 200);
     }
 
     /**
