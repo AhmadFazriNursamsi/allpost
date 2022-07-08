@@ -98,6 +98,7 @@ class PaketProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request){
+        // dd($request);
          $validator = Validator::make($request->all(), [
       
         'jumlah' => 'required',
@@ -131,11 +132,12 @@ class PaketProductController extends Controller
                     $caripaket = DetailPaket::where('id_list_paket', $datas->id)->where('id_product', $explode_id)->first(); // cek apakah pernah di input
                     // dd($product->id);
                     if(isset($caripaket->id)) continue;
-    
+                    
+                    $json = json_encode($request->jumlah);
                     $listProduct = new DetailPaket;
                     $listProduct->id_list_paket =$datas->id;
                     $listProduct->id_product =$explode_id;
-                    $listProduct->jumlah =$request->jumlah;
+                    $listProduct->jumlah =$json;
                     $listProduct->satuan = $product->satuan;
                     $listProduct->created_at = date('Y-m-d H:i:s');
                     $listProduct->save();// tambah kan user baru berdasarkan id gudang
@@ -160,6 +162,7 @@ class PaketProductController extends Controller
     {
         // dd($id);
        $datas =  DetailPaket::with('products', 'list_paket')->where('id', $id)->get();
+       
         // dd($datas);
 
         return response()->json(['data' => $datas, 'status' => '200'], 200);
@@ -250,12 +253,14 @@ class PaketProductController extends Controller
                         $user = new DetailPaket;
                         $user->id_product = $explode_id;
                         $user->id_list_paket = $id;
+                        // $user->id_list_paket = $id;
                         $user->jumlah = $request->jumlah;
                         $user->updated_at = date('Y-m-d H:i:s');
                         $user->save(); // tambah kan user baru berdasarkan id gudang
                     } else {
                         $user->id_product = $explode_id;
-                        $user->id_list_paket = $id;
+                        $user->id_list_paket = $datas->id;
+                        // $user->satuan = $products->satuan;
                         $user->jumlah = $request->jumlah;
                         $user->updated_at = date('Y-m-d H:i:s');
                         $user->save(); // tambah kan user baru berdasarkan id gudang
@@ -263,8 +268,6 @@ class PaketProductController extends Controller
                     
                 }
             }
-    
-    
          }
          
                         

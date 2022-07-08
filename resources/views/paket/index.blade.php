@@ -223,6 +223,90 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                     ],
 
                 });
+
+                var getndate = getNowdate(); // helpers
+                var tabl2 = $('#listgudangtable').DataTable({
+
+                    // ajax:url,
+                    columnDefs: [
+                        {
+                            'targets': 4,
+                            'searchable': false,
+                            'orderable': false,
+                            'className': 'dt-body-center',
+                            'render': function(data, type, full, meta) {
+                                return ' <div class="form-group row"><div class="col-xs-2"> <input type="number" name="jumlah" id="jumlah" class="form-group form-control jumlah"></div></div>';
+                            }
+                        },
+                        {
+                            'targets': 5,
+                            'searchable': false,
+                            'orderable': false,
+                            'className': 'dt-body-center',
+                            'render': function(data, type, full, meta) {
+                                return '<span class="btn btn-danger deletee btn-sm" onclick="kurangininput(' + full[5] + ')"><i class="bi bi-trash-fill"></i></span>';
+                            }
+                        },
+
+                        
+                    ],
+                    searching: false
+
+                });
+
+                $( "#paketform" ).submit(function(e) {
+            // var id = ("#id_name").val();
+           var id = $('#editt').attr('data-id');
+
+            var url= "{{ asset('/paket/store') }}" ;
+            if(id != '')
+            var url= "{{ asset('/paket/update') }}/" + id ;
+
+
+            e.preventDefault();
+            var form = $('#paketform');
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: form.serialize(),
+                        dataType: 'JSON',
+                        success: function (response) {
+                            data = response.data;
+                            if(data == 'success') {
+                                Swal.fire({
+                                    title: 'Selamat!',
+                                    text: "Data Berhasil Disimpan",
+                                    icon: 'success'
+                            
+                                });
+                                $('#modaladd').modal('hide');
+                                reloaddata();
+                            }
+                            else {
+                                $.each(response.errors, function(key, value){
+                                Swal.fire({
+                                    title: 'Gagal!',
+                                    text: value,
+                                    icon: 'error'
+                                });
+                            });
+                                
+                            }
+
+                            $('#user_group').hide();
+                            $('.copy').html("");
+                            $(".after-add-more").html("");
+                            $(".option-table").val("");
+                    
+                            
+                        },
+
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            console.log(textStatus, errorThrown);
+                        }
+                    });
+                });  
+
             });
 
             $("#buttonaddPaket").on('click', function () { 
@@ -272,63 +356,6 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
             
     }
     );  
-
-    $(document).ready(function(){
-        
-        
-        $( "#paketform" ).submit(function(e) {
-            // var id = ("#id_name").val();
-           var id = $('#editt').attr('data-id');
-
-            var url= "{{ asset('/paket/store') }}" ;
-            if(id != '')
-            var url= "{{ asset('/paket/update') }}/" + id ;
-
-
-        e.preventDefault();
-        var form = $('#paketform');
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: form.serialize(),
-                    success: function (response) {
-                        data = response.data;
-                        if(data == 'success') {
-                            Swal.fire({
-                                title: 'Selamat!',
-                                text: "Data Berhasil Disimpan",
-                                icon: 'success'
-                        
-                            });
-                            $('#modaladd').modal('hide');
-                            reloaddata();
-                        }
-                        else {
-                            $.each(response.errors, function(key, value){
-                            Swal.fire({
-                                title: 'Gagal!',
-                                text: value,
-                                icon: 'error'
-                            });
-                        });
-                            
-                        }
-
-                        $('#user_group').hide();
-                        $('.copy').html("");
-                        $(".after-add-more").html("");
-                        $(".option-table").val("");
-                 
-                        
-                    },
-
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        console.log(textStatus, errorThrown);
-                    }
-                });
-            });  
-        });
-      
             
                     /////////////////////////////////      Modal SHOW DETAIL       //////////////////////////////////////
     function showdetail(id) {
@@ -344,9 +371,11 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                     success: function(response) {
                         data = response.data[0];
                         // console.log(data);
+                        
                         $("#paket_id").html(data.list_paket[0].nama_paket);
                         $("#product_id").html(data.products[0].nama);
                         // $("#satuan_id").html(data.satuan);
+                      
                         $("#jumlah_id").html(data.jumlah);
                         $('#modal_view').modal('hide');
                     }
@@ -375,42 +404,44 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
             $("#user_group").val(tampung);}
 
         var url = "{{ asset('/api/tableproduct/getdata') }}/" + id;
+        $.ajax({
+            url: url,
+            type: "GET",
+            success: function(response) {
 
-        $('#listgudangtable').DataTable().ajax.url(url).load();
+                    var htmlinput = '<tr class="" id="row-'+response.data[0][5]+'">\
+                    <td class="sorting_1">'+response.data[0][0]+'</td>\
+                    <td>'+response.data[0][1]+'</td>\
+                    <td>'+response.data[0][2]+'</td>\
+                    <td>'+response.data[0][3]+'</td>\
+                    <td class="  dt-body-center">\
+                        <div class="form-group row">\
+                            <div class="col-xs-2"><input type="number" name="jumlah[\'id\']['+response.data[0][5]+']" id="jumlah-'+response.data[0][5]+'" class="form-group form-control jumlah"></div>\
+                        </div>\
+                    </td>\
+                    <td class="  dt-body-center"><span class="btn btn-danger deletee btn-sm" onclick="kurangininput('+response.data[0][5]+')"><i class="bi bi-trash-fill"></i></span></td>\
+                     </tr>';
+                    var table3 = document.querySelector("#listgudangtable tbody");
+                    if(table3.innerHTML == '<tr class="odd"></tr>') {
+                        table3.innerHTML = '';
+                    }
+                    const regex = new RegExp('(row-' + id + ')', 'gm');
+                    let m;
+                    
 
+                    if(regex.exec(table3.innerHTML) == null)
+                        table3.innerHTML = table3.innerHTML + htmlinput;
+                    else {
+                        Swal.fire({
+                            icon: 'danger',
+                            title: 'Warning',
+                            html:'Data <b>Sudah ada</b>'
+                        });
+                    }
+            }
+        });
     }
-    $(document).ready(function() {
 
-                var getndate = getNowdate(); // helpers
-                var table = $('#listgudangtable').DataTable({
-
-                    // ajax:url,
-                    columnDefs: [
-                        {
-                            'targets': 4,
-                            'searchable': false,
-                            'orderable': false,
-                            'className': 'dt-body-center',
-                            'render': function(data, type, full, meta) {
-                                return ' <div class="form-group row"><div class="col-xs-2"> <input type="number" name="jumlah" id="jumlah" class="form-group form-control jumlah"></div></div>';
-                            }
-                        },
-                        {
-                            'targets': 5,
-                            'searchable': false,
-                            'orderable': false,
-                            'className': 'dt-body-center',
-                            'render': function(data, type, full, meta) {
-                                return '<span class="btn btn-danger deletee btn-sm" onclick="kurangininput(' + full[5] + ')"><i class="bi bi-trash-fill"></i></span>';
-                            }
-                        },
-
-                        
-                    ],
-                    searching: false
-
-                });
-            });
              
 
     function kurangininput(a) { 
@@ -453,13 +484,26 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                     type: "GET",
                         success: function(response) {
                             data = response.data
+
+                                var tampungUser = inHtml= "";
+
+                                $.each(data.products, function(k, item){
+                                    console.log(k,item.id);
+
+                                    tampungUser = tampungUser + ", " + item.id;
+                                    $("#user_group").val(tampungUser)
+                                });
+                                
+
+
+
                             var coba =  $("#jumlah").val(data.jumlah);
                             console.log(coba);
                             console.log(data.jumlah);
 
                             $("#nama_paket").val(data.list_paket[0].nama_paket);
                             // $("#jumlah").val(data.jumlah);
-                            $('#user_group').val(data.products[0].id);
+                         
                             // $('#id_user option[value="'+data.products[0].id+'"]').prop('selected', true);
                             // $(".odd").val("fa");
                         }});
