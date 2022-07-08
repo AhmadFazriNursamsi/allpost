@@ -375,8 +375,13 @@ $haveaccessdelete = Helpers::checkaccess('users', 'delete');
                         $("#paket_id").html(data.list_paket[0].nama_paket);
                         $("#product_id").html(data.products[0].nama);
                         // $("#satuan_id").html(data.satuan);
-                      
-                        $("#jumlah_id").html(data.jumlah);
+                        $.each(JSON.parse(data.jumlah), function (k, i) { 
+                            console.log(i);
+                            $.each(i, function(l,m){
+                                // console.log(l,m);
+                                $("#jumlah_id").html(m);
+                            })
+                        })
                         $('#modal_view').modal('hide');
                     }
                 }); 
